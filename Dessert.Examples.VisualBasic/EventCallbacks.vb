@@ -46,7 +46,7 @@ Public Module EventCallbacks
     End Function
 
     Sub Run()
-        Dim env = Sim.NewEnvironment()
+        Dim env = Sim.Environment()
         env.Process(Proc(env))
         env.Run()
     End Sub

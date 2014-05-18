@@ -81,7 +81,7 @@ static class ClockExample
 
     static void Run()
     {
-        var env = Sim.NewEnvironment();
+        var env = Sim.Environment();
         env.Process(Clock(env, "fast", 0.5));
         env.Process(Clock(env, "slow", 1.0));
         env.Run(until: 2);
@@ -105,7 +105,7 @@ let rec clock(env: IEnvironment, name, tick) = seq<IEvent> {
 }
 
 let run() =
-    let env = Sim.NewEnvironment() 
+    let env = Sim.Environment() 
     env.Process(clock(env, "fast", 0.5)) |> ignore
     env.Process(clock(env, "slow", 1.0)) |> ignore
     env.Run(until = 2)
@@ -126,7 +126,7 @@ Module ClockExample
     End Function
 
     Sub Run()
-        Dim env = Sim.NewEnvironment()
+        Dim env = Sim.Environment()
         env.Process(Clock(env, "fast", 0.5))
         env.Process(Clock(env, "slow", 1.0))
         env.Run(until:=2)
@@ -148,7 +148,7 @@ def clock(env as IEnvironment, name, tick):
 		yield env.Timeout(tick)
 
 def run():
-	env = Sim.NewEnvironment()
+	env = Sim.Environment()
 	env.Process(clock(env, "fast", 0.5))
 	env.Process(clock(env, "slow", 1.0))
 	env.Run(2)

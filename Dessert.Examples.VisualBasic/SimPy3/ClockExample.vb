@@ -35,7 +35,7 @@ Namespace SimPy3
         End Function
 
         Sub Run()
-            Dim env = Sim.NewEnvironment()
+            Dim env = Sim.Environment()
             env.Process(Clock(env, "fast", 0.5))
             env.Process(Clock(env, "slow", 1.0))
             env.Run(until := 2)

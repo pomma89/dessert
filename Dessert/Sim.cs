@@ -33,11 +33,9 @@ namespace Dessert
     using System.Linq;
     using Core;
     using Events;
-    using JetBrains.Annotations;
     using Recording;
     using Resources;
 
-    [PublicAPI]
     public static partial class Sim
     {
         static readonly IDictionary<TimeUnit, double> SecondToUnit = new Dictionary<TimeUnit, double> {
@@ -52,13 +50,13 @@ namespace Dessert
 
         /// <summary>
         ///   Stores a reference to a dummy environment used by unbound instances of
-        ///   <see cref="Monitor"/> and <see cref="Tally"/>.
+        ///   <see cref="Recording.Monitor"/> and <see cref="Recording.Tally"/>.
         /// </summary>
         static readonly SimEnvironment DummyEnv = new SimEnvironment(0);
 
         #region Container Construction
 
-        public static Container NewContainer(SimEnvironment env)
+        public static Container Container(SimEnvironment env)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Ensures(ReferenceEquals(Contract.Result<Container>().Env, env));
@@ -71,7 +69,7 @@ namespace Dessert
             return new Container(env, Default.Capacity, Default.Level, Default.Policy, Default.Policy);
         }
 
-        public static Container NewContainer(SimEnvironment env, double capacity)
+        public static Container Container(SimEnvironment env, double capacity)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Requires<ArgumentOutOfRangeException>(capacity > 0);
@@ -85,7 +83,7 @@ namespace Dessert
             return new Container(env, capacity, Default.Level, Default.Policy, Default.Policy);
         }
 
-        public static Container NewContainer(SimEnvironment env, double capacity, double level)
+        public static Container Container(SimEnvironment env, double capacity, double level)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Requires<ArgumentOutOfRangeException>(capacity > 0);
@@ -100,7 +98,7 @@ namespace Dessert
             return new Container(env, capacity, level, Default.Policy, Default.Policy);
         }
 
-        public static Container NewContainer(SimEnvironment env, double capacity, double level, WaitPolicy getPolicy,
+        public static Container Container(SimEnvironment env, double capacity, double level, WaitPolicy getPolicy,
                                              WaitPolicy putPolicy)
         {
             Contract.Requires<ArgumentNullException>(env != null);
@@ -126,9 +124,9 @@ namespace Dessert
         ///   Creates a new environment; the kind of the heap can also be optionally specified.
         /// </summary>
         /// <returns>A new simulation environment.</returns>
-        public static SimEnvironment NewEnvironment()
+        public static SimEnvironment Environment()
         {
-            return NewEnvironment(Environment.TickCount);
+            return Environment(System.Environment.TickCount);
         }
 
         /// <summary>
@@ -136,7 +134,7 @@ namespace Dessert
         /// </summary>
         /// <param name="seed">The seed used by the exposed random generator.</param>
         /// <returns>A new simulation environment.</returns>
-        public static SimEnvironment NewEnvironment(int seed)
+        public static SimEnvironment Environment(int seed)
         {
             var env = new SimEnvironment(seed);
             Debug.Assert(env.Now.Equals(0));
@@ -151,7 +149,7 @@ namespace Dessert
 
         #region FilterStore Construction
 
-        public static FilterStore<T> NewFilterStore<T>(SimEnvironment env)
+        public static FilterStore<T> FilterStore<T>(SimEnvironment env)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Ensures(ReferenceEquals(Contract.Result<FilterStore<T>>().Env, env));
@@ -166,7 +164,7 @@ namespace Dessert
             return new FilterStore<T>(env, Default.Capacity, Default.Policy, Default.Policy, Default.Policy);
         }
 
-        public static FilterStore<T> NewFilterStore<T>(SimEnvironment env, int capacity)
+        public static FilterStore<T> FilterStore<T>(SimEnvironment env, int capacity)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Requires<ArgumentOutOfRangeException>(capacity > 0);
@@ -182,7 +180,7 @@ namespace Dessert
             return new FilterStore<T>(env, capacity, Default.Policy, Default.Policy, Default.Policy);
         }
 
-        public static FilterStore<T> NewFilterStore<T>(SimEnvironment env, int capacity, WaitPolicy getPolicy,
+        public static FilterStore<T> FilterStore<T>(SimEnvironment env, int capacity, WaitPolicy getPolicy,
                                                                WaitPolicy putPolicy)
         {
             Contract.Requires<ArgumentNullException>(env != null);
@@ -201,7 +199,7 @@ namespace Dessert
             return new FilterStore<T>(env, capacity, getPolicy, putPolicy, Default.Policy);
         }
 
-        public static FilterStore<T> NewFilterStore<T>(SimEnvironment env, int capacity, WaitPolicy getPolicy,
+        public static FilterStore<T> FilterStore<T>(SimEnvironment env, int capacity, WaitPolicy getPolicy,
                                                                WaitPolicy putPolicy, WaitPolicy itemPolicy)
         {
             Contract.Requires<ArgumentNullException>(env != null);
@@ -225,7 +223,7 @@ namespace Dessert
 
         #region Monitor Construction
 
-        public static Monitor NewMonitor(SimEnvironment env)
+        public static Monitor Monitor(SimEnvironment env)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             //Debug.Assert(monitor.Env.Equals(env));
@@ -238,7 +236,7 @@ namespace Dessert
         ///   Returns a new monitor which is not bound to a specific environment.
         /// </summary>
         /// <returns>A new monitor which is not bound to a specific environment.</returns>
-        public static Monitor NewMonitor()
+        public static Monitor Monitor()
         {
             return new Monitor(DummyEnv);
         }
@@ -247,7 +245,7 @@ namespace Dessert
 
         #region PreemptiveResource Construction
 
-        public static PreemptiveResource NewPreemptiveResource(SimEnvironment env, int capacity)
+        public static PreemptiveResource PreemptiveResource(SimEnvironment env, int capacity)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Requires<ArgumentOutOfRangeException>(capacity > 0);
@@ -264,7 +262,7 @@ namespace Dessert
 
         #region Resource Construction
 
-        public static Resource NewResource(SimEnvironment env, int capacity)
+        public static Resource Resource(SimEnvironment env, int capacity)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Requires<ArgumentOutOfRangeException>(capacity > 0);
@@ -277,7 +275,7 @@ namespace Dessert
             return new Resource(env, capacity, Default.Policy);
         }
 
-        public static Resource NewResource(SimEnvironment env, int capacity, WaitPolicy requestPolicy)
+        public static Resource Resource(SimEnvironment env, int capacity, WaitPolicy requestPolicy)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Requires<ArgumentOutOfRangeException>(capacity > 0);
@@ -295,7 +293,7 @@ namespace Dessert
 
         #region Store Construction
 
-        public static Store<T> NewStore<T>(SimEnvironment env)
+        public static Store<T> Store<T>(SimEnvironment env)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Ensures(ReferenceEquals(Contract.Result<Store<T>>().Env, env));
@@ -310,7 +308,7 @@ namespace Dessert
             return new Store<T>(env, Default.Capacity, Default.Policy, Default.Policy, Default.Policy);
         }
 
-        public static Store<T> NewStore<T>(SimEnvironment env, int capacity)
+        public static Store<T> Store<T>(SimEnvironment env, int capacity)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Requires<ArgumentOutOfRangeException>(capacity > 0);
@@ -326,7 +324,7 @@ namespace Dessert
             return new Store<T>(env, capacity, Default.Policy, Default.Policy, Default.Policy);
         }
 
-        public static Store<T> NewStore<T>(SimEnvironment env, int capacity, WaitPolicy getPolicy, WaitPolicy putPolicy)
+        public static Store<T> Store<T>(SimEnvironment env, int capacity, WaitPolicy getPolicy, WaitPolicy putPolicy)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             Contract.Requires<ArgumentOutOfRangeException>(capacity > 0);
@@ -344,7 +342,7 @@ namespace Dessert
             return new Store<T>(env, capacity, getPolicy, putPolicy, Default.Policy);
         }
 
-        public static Store<T> NewStore<T>(SimEnvironment env, int capacity, WaitPolicy getPolicy, WaitPolicy putPolicy,
+        public static Store<T> Store<T>(SimEnvironment env, int capacity, WaitPolicy getPolicy, WaitPolicy putPolicy,
                                            WaitPolicy itemPolicy)
         {
             Contract.Requires<ArgumentNullException>(env != null);
@@ -368,7 +366,7 @@ namespace Dessert
 
         #region Tally Construction
 
-        public static Tally NewTally(SimEnvironment env)
+        public static Tally Tally(SimEnvironment env)
         {
             Contract.Requires<ArgumentNullException>(env != null);
             //Debug.Assert(tally.Env.Equals(env));
@@ -381,7 +379,7 @@ namespace Dessert
         ///   Returns a new tally which is not bound to a specific environment.
         /// </summary>
         /// <returns>A new tally which is not bound to a specific environment.</returns>
-        public static Tally NewTally()
+        public static Tally Tally()
         {
             return new Tally(DummyEnv);
         }
@@ -440,7 +438,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Nanoseconds(this double time)
         {
@@ -453,7 +451,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Nanoseconds(this int time)
         {
@@ -466,7 +464,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Microseconds(this double time)
         {
@@ -479,7 +477,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Microseconds(this int time)
         {
@@ -492,7 +490,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Milliseconds(this double time)
         {
@@ -505,7 +503,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Milliseconds(this int time)
         {
@@ -518,7 +516,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Seconds(this double time)
         {
@@ -531,7 +529,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Seconds(this int time)
         {
@@ -544,7 +542,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Minutes(this double time)
         {
@@ -557,7 +555,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Minutes(this int time)
         {
@@ -570,7 +568,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Hours(this double time)
         {
@@ -583,7 +581,7 @@ namespace Dessert
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>
-        ///   Designed inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
+        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
         /// </remarks>
         public static double Hours(this int time)
         {

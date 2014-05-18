@@ -41,7 +41,7 @@ namespace Dessert.Examples.CSharp.SimPy3
 
         public static void Run()
         {
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
             env.Process(Clock(env, "fast", 0.5));
             env.Process(Clock(env, "slow", 1.0));
             env.Run(until: 2);

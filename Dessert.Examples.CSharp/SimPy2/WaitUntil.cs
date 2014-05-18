@@ -94,7 +94,7 @@ namespace Dessert.Examples.CSharp.SimPy2
     {
         public static void Main()
         {
-            var sim = Sim.NewEnvironment();
+            var sim = Sim.Environment();
             const int gameOver = 100;
             // Creates a Player object named "Romulans"
             var target = new Player(lives: 3, name: "Romulans");

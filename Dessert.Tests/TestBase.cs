@@ -39,7 +39,7 @@ namespace Dessert.Tests
         [SetUp]
         public virtual void SetUp()
         {
-            Env = Sim.NewEnvironment();
+            Env = Sim.Environment();
             Assert.IsNotNull(Env);
             Assert.IsInstanceOf(typeof(SimEnvironment), Env);
             Assert.AreEqual(0, Env.Now);

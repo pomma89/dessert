@@ -49,6 +49,6 @@ let rec car(env: SimEnvironment) = seq<SimEvent> {
 // Start driving at 12
 // Start parking at 14
 let run() =
-    let env = Sim.NewEnvironment()
+    let env = Sim.Environment()
     env.Process(car(env)) |> ignore
     env.Run(until = 15.0)         

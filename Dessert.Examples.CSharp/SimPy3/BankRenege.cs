@@ -158,10 +158,10 @@ namespace Dessert.Examples.CSharp.SimPy3
         {
             // Setup and start the simulation
             Console.WriteLine("Bank renege");
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
 
             // Start processes and simulate
-            var counter = Sim.NewResource(env, capacity: 1);
+            var counter = Sim.Resource(env, capacity: 1);
             env.Process(Source(env, NewCustomers, IntervalCustomers, counter));
             env.Run();
         }

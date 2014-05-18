@@ -36,7 +36,7 @@ namespace Dessert.Examples.CSharp.Galois
 
         public Switch(SimEnvironment env, G g) : base(env, g)
         {
-            _frames = Sim.NewStore<UdpPacket>(env, G.FrameCount);
+            _frames = Sim.Store<UdpPacket>(env, G.FrameCount);
         }
 
         public IEnumerable<SimEvent> Run()

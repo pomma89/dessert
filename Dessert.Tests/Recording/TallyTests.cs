@@ -33,7 +33,7 @@ namespace Dessert.Tests.Recording
     {
         protected override Tally NewBoundRecorder()
         {
-            var tally = Sim.NewTally(Env);
+            var tally = Sim.Tally(Env);
             Assert.IsNotNull(tally);
             Assert.IsInstanceOf(typeof(Tally), tally);
             return tally;
@@ -41,7 +41,7 @@ namespace Dessert.Tests.Recording
 
         protected override Tally NewUnboundRecorder()
         {
-            var tally = Sim.NewTally();
+            var tally = Sim.Tally();
             Assert.IsNotNull(tally);
             Assert.IsInstanceOf(typeof(Tally), tally);
             return tally;

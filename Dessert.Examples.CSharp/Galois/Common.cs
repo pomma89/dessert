@@ -136,7 +136,7 @@ namespace Dessert.Examples.CSharp.Galois
         protected BaseOS(SimEnvironment env, G g, int osId) : base(env, g)
         {
             Id = osId;
-            IncomingFrames = Sim.NewStore<UdpPacket>(env);
+            IncomingFrames = Sim.Store<UdpPacket>(env);
         }
 
         public void Receive(UdpPacket p)

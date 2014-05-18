@@ -75,7 +75,7 @@ namespace Dessert.Examples.CSharp.SimPy2
         // Dessert: No more events at time 1260
         public static void Main()
         {
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
             var bus = env.Process(OperateBus(env, repairDuration: 20, tripLength: 1000));
             _breakBus = env.Process(BreakBus(env, bus, interval: 300));
             env.Run(until: 4000);

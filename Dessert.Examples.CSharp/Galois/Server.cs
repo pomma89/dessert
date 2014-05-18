@@ -43,7 +43,7 @@ namespace Dessert.Examples.CSharp.Galois
         {
             _id = id;
             _isUp = true;
-            _requests = Sim.NewStore<RequestPacket>(env);
+            _requests = Sim.Store<RequestPacket>(env);
         }
 
         public void Receive(RequestPacket newRequest)
@@ -103,7 +103,7 @@ namespace Dessert.Examples.CSharp.Galois
 
         public ServerOS(SimEnvironment env, G g, int osId) : base(env, g, osId)
         {
-            _sendRequests = Sim.NewStore<AnswerInfo>(env);
+            _sendRequests = Sim.Store<AnswerInfo>(env);
         }
 
         public IEnumerable<SimEvent> Run()

@@ -78,7 +78,7 @@ namespace Dessert.Examples.CSharp.SimPy3
 
         public static void Run()
         {
-            var sim = Sim.NewEnvironment();
+            var sim = Sim.Environment();
             var car = new Car(sim);
             sim.Process(Driver(sim, car));
             sim.Run(until: 15);

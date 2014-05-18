@@ -47,7 +47,7 @@ let customer (env: SimEnvironment) name (counter: Resource) timeInBank = seq<Sim
     use req = counter.Request()
     let patience = random.NextDouble(minPatience, maxPatience)
     // Wait for the counter or abort at the end of our tether
-    yield upcast req.Or(env.Timeout(patience))
+    yield upcast Sim.Or(req, env.Timeout(patience))
 
     let wait = env.Now - arrive
 
@@ -75,9 +75,9 @@ let source (env: SimEnvironment) number interval (counter: Resource) = seq<SimEv
 let run() =
     // Setup and start the simulation
     printfn "Bank renege"
-    let env = Sim.NewEnvironment()
+    let env = Sim.Environment()
 
     // Start processes and simulate
-    let counter = Sim.NewResource(env, capacity = 1)
+    let counter = Sim.Resource(env, capacity = 1)
     env.Process(source env newCustomers intervalCustomers counter) |> ignore
     env.Run()

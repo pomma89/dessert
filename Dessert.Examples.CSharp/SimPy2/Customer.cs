@@ -53,7 +53,7 @@ namespace Dessert.Examples.CSharp.SimPy2
         // Current time is 30
         public static void Main()
         {
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
             env.DelayedProcess(Buy(env, "Marta", 100), delay: 10);
             Console.WriteLine("Starting simulation");
             env.Run(until: 100);

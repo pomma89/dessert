@@ -66,8 +66,8 @@ namespace Dessert.Examples.CSharp
         public static void Run()
         {
             const int count = 10;
-            var env = Sim.NewEnvironment();
-            var store = Sim.NewStore<int>(env);
+            var env = Sim.Environment();
+            var store = Sim.Store<int>(env);
             for (var i = 0; i < count; ++i) {
                 env.Process(Producer(env, store, i));
                 env.Process(Consumer(store));

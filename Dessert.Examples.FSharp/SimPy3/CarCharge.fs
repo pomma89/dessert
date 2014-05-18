@@ -59,6 +59,6 @@ type Car (env: SimEnvironment) as x =
 // Start driving at 12
 // Start parking and charging at 14
 let run() =
-    let env = Sim.NewEnvironment()
+    let env = Sim.Environment()
     let car = Car env
     env.Run (until = 15.0)

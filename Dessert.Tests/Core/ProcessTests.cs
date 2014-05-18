@@ -38,7 +38,7 @@ namespace Dessert.Tests.Core
         {
             Container.GetEvent getEv;
             Env.Process(Interrupter(Env.ActiveProcess, 5));
-            yield return getEv = Sim.NewContainer(Env, 20, 10).Get(20);
+            yield return getEv = Sim.Container(Env, 20, 10).Get(20);
             Assert.AreEqual(5, Env.Now);
             Assert.False(getEv.Disposed);
             Assert.True(Env.ActiveProcess.Interrupted());

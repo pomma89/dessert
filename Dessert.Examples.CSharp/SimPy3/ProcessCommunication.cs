@@ -245,10 +245,10 @@ namespace Dessert.Examples.CSharp.SimPy3
         {
             // Sets up and starts the simulation.
             Console.WriteLine("Process communication");
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
 
             // For one-to-one or many-to-one type pipes, use Resources.Store.
-            var pipe = Sim.NewStore<Message>(env);
+            var pipe = Sim.Store<Message>(env);
             env.Process(MessageGenerator("Generator A", env, pipe));
             env.Process(MessageConsumer("Consumer A", env, pipe));
 
@@ -259,7 +259,7 @@ namespace Dessert.Examples.CSharp.SimPy3
 
             // For one-to many, instead, use BroadcastPipe.
             // (Note: it could also be used for one-to-one, many-to-one or many-to-many)
-            env = Sim.NewEnvironment();
+            env = Sim.Environment();
             var bcPipe = new BroadcastPipe<Message>(env);
 
             env.Process(MessageGenerator("Generator A", env, bcPipe));
@@ -323,7 +323,7 @@ namespace Dessert.Examples.CSharp.SimPy3
             /// </summary>
             public Store<TItem> OutputConn()
             {
-                var pipe = Sim.NewStore<TItem>(_env, _capacity);
+                var pipe = Sim.Store<TItem>(_env, _capacity);
                 _pipes.Add(pipe);
                 return pipe;
             }

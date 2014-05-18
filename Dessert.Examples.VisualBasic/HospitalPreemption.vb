@@ -50,8 +50,8 @@ Public Module HospitalPreemption
     End Function
 
     Sub Run()
-        Dim env = Sim.NewEnvironment()
-        Dim hospital = Sim.NewPreemptiveResource(env, capacity := 2)
+        Dim env = Sim.Environment()
+        Dim hospital = Sim.PreemptiveResource(env, capacity := 2)
         env.Process(Person(env, Yellow, hospital, 0, "Pino"))
         env.Process(Person(env, Green, hospital, 0, "Gino"))
         env.Process(Person(env, Green, hospital, 1, "Nino"))

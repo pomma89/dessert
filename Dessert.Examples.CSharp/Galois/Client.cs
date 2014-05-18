@@ -156,7 +156,7 @@ namespace Dessert.Examples.CSharp.Galois
 
         public ClientOS(SimEnvironment env, G g, int osId) : base(env, g, osId)
         {
-            _sendRequests = Sim.NewStore<UdpPacket>(env);
+            _sendRequests = Sim.Store<UdpPacket>(env);
         }
 
         public void Send(UdpPacket p)

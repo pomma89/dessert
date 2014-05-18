@@ -126,7 +126,7 @@ namespace Dessert.Tests.Resources
         [TestCase(10, 1), TestCase(10, 2), TestCase(10, 5), TestCase(10, 9), TestCase(10, 10)]
         public void Request_ManyProcesses_CountCheck(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewPreemptiveResource(Env, resourceCapacity);
+            var resource = Sim.PreemptiveResource(Env, resourceCapacity);
             for (var i = 1; i <= userCount; ++i) {
                 Env.Process(ResourceRequester_WithCount(resource, userCount));
             }
@@ -137,7 +137,7 @@ namespace Dessert.Tests.Resources
          TestCase(10, 100)]
         public void Request_ManyProcesses_Priority_Default(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewPreemptiveResource(Env, resourceCapacity);
+            var resource = Sim.PreemptiveResource(Env, resourceCapacity);
             var completed = ListFactory.NewLinkedQueue<SimProcess>();
             var expected = ListFactory.NewLinkedQueue<SimProcess>();
             for (var i = 1; i <= userCount; ++i) {
@@ -151,7 +151,7 @@ namespace Dessert.Tests.Resources
          TestCase(10, 100)]
         public void Request_ManyProcesses_Priority_Increasing(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewPreemptiveResource(Env, resourceCapacity);
+            var resource = Sim.PreemptiveResource(Env, resourceCapacity);
             var completed = ListFactory.NewLinkedQueue<SimProcess>();
             var expected = ListFactory.NewLinkedQueue<SimProcess>();
             for (var i = 1; i <= userCount; ++i) {
@@ -165,7 +165,7 @@ namespace Dessert.Tests.Resources
          TestCase(10, 100)]
         public void Request_ManyProcesses_Priority_Decreasing(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewPreemptiveResource(Env, resourceCapacity);
+            var resource = Sim.PreemptiveResource(Env, resourceCapacity);
             var completed = ListFactory.NewLinkedQueue<SimProcess>();
             var expected1 = ListFactory.NewLinkedQueue<SimProcess>();
             var expected2 = ListFactory.NewLinkedStack<SimProcess>();
@@ -182,7 +182,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void Request_OccupiedResource_WithTimeout(int userCount)
         {
-            var resource = Sim.NewPreemptiveResource(Env, 1);
+            var resource = Sim.PreemptiveResource(Env, 1);
             Env.Process(ResourceOccupier(resource, 1000));
             for (var i = 0; i < userCount; ++i) {
                 Env.Process(ResourceRequester_Occupied_WithTimeout(resource, 10));
@@ -193,7 +193,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void MixedPreemption()
         {
-            var resource = Sim.NewPreemptiveResource(Env, 2);
+            var resource = Sim.PreemptiveResource(Env, 2);
             var log = ListFactory.NewLinkedList<Tuple<double, int, PreemptionInfo>>();
             Env.Process(MixedPreemption_PEM(0, resource, 1, true, log));
             Env.Process(MixedPreemption_PEM(1, resource, 1, true, log));
@@ -227,7 +227,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void Simple()
         {
-            var resource = Sim.NewPreemptiveResource(Env, 2);
+            var resource = Sim.PreemptiveResource(Env, 2);
             var log = ListFactory.NewLinkedList<Tuple<double, int, PreemptionInfo>>();
             Env.DelayedProcess(Simple_PEM(0, resource, 1, log), 0);
             Env.DelayedProcess(Simple_PEM(1, resource, 1, log), 0);
@@ -256,7 +256,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void WithTimeout()
         {
-            var resource = Sim.NewPreemptiveResource(Env, 1);
+            var resource = Sim.PreemptiveResource(Env, 1);
             Env.Process(WithTimeout_PEM_A(resource, 1));
             Env.Process(WithTimeout_PEM_B(resource, 0));
             Env.Run();

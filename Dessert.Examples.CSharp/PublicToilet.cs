@@ -30,8 +30,8 @@
 
         static IEnumerable<SimEvent> PersonGenerator(SimEnvironment env)
         {
-            var womenToilet = Sim.NewResource(env, 1);
-            var menToilet = Sim.NewResource(env, 1);
+            var womenToilet = Sim.Resource(env, 1);
+            var menToilet = Sim.Resource(env, 1);
             var count = 0;
             while (true) {
                 var rnd = env.Random.NextDouble();
@@ -45,7 +45,7 @@
 
         public static void Run()
         {
-            var env = Sim.NewEnvironment(21);
+            var env = Sim.Environment(21);
             env.Process(PersonGenerator(env));
             env.Run(SimTime);
         }

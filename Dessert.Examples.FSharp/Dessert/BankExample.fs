@@ -34,7 +34,7 @@ Sim.CurrentTimeUnit <- TimeUnit.Minute
 let avgIncomingT, avgServiceT = (3).Minutes(), (10).Minutes()
 let queueCount = 3 // Numero sportelli
 let bankCap, bankLvl = 20000.0, 2000.0 // Euro
-let waitTally, servTally = Sim.NewTally(), Sim.NewTally()
+let waitTally, servTally = Sim.Tally(), Sim.Tally()
 let mutable totClients = 0
 
 let client(env: SimEnvironment, queue: Resource, bank: Container, amount, get) = seq<SimEvent> {
@@ -60,9 +60,9 @@ let rec spawner(env: SimEnvironment, queues: Resource list, bank) = seq<SimEvent
 }
 
 let run() =
-    let env = Sim.NewEnvironment(seed = 21)
-    let queues = [for x in 1 .. queueCount do yield Sim.NewResource(env, 1)]
-    let bank = Sim.NewContainer(env, bankCap, bankLvl)
+    let env = Sim.Environment(seed = 21)
+    let queues = [for x in 1 .. queueCount do yield Sim.Resource(env, 1)]
+    let bank = Sim.Container(env, bankCap, bankLvl)
 
     // Avvio della simulazione
     env.Process(spawner(env, queues, bank)) |> ignore

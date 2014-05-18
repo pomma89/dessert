@@ -41,9 +41,9 @@ namespace Dessert.Examples.CSharp
 
         public static void Run()
         {
-            var env = Sim.NewEnvironment(seed: 21);
+            var env = Sim.Environment(seed: 21);
             const int capacity = 10;
-            var store = Sim.NewStore<int>(env, capacity, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.Random);
+            var store = Sim.Store<int>(env, capacity, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.Random);
             for (var i = 0; i < capacity; ++i) {
                 store.Put(i);
             }

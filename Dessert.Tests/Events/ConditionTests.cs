@@ -298,7 +298,7 @@ namespace Dessert.Tests.Events
         IEvents ContinueOnInterrupt_Generic()
         {
             Env.Process(Interrupter(Env.ActiveProcess, null, 10));
-            var resource = Sim.NewResource(Env, 1);
+            var resource = Sim.Resource(Env, 1);
             var cond = resource.Request().And(Env.Timeout(2));
             yield return cond;
             Assert.True(Env.ActiveProcess.Interrupted());
@@ -443,7 +443,7 @@ namespace Dessert.Tests.Events
         [Test]
         public void All_ManyStorePutEvents_UnlimitedStore()
         {
-            var store = Sim.NewStore<int>(Env);
+            var store = Sim.Store<int>(Env);
             Env.Process(All_ManyStorePutEvents(store));
             Env.Run();
             Assert.AreEqual(3, store.ItemQueue.Count());
@@ -452,7 +452,7 @@ namespace Dessert.Tests.Events
         [Test]
         public void All_SucceededEvents_UnlimitedStore()
         {
-            var store = Sim.NewStore<int>(Env);
+            var store = Sim.Store<int>(Env);
             Env.Process(All_SucceededEvents(store));
             Env.Run();
             Assert.AreEqual(4, store.ItemQueue.Count());

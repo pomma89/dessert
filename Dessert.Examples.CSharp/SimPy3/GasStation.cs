@@ -222,9 +222,9 @@ namespace Dessert.Examples.CSharp.SimPy3
             Console.WriteLine("Gas Station refueling");
 
             // Creates the environment and starts processes.
-            var env = Sim.NewEnvironment();
-            var gasStation = Sim.NewResource(env, 2);
-            var fuelPump = Sim.NewContainer(env, GasStationSize, level: GasStationSize);
+            var env = Sim.Environment();
+            var gasStation = Sim.Resource(env, 2);
+            var fuelPump = Sim.Container(env, GasStationSize, level: GasStationSize);
             env.Process(GasStationControl(env, fuelPump));
             env.Process(CarGenerator(env, gasStation, fuelPump));
 

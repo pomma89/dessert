@@ -35,7 +35,7 @@ let rec clock(env: SimEnvironment, name, tick) = seq<SimEvent> {
 }
 
 let run() =    
-    let env = Sim.NewEnvironment() 
+    let env = Sim.Environment() 
     env.Process(clock(env, "fast", 0.5)) |> ignore
     env.Process(clock(env, "slow", 1.0)) |> ignore
     env.Run(until = 2)

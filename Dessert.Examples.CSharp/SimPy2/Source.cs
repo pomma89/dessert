@@ -43,7 +43,7 @@ namespace Dessert.Examples.CSharp.SimPy2
 
         public static void Main()
         {
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
             env.Process(Execute(env, 33));
             env.Run(until: 100);
         }

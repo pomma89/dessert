@@ -40,7 +40,7 @@ Namespace SimPy3
             Public Sub New(env As SimEnvironment, delay As Integer)
                 _env = env
                 _delay = delay
-                _store = Sim.NewStore (Of String)(env)
+                _store = Sim.Store (Of String)(env)
             End Sub
 
             Private Iterator Function Latency(value As String) As IEnumerable(Of SimEvent)
@@ -87,7 +87,7 @@ Namespace SimPy3
         Public Sub Run()
             ' Sets up and starts the simulation.
             Console.WriteLine("Event Latency")
-            Dim env = Sim.NewEnvironment()
+            Dim env = Sim.Environment()
 
             Dim cable = New Cable(env, 10)
             env.Process(Sender(env, cable))

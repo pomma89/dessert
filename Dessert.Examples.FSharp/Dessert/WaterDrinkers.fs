@@ -60,8 +60,8 @@ let rec spawner(env: SimEnvironment, box, nextId) = seq<SimEvent> {
 }
 
 let run() =
-    let env = Sim.NewEnvironment()
-    let box = Sim.NewContainer(env, capacity=boxCapacity)
+    let env = Sim.Environment()
+    let box = Sim.Container(env, capacity=boxCapacity)
     env.Process(filler(env, box)) |> ignore
     env.Process(spawner(env, box, 0)) |> ignore
     env.Run(until=31)

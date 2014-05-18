@@ -40,8 +40,8 @@ Public Module Hospital
     End Function
 
     Sub Run()
-        Dim env = Sim.NewEnvironment()
-        Dim hospital = Sim.NewResource(env, capacity := 2, requestPolicy := WaitPolicy.Priority)
+        Dim env = Sim.Environment()
+        Dim hospital = Sim.Resource(env, capacity := 2, requestPolicy := WaitPolicy.Priority)
         env.Process(Person(env, "Pino", Yellow, hospital))
         env.Process(Person(env, "Gino", Green, hospital))
         env.Process(Person(env, "Nino", Green, hospital))

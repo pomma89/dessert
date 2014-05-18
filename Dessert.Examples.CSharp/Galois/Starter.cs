@@ -60,7 +60,7 @@ namespace Dessert.Examples.CSharp.Galois
         static void RunSimulation(int simId, int h)
         {
             var seed = (simId + 1)*(h + 1) + Environment.TickCount;
-            var env = Sim.NewEnvironment(seed);
+            var env = Sim.Environment(seed);
             var g = new G();
 
             // Processes creation (and activation)

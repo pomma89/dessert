@@ -39,7 +39,7 @@ namespace Dessert.Examples.CSharp
 
         public static void Run()
         {
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
             env.DelayedProcess(Process(env, 'A'), 7);
             env.Process(Process(env, 'B'));
             env.Run();

@@ -34,7 +34,7 @@ namespace Dessert.Tests.Recording
     {
         protected override Monitor NewBoundRecorder()
         {
-            var monitor = Sim.NewMonitor(Env);
+            var monitor = Sim.Monitor(Env);
             Assert.IsNotNull(monitor);
             Assert.IsInstanceOf(typeof(Monitor), monitor);
             return monitor;
@@ -42,7 +42,7 @@ namespace Dessert.Tests.Recording
 
         protected override Monitor NewUnboundRecorder()
         {
-            var monitor = Sim.NewMonitor();
+            var monitor = Sim.Monitor();
             Assert.IsNotNull(monitor);
             Assert.IsInstanceOf(typeof(Monitor), monitor);
             return monitor;

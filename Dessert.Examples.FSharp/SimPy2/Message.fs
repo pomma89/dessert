@@ -42,7 +42,7 @@ let go (env: SimEnvironment) id len = seq<SimEvent> {
 // 106 2 Arrived
 // Current time is 106
 let run() =
-    let env = Sim.NewEnvironment()
+    let env = Sim.Environment()
     env.Process (go env 1 203) |> ignore
     env.DelayedProcess (go env 2 33, delay = 6.0) |> ignore
     printfn "Starting simulation"

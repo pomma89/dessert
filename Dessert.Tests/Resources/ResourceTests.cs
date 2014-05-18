@@ -84,7 +84,7 @@ namespace Dessert.Tests.Resources
         [TestCase(10, 1), TestCase(10, 2), TestCase(10, 5), TestCase(10, 9), TestCase(10, 10)]
         public void Request_ManyProcesses_CountCheck(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewResource(Env, resourceCapacity);
+            var resource = Sim.Resource(Env, resourceCapacity);
             for (var i = 1; i <= userCount; ++i) {
                 Env.Process(ResourceRequester_WithCount(resource, userCount));
             }
@@ -95,7 +95,7 @@ namespace Dessert.Tests.Resources
          TestCase(10, 100)]
         public void Request_ManyProcesses_Fifo(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewResource(Env, resourceCapacity);
+            var resource = Sim.Resource(Env, resourceCapacity);
             var completed = ListFactory.NewLinkedQueue<SimProcess>();
             var expected = ListFactory.NewLinkedQueue<SimProcess>();
             for (var i = 1; i <= userCount; ++i) {
@@ -109,7 +109,7 @@ namespace Dessert.Tests.Resources
          TestCase(10, 100)]
         public void Request_ManyProcesses_Lifo(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewResource(Env, resourceCapacity, WaitPolicy.LIFO);
+            var resource = Sim.Resource(Env, resourceCapacity, WaitPolicy.LIFO);
             var completed = ListFactory.NewLinkedQueue<SimProcess>();
             var expected1 = ListFactory.NewLinkedQueue<SimProcess>();
             var expected2 = ListFactory.NewLinkedStack<SimProcess>();
@@ -127,7 +127,7 @@ namespace Dessert.Tests.Resources
          TestCase(10, 100)]
         public void Request_ManyProcesses_Priority_Default(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewResource(Env, resourceCapacity, WaitPolicy.Priority);
+            var resource = Sim.Resource(Env, resourceCapacity, WaitPolicy.Priority);
             var completed = ListFactory.NewLinkedQueue<SimProcess>();
             var expected = ListFactory.NewLinkedQueue<SimProcess>();
             for (var i = 1; i <= userCount; ++i) {
@@ -141,7 +141,7 @@ namespace Dessert.Tests.Resources
          TestCase(10, 100)]
         public void Request_ManyProcesses_Priority_Increasing(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewResource(Env, resourceCapacity, WaitPolicy.Priority);
+            var resource = Sim.Resource(Env, resourceCapacity, WaitPolicy.Priority);
             var completed = ListFactory.NewLinkedQueue<SimProcess>();
             var expected = ListFactory.NewLinkedQueue<SimProcess>();
             for (var i = 1; i <= userCount; ++i) {
@@ -155,7 +155,7 @@ namespace Dessert.Tests.Resources
          TestCase(10, 100)]
         public void Request_ManyProcesses_Priority_Decreasing(int resourceCapacity, int userCount)
         {
-            var resource = Sim.NewResource(Env, resourceCapacity, WaitPolicy.Priority);
+            var resource = Sim.Resource(Env, resourceCapacity, WaitPolicy.Priority);
             var completed = ListFactory.NewLinkedQueue<SimProcess>();
             var expected1 = ListFactory.NewLinkedQueue<SimProcess>();
             var expected2 = ListFactory.NewLinkedStack<SimProcess>();
@@ -172,7 +172,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void Request_OccupiedResource_WithTimeout(int userCount)
         {
-            var resource = Sim.NewResource(Env, 1);
+            var resource = Sim.Resource(Env, 1);
             Env.Process(ResourceOccupier(resource, 1000));
             for (var i = 0; i < userCount; ++i) {
                 Env.Process(ResourceRequester_Occupied_WithTimeout(resource, 10));
@@ -195,7 +195,7 @@ namespace Dessert.Tests.Resources
 
         SimEvents Request_DoubleDispose_WithoutYield_PEM()
         {
-            var request = Sim.NewResource(Env, 3).Request();
+            var request = Sim.Resource(Env, 3).Request();
             request.Dispose();
             request.Dispose();
             yield break;
@@ -224,13 +224,13 @@ namespace Dessert.Tests.Resources
         [Test]
         public void Construction_RightType()
         {
-            Assert.IsInstanceOf(typeof(Resource), Sim.NewResource(Env, 10));
+            Assert.IsInstanceOf(typeof(Resource), Sim.Resource(Env, 10));
         }
 
         [Test]
         public void ContextManager()
         {
-            var resource = Sim.NewResource(Env, 1);
+            var resource = Sim.Resource(Env, 1);
             Assert.AreEqual(resource.Capacity, 1);
             Assert.AreEqual(resource.Count, 0);
             var log = ListFactory.NewLinkedList<Tuple<string, double>>();
@@ -255,7 +255,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void Simple()
         {
-            var resource = Sim.NewResource(Env, 1);
+            var resource = Sim.Resource(Env, 1);
             Assert.AreEqual(resource.Capacity, 1);
             Assert.AreEqual(resource.Count, 0);
             var log = ListFactory.NewLinkedList<Tuple<string, double>>();
@@ -273,7 +273,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void Slots()
         {
-            var resource = Sim.NewResource(Env, 3);
+            var resource = Sim.Resource(Env, 3);
             var log = ListFactory.NewLinkedList<Tuple<string, double>>();
             for (var i = 0; i < 9; ++i) {
                 Env.Process(Slots_PEM(resource, i.ToString(CultureInfo.InvariantCulture), log));

@@ -210,10 +210,10 @@ namespace Dessert.Examples.CSharp.SimPy3
         {
             // Sets up and starts simulation
             Console.WriteLine("Movie renege");
-            _env = Sim.NewEnvironment(RandomSeed);
+            _env = Sim.Environment(RandomSeed);
 
             // Creates movie theater
-            var counter = Sim.NewResource(_env, 1);
+            var counter = Sim.Resource(_env, 1);
             var titles = new[] {".NET Unchained", "Kill Process", "Pulp Implementation"};
             var movies = new List<MovieInfo>(titles.Length);
             movies.AddRange(titles.Select(t => new MovieInfo(t, _env.Event())));

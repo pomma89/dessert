@@ -48,7 +48,7 @@ namespace Dessert.Examples.CSharp
         public static void Run()
         {
             Console.WriteLine("Hello World simulation :)");
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
             env.Process(SayHello(env));
             env.Run(10);
         }

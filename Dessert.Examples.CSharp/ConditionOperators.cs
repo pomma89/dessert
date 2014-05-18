@@ -50,7 +50,7 @@ namespace Dessert.Examples.CSharp
 
         public static void Run()
         {
-            var env = Sim.NewEnvironment();
+            var env = Sim.Environment();
             env.Process(Process(env));
             env.Run();
         }

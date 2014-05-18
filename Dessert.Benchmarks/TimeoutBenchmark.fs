@@ -42,14 +42,14 @@ module TimeoutBenchmark =
     }
     
     let timeoutBenchmark_Dessert(processCount) =
-        let counterTally = Sim.NewTally()
-        let memoryTally = Sim.NewTally()
+        let counterTally = Sim.Tally()
+        let memoryTally = Sim.Tally()
         for i = 1 to repetitionCount do
             cleanUp()
             let stopwatch = Stopwatch()
             stopwatch.Start()
-            let env = Sim.NewEnvironment()
-            let tally = Sim.NewTally()
+            let env = Sim.Environment()
+            let tally = Sim.Tally()
             env.Process(memoryRecorder(env, tally)) |> ignore
             let counter = Counter()
             for i = 1 to processCount do

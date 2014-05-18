@@ -31,14 +31,14 @@ namespace Dessert.Examples.CSharp.Galois
 
     sealed class Stats
     {
-        static readonly Tally ClientRequestsTally = Sim.NewTally();
-        static readonly Tally ClientTimeWaitedTally = Sim.NewTally();
-        static readonly Tally MemoryUsedTally = Sim.NewTally();
-        static readonly Tally ReconstructedFilesTally = Sim.NewTally();
-        static readonly Tally LostSwitchMessagesTally = Sim.NewTally();
-        readonly Tally _clientRequestsTmpTally = Sim.NewTally();
-        readonly Tally _clientTimeWaitedTmpTally = Sim.NewTally();
-        readonly Tally _memoryUsedTmpTally = Sim.NewTally();
+        static readonly Tally ClientRequestsTally = Sim.Tally();
+        static readonly Tally ClientTimeWaitedTally = Sim.Tally();
+        static readonly Tally MemoryUsedTally = Sim.Tally();
+        static readonly Tally ReconstructedFilesTally = Sim.Tally();
+        static readonly Tally LostSwitchMessagesTally = Sim.Tally();
+        readonly Tally _clientRequestsTmpTally = Sim.Tally();
+        readonly Tally _clientTimeWaitedTmpTally = Sim.Tally();
+        readonly Tally _memoryUsedTmpTally = Sim.Tally();
         int _lostSwitchMessages;
         int _reconstructedFiles;
 

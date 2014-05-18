@@ -46,7 +46,7 @@ namespace Dessert.Examples.CSharp
 
         static IEnumerable<SimEvent> Spawner(SimEnvironment env, Tally rec)
         {
-            var queue = Sim.NewResource(env, 2);
+            var queue = Sim.Resource(env, 2);
             while (true) {
                 env.Process(Person(env, queue, rec));
                 yield return env.Timeout(env.Random.Next(2, 5));
@@ -55,8 +55,8 @@ namespace Dessert.Examples.CSharp
 
         public static void Run()
         {
-            var env = Sim.NewEnvironment(seed: 42);
-            var rec = Sim.NewTally(env);
+            var env = Sim.Environment(seed: 42);
+            var rec = Sim.Tally(env);
             env.Process(Spawner(env, rec));
             env.Run(2*60);
             Console.WriteLine("Total clients: {0}", rec.Total());

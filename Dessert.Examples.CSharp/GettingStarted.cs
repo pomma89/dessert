@@ -50,7 +50,7 @@ namespace Dessert.Examples.CSharp
         {
             // We create the environment into which
             // our first simulation will run.
-            var env = Sim.NewEnvironment(RandomSeed);
+            var env = Sim.Environment(RandomSeed);
 
             // We start two "Person" processes,
             // which will have a random name picked from Names.
@@ -110,12 +110,12 @@ namespace Dessert.Examples.CSharp
         {
             // We create the environment into which
             // our first simulation will run.
-            var env = Sim.NewEnvironment(RandomSeed);
+            var env = Sim.Environment(RandomSeed);
 
             // The postOffice can be represented as a resource,
             // whose "capacity" is given by the number of employees
             // the simulated post office has.
-            var postOffice = Sim.NewResource(env, EmployeeCount);
+            var postOffice = Sim.Resource(env, EmployeeCount);
 
             // We start the "PersonSpawner" processes,
             // which will start new "Person" processes at random intervals.

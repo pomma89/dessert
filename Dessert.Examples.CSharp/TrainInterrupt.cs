@@ -68,7 +68,7 @@ namespace Dessert.Examples.CSharp
 
         public static void Run()
         {
-            var env = Sim.NewEnvironment(21);
+            var env = Sim.Environment(21);
             var train = env.Process(Train(env));
             env.Process(EmergencyBrake(env, train));
             env.Run();

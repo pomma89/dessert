@@ -60,7 +60,7 @@ namespace Dessert.Tests.Resources
 
         SimEvents Simple_PEM()
         {
-            var filterStore = Sim.NewFilterStore<string>(Env, 2);
+            var filterStore = Sim.FilterStore<string>(Env, 2);
             var getEv = filterStore.Get(i => i == "b");
             yield return filterStore.Put("a");
             Assert.False(getEv.Succeeded);
@@ -95,7 +95,7 @@ namespace Dessert.Tests.Resources
         [TestCase(0), TestCase(1), TestCase(10), TestCase(100)]
         public void Put_InfiniteCapacity(int putCount)
         {
-            var store = Sim.NewFilterStore<int>(Env);
+            var store = Sim.FilterStore<int>(Env);
             Assert.AreEqual(WaitPolicy.FIFO, store.ItemPolicy);
             Assert.AreEqual(WaitPolicy.FIFO, store.GetPolicy);
             Assert.AreEqual(WaitPolicy.FIFO, store.PutPolicy);
@@ -112,7 +112,7 @@ namespace Dessert.Tests.Resources
         public void Put_BoundedCapacity(int putCount, int capacity)
         {
             Debug.Assert(putCount >= capacity);
-            var store = Sim.NewFilterStore<int>(Env, capacity);
+            var store = Sim.FilterStore<int>(Env, capacity);
             Assert.AreEqual(WaitPolicy.FIFO, store.ItemPolicy);
             Assert.AreEqual(WaitPolicy.FIFO, store.GetPolicy);
             Assert.AreEqual(WaitPolicy.FIFO, store.PutPolicy);
@@ -129,7 +129,7 @@ namespace Dessert.Tests.Resources
         public void Put_BoundedCapacity_ManyProducers(int putCount, int capacity)
         {
             Debug.Assert(putCount >= capacity);
-            var store = Sim.NewFilterStore<int>(Env, capacity);
+            var store = Sim.FilterStore<int>(Env, capacity);
             Assert.AreEqual(WaitPolicy.FIFO, store.ItemPolicy);
             Assert.AreEqual(WaitPolicy.FIFO, store.GetPolicy);
             Assert.AreEqual(WaitPolicy.FIFO, store.PutPolicy);
@@ -146,7 +146,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void GetPolicy_Fifo(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount);
+            var store = Sim.FilterStore<int>(Env, eventCount);
             var list = new List<Tuple<int, int>>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -166,7 +166,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void GetPolicy_Lifo(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.LIFO, WaitPolicy.FIFO);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.LIFO, WaitPolicy.FIFO);
             var list = new List<Tuple<int, int>>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -186,7 +186,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void GetPolicy_Priority_Default(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.Priority, WaitPolicy.FIFO);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.Priority, WaitPolicy.FIFO);
             var list = new List<Tuple<int, int>>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -206,7 +206,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void GetPolicy_Priority_Increasing(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.Priority, WaitPolicy.FIFO);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.Priority, WaitPolicy.FIFO);
             var list = new List<Tuple<int, int>>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -226,7 +226,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void GetPolicy_Priority_Decreasing(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.Priority, WaitPolicy.FIFO);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.Priority, WaitPolicy.FIFO);
             var list = new List<Tuple<int, int>>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -246,7 +246,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void PutPolicy_Fifo(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount);
+            var store = Sim.FilterStore<int>(Env, eventCount);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i);
@@ -267,7 +267,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void PutPolicy_Lifo(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.LIFO);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.LIFO);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i);
@@ -288,7 +288,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void PutPolicy_Priority_Default(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.Priority);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.Priority);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i);
@@ -309,7 +309,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void PutPolicy_Priority_Increasing(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.Priority);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.Priority);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i);
@@ -330,7 +330,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void PutPolicy_Priority_Decreasing(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.Priority);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.Priority);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i);
@@ -351,7 +351,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void ItemPolicy_Fifo(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount);
+            var store = Sim.FilterStore<int>(Env, eventCount);
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i);
             }
@@ -368,7 +368,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void ItemPolicy_Lifo(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.LIFO);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.LIFO);
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i);
             }
@@ -385,7 +385,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void ItemPolicy_Priority_Default(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.Priority);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.Priority);
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i);
             }
@@ -402,7 +402,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void ItemPolicy_Priority_Increasing(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.Priority);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.Priority);
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i, 0, i);
             }
@@ -419,7 +419,7 @@ namespace Dessert.Tests.Resources
         [TestCase(1), TestCase(10), TestCase(100)]
         public void ItemPolicy_Priority_Decreasing(int eventCount)
         {
-            var store = Sim.NewFilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.Priority);
+            var store = Sim.FilterStore<int>(Env, eventCount, WaitPolicy.FIFO, WaitPolicy.FIFO, WaitPolicy.Priority);
             for (var i = 0; i < eventCount; ++i) {
                 store.Put(i, 0, -i);
             }
@@ -436,13 +436,13 @@ namespace Dessert.Tests.Resources
         [Test]
         public void Construction_RightType()
         {
-            Assert.IsInstanceOf(typeof(FilterStore<int>), Sim.NewFilterStore<int>(Env));
+            Assert.IsInstanceOf(typeof(FilterStore<int>), Sim.FilterStore<int>(Env));
         }
 
         [Test]
         public void Get_SameEvent()
         {
-            var store = Sim.NewFilterStore<int>(Env);
+            var store = Sim.FilterStore<int>(Env);
             Env.Process(StoreGetter_SameEvent(store));
             Env.Run(until: 100);
         }
@@ -450,7 +450,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void LastItemGoodForFilter()
         {
-            var filterStore = Sim.NewFilterStore<int>(Env, 10);
+            var filterStore = Sim.FilterStore<int>(Env, 10);
             filterStore.Put(1);
             filterStore.Put(3);
             filterStore.Put(5);
@@ -464,7 +464,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void ProducerConsumer_OneProducer_OneConsumer_BoundedCapacity()
         {
-            var store = Sim.NewFilterStore<int>(Env, 50);
+            var store = Sim.FilterStore<int>(Env, 50);
             Env.Process(StorePutter(store, 100, 1));
             Env.Process(StoreGetter(store, 10, 10));
             Env.Run(until: 1000);
@@ -478,7 +478,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void ProducerConsumer_OneProducer_OneConsumer_UnboundedCapacity()
         {
-            var store = Sim.NewFilterStore<int>(Env);
+            var store = Sim.FilterStore<int>(Env);
             Env.Process(StorePutter(store, 10, 1));
             Env.Process(StoreGetter(store, 10, 1));
             Env.Run(until: 100);
@@ -492,7 +492,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void ProducerConsumer_TwoProducers_TwoConsumers_UnboundedCapacity()
         {
-            var store = Sim.NewFilterStore<int>(Env);
+            var store = Sim.FilterStore<int>(Env);
             Env.Process(StorePutter(store, 100, 1));
             Env.Process(StorePutter(store, 100, 1));
             Env.Process(StoreGetter(store, 100, 1));
@@ -508,7 +508,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void Put_SameEvent()
         {
-            var store = Sim.NewFilterStore<int>(Env);
+            var store = Sim.FilterStore<int>(Env);
             Env.Process(StorePutter_SameEvent(store));
             Env.Run(until: 100);
         }

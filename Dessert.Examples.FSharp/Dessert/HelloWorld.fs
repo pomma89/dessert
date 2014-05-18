@@ -36,6 +36,6 @@ let rec sayHello (env : SimEnvironment) = seq<SimEvent> {
 
 let run() = 
     printfn "Hello World simulation :)"
-    let env = Sim.NewEnvironment();
+    let env = Sim.Environment();
     env.Process (sayHello env) |> ignore
     env.Run 10.0

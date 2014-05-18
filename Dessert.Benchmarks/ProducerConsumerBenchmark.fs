@@ -51,15 +51,15 @@ module ProducerConsumerBenchmark =
     }
     
     let prodConsBenchmark(processCount) =
-        let counterTally = Sim.NewTally()
-        let memoryTally = Sim.NewTally()
+        let counterTally = Sim.Tally()
+        let memoryTally = Sim.Tally()
         for i = 1 to repetitionCount do
             cleanUp()
             let stopwatch = Stopwatch()
             stopwatch.Start()
-            let env = Sim.NewEnvironment()
-            let store = Sim.NewStore<int>(env)
-            let tally = Sim.NewTally()
+            let env = Sim.Environment()
+            let store = Sim.Store<int>(env)
+            let tally = Sim.Tally()
             env.Process(memoryRecorder(env, tally)) |> ignore
             let counter = Counter()
             for i = 1 to processCount/2 do

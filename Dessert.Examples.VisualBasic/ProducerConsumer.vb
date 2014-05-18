@@ -45,8 +45,8 @@ Public Module ProducerConsumer
     End Function
 
     Sub Run()
-        Dim env = Sim.NewEnvironment(21)
-        Dim store = Sim.NewStore (Of Integer)(env, capacity := 2)
+        Dim env = Sim.Environment(21)
+        Dim store = Sim.Store (Of Integer)(env, capacity := 2)
         env.Process(Producer(env, store))
         env.Process(Producer(env, store))
         env.Process(Consumer(env, store))

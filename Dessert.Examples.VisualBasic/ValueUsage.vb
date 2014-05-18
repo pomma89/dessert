@@ -32,7 +32,7 @@ Public Module ValueUsage
         ' string methods on it.
         Console.WriteLine(t.Value.Substring(2, 6))
 
-        Dim intStore = Sim.NewStore (Of Double)(env)
+        Dim intStore = Sim.Store (Of Double)(env)
         intStore.Put(t.Delay)
         Dim getEv = intStore.Get()
         Yield getEv
@@ -42,7 +42,7 @@ Public Module ValueUsage
     End Function
 
     Sub Run()
-        Dim env = Sim.NewEnvironment()
+        Dim env = Sim.Environment()
         env.Process(Process(env))
         env.Run()
     End Sub

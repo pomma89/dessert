@@ -40,7 +40,7 @@ Public Module HelloWorld
     ' Hello World at 8.4!
     Sub Run()
         Console.WriteLine("Hello World simulation :)")
-        Dim env = Sim.NewEnvironment()
+        Dim env = Sim.Environment()
         env.Process(SayHello(env))
         env.Run(10)
     End Sub

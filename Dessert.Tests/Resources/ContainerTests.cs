@@ -37,7 +37,7 @@ namespace Dessert.Tests.Resources
          ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Construction_InvalidCapacity(double capacity)
         {
-            Sim.NewContainer(Env, capacity);
+            Sim.Container(Env, capacity);
         }
 
         [TestCase(0, 0), TestCase(TinyNeg, TinyNeg), TestCase(SmallNeg, SmallNeg), TestCase(LargeNeg, LargeNeg),
@@ -46,7 +46,7 @@ namespace Dessert.Tests.Resources
          ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Construction_InvalidQuantityArguments(double capacity, double level)
         {
-            Sim.NewContainer(Env, capacity, level);
+            Sim.Container(Env, capacity, level);
         }
 
         [TestCase(0, 0), TestCase(TinyNeg, TinyNeg), TestCase(SmallNeg, SmallNeg), TestCase(LargeNeg, LargeNeg),
@@ -55,7 +55,7 @@ namespace Dessert.Tests.Resources
          ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Construction_InvalidQuantityArguments_WithGetPolicy(double capacity, double level)
         {
-            Sim.NewContainer(Env, capacity, level, WaitPolicy.Random, WaitPolicy.FIFO);
+            Sim.Container(Env, capacity, level, WaitPolicy.Random, WaitPolicy.FIFO);
         }
 
         [TestCase(0, 0), TestCase(TinyNeg, TinyNeg), TestCase(SmallNeg, SmallNeg), TestCase(LargeNeg, LargeNeg),
@@ -64,14 +64,14 @@ namespace Dessert.Tests.Resources
          ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Construction_InvalidQuantityArguments_WithBothPolicies(double capacity, double level)
         {
-            Sim.NewContainer(Env, capacity, level, WaitPolicy.Random, WaitPolicy.Random);
+            Sim.Container(Env, capacity, level, WaitPolicy.Random, WaitPolicy.Random);
         }
 
         [TestCase(1), TestCase(10), TestCase(100)]
         public void GetPolicy_Fifo(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount);
+            var container = Sim.Container(Env, quantity*eventCount);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -89,7 +89,7 @@ namespace Dessert.Tests.Resources
         public void GetPolicy_Lifo(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, 0, WaitPolicy.LIFO, WaitPolicy.FIFO);
+            var container = Sim.Container(Env, quantity*eventCount, 0, WaitPolicy.LIFO, WaitPolicy.FIFO);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -107,7 +107,7 @@ namespace Dessert.Tests.Resources
         public void GetPolicy_Priority_Default(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, 0, WaitPolicy.Priority, WaitPolicy.FIFO);
+            var container = Sim.Container(Env, quantity*eventCount, 0, WaitPolicy.Priority, WaitPolicy.FIFO);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -125,7 +125,7 @@ namespace Dessert.Tests.Resources
         public void GetPolicy_Priority_Increasing(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, 0, WaitPolicy.Priority, WaitPolicy.FIFO);
+            var container = Sim.Container(Env, quantity*eventCount, 0, WaitPolicy.Priority, WaitPolicy.FIFO);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -143,7 +143,7 @@ namespace Dessert.Tests.Resources
         public void GetPolicy_Priority_Decreasing(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, 0, WaitPolicy.Priority, WaitPolicy.FIFO);
+            var container = Sim.Container(Env, quantity*eventCount, 0, WaitPolicy.Priority, WaitPolicy.FIFO);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -161,7 +161,7 @@ namespace Dessert.Tests.Resources
         public void PutPolicy_Fifo(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, quantity*eventCount);
+            var container = Sim.Container(Env, quantity*eventCount, quantity*eventCount);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
                 var tmpI = i;
@@ -179,7 +179,7 @@ namespace Dessert.Tests.Resources
         public void PutPolicy_Lifo(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, quantity*eventCount, WaitPolicy.FIFO,
+            var container = Sim.Container(Env, quantity*eventCount, quantity*eventCount, WaitPolicy.FIFO,
                                              WaitPolicy.LIFO);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
@@ -198,7 +198,7 @@ namespace Dessert.Tests.Resources
         public void PutPolicy_Priority_Default(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, quantity*eventCount, WaitPolicy.FIFO,
+            var container = Sim.Container(Env, quantity*eventCount, quantity*eventCount, WaitPolicy.FIFO,
                                              WaitPolicy.Priority);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
@@ -217,7 +217,7 @@ namespace Dessert.Tests.Resources
         public void PutPolicy_Priority_Increasing(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, quantity*eventCount, WaitPolicy.FIFO,
+            var container = Sim.Container(Env, quantity*eventCount, quantity*eventCount, WaitPolicy.FIFO,
                                              WaitPolicy.Priority);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
@@ -236,7 +236,7 @@ namespace Dessert.Tests.Resources
         public void PutPolicy_Priority_Decreasing(int eventCount)
         {
             const int quantity = 10;
-            var container = Sim.NewContainer(Env, quantity*eventCount, quantity*eventCount, WaitPolicy.FIFO,
+            var container = Sim.Container(Env, quantity*eventCount, quantity*eventCount, WaitPolicy.FIFO,
                                              WaitPolicy.Priority);
             var list = new List<int>();
             for (var i = 0; i < eventCount; ++i) {
@@ -254,7 +254,7 @@ namespace Dessert.Tests.Resources
         [Test]
         public void Construction_RightType()
         {
-            Assert.IsInstanceOf(typeof(Container), Sim.NewContainer(Env));
+            Assert.IsInstanceOf(typeof(Container), Sim.Container(Env));
         }
     }
 }
