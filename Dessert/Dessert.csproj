@@ -164,13 +164,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hippie.Unchecked">
-      <HintPath>..\packages\Hippie.Unchecked.2.0.0\lib\portable-win8+net45+sl5+wp8\Hippie.Unchecked.dll</HintPath>
+      <HintPath>..\packages\Hippie.Unchecked.2.0.1\lib\portable-win8+net45+sl5+wp8\Hippie.Unchecked.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Annotations">
       <HintPath>..\packages\JetBrains.Annotations.Portable.8.0.5185.29681\lib\portable-win+net40+sl40+wp+Xbox40\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Slinky.Unchecked">
-      <HintPath>..\packages\Slinky.Unchecked.2.0.0\lib\portable-win8+net45+sl5+wp8\Slinky.Unchecked.dll</HintPath>
+      <HintPath>..\packages\Slinky.Unchecked.2.0.1\lib\portable-win8+net45+sl5+wp8\Slinky.Unchecked.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random">

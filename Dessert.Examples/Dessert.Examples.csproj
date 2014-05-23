@@ -45,9 +45,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\JetBrains.Annotations.Portable.8.0.5185.29681\lib\portable-win+net40+sl40+wp+Xbox40\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="Slinky.Unchecked, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Slinky.Unchecked, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Slinky.Unchecked.2.0.0\lib\portable-win8+net45+sl5+wp8\Slinky.Unchecked.dll</HintPath>
+      <HintPath>..\packages\Slinky.Unchecked.2.0.1\lib\net40-client\Slinky.Unchecked.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
