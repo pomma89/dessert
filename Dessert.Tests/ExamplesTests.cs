@@ -25,8 +25,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#if NET40
+    // Empty, used because examples are not included in the .NET 4 solution.
+#else
+
 namespace Dessert.Tests
 {
+
+
     using System;
     using System.Collections;
     using System.Globalization;
@@ -887,3 +893,5 @@ namespace Dessert.Tests
         }
     }
 }
+
+#endif

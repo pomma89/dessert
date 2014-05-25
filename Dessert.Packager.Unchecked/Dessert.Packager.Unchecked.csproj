@@ -57,9 +57,7 @@
     <None Include="NuGet.config" />
     <None Include="Package.nuspec" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="lib\portable-win8+net45+sl5+wp8\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Dessert\Dessert.csproj">
       <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>

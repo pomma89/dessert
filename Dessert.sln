@@ -27,10 +27,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dessert.Examples.VisualBasi
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Dessert.Benchmarks", "Dessert.Benchmarks\Dessert.Benchmarks.fsproj", "{F5242F2F-FEE1-4AB3-BFA5-3515EE8FDCE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.Packager", "Dessert.Packager\Dessert.Packager.csproj", "{64DCD156-79BD-40D7-8BAE-F7A0F389ED61}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.Packager.Unchecked", "Dessert.Packager.Unchecked\Dessert.Packager.Unchecked.csproj", "{0451BAEF-DF2E-4B98-8644-94EE9415E389}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

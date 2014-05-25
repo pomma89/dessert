@@ -52,8 +52,8 @@ using System.Security;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("3.0.8")]
-[assembly: AssemblyFileVersion("3.0.8")]
+[assembly: AssemblyVersion("3.0.9")]
+[assembly: AssemblyFileVersion("3.0.9")]
 
 // Common Language Specification (CLS) compliance generally refers to the claim 
 // that CLS rules and restrictions are being followed.
