@@ -32,7 +32,6 @@ namespace Dessert
     using System.Diagnostics.Contracts;
     using Core;
     using Events;
-    using JetBrains.Annotations;
     using Troschuetz.Random;
     using Troschuetz.Random.Generators;
 
@@ -174,7 +173,6 @@ namespace Dessert
 
         #region Process Construction
 
-        [NotNull]
         public SimProcess Process(IEnumerable<SimEvent> generator)
         {
 // ReSharper disable PossibleMultipleEnumeration
@@ -187,7 +185,6 @@ namespace Dessert
 // ReSharper restore PossibleMultipleEnumeration
         }
 
-        [NotNull]
         public SimProcess DelayedProcess(IEnumerable<SimEvent> generator, double delay)
         {
 // ReSharper disable PossibleMultipleEnumeration
@@ -277,7 +274,7 @@ namespace Dessert
         /// <summary>
         ///   The process that is currently running in the simulation.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public SimProcess ActiveProcess
         {
             get
@@ -327,7 +324,7 @@ namespace Dessert
         /// <summary>
         ///   A random numbers generator which can be used inside simulations.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public TRandom<MT19937Generator> Random
         {
             get { return _random; }
@@ -339,7 +336,6 @@ namespace Dessert
         ///   Returns a new generic event.
         /// </summary>
         /// <returns>A new generic event.</returns>
-        [NotNull]
         public SimEvent<object> Event()
         {
             Contract.Ensures(Contract.Result<SimEvent<object>>() != null);
@@ -352,7 +348,6 @@ namespace Dessert
         ///   Returns a new generic event.
         /// </summary>
         /// <returns>A new generic event.</returns>
-        [NotNull]
         public SimEvent<TVal> Event<TVal>()
         {
             Contract.Ensures(Contract.Result<SimEvent<TVal>>() != null);
@@ -373,7 +368,6 @@ namespace Dessert
         ///   is called from a procedure body, then the procedure is stopped.
         /// </summary>
         /// <returns>The exit event that can be yielded to stop a process or a call.</returns>
-        [NotNull]
         public SimEvent Exit()
         {
             ActiveProcess.SetExitValue(Default.Value);
@@ -389,7 +383,6 @@ namespace Dessert
         /// </summary>
         /// <param name="value">The optional exit value.</param>
         /// <returns>The exit event that can be yielded to stop a process or a call.</returns>
-        [NotNull]
         public SimEvent Exit(object value)
         {
             ActiveProcess.SetExitValue(value);
@@ -424,7 +417,7 @@ namespace Dessert
         ///   Returns a new call event.
         /// </summary>
         /// <returns>A new call event.</returns>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public static Call Call(this SimEnvironment env, IEnumerable<SimEvent> gen)
         {
 // ReSharper disable PossibleMultipleEnumeration
@@ -439,7 +432,7 @@ namespace Dessert
         ///   Returns a new call event.
         /// </summary>
         /// <returns>A new call event.</returns>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public static Call<T> Call<T>(this SimEnvironment env, IEnumerable<SimEvent> gen)
         {
             // ReSharper disable PossibleMultipleEnumeration
@@ -454,7 +447,7 @@ namespace Dessert
     // Timeout creator
     public static partial class Sim
     {
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public static Timeout Timeout(this SimEnvironment env, double delay)
         {
             Contract.Requires<ArgumentNullException>(env != null, ErrorMessages.NullEnvironment);
@@ -466,7 +459,7 @@ namespace Dessert
             return new Timeout(env, delay);
         }
 
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public static Timeout<T> Timeout<T>(this SimEnvironment env, double delay, T value)
         {
             Contract.Requires<ArgumentNullException>(env != null, ErrorMessages.NullEnvironment);

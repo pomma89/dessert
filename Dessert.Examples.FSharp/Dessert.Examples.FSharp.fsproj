@@ -73,10 +73,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\packages\JetBrains.Annotations.Portable.8.0.5185.29681\lib\portable-win+net40+sl40+wp+Xbox40\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MoreLinq">
       <HintPath>..\packages\morelinq.2.0.0-alpha01\lib\net35\MoreLinq.dll</HintPath>
       <Private>True</Private>
@@ -93,7 +89,7 @@
     </ProjectReference>
     <Reference Include="System.Data" />
     <Reference Include="Troschuetz.Random">
-      <HintPath>..\packages\Troschuetz.Random.2.1.0\lib\portable-win8+net45+sl5+wp8\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\packages\Troschuetz.Random.2.1.1\lib\net40-client\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

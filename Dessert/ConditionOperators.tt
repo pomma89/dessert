@@ -38,7 +38,6 @@ namespace Dessert
     using System.Diagnostics.Contracts;
 	using Core;
 	using Events;
-    using JetBrains.Annotations;
 
 	public static partial class Sim
 	{
@@ -50,7 +49,7 @@ namespace Dessert
         /// <returns>
         ///   A condition event that is marked as succeeded when both events have been successful.
         /// </returns>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(2) #> And<#= ConditionGenerics(2) #>(this T1 ev1, T2 ev2) <#= ConditionClauses(2, 3) #>
 		{
 			Contract.Requires<ArgumentNullException>(ev1 != null && ev2 != null, ErrorMessages.NullEvent);
@@ -66,7 +65,7 @@ namespace Dessert
         /// <returns>
         ///   A condition event that is marked as succeeded when any event has been successful.
         /// </returns>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(2) #> Or<#= ConditionGenerics(2) #>(this T1 ev1, T2 ev2) <#= ConditionClauses(2, 3) #>
 		{
 			Contract.Requires<ArgumentNullException>(ev1 != null && ev2 != null, ErrorMessages.NullEvent);
@@ -75,7 +74,7 @@ namespace Dessert
 		}
 
 <# for(int i = 1; i < MaxEventCount; ++i) { #>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(i+1) #> And<#= ConditionGenerics(i+1) #>(this T1 ev1, <#= Condition(i, 2) #> c1) <#= ConditionClauses(i+1, 3) #>
 		{
 			Contract.Requires<ArgumentNullException>(ev1 != null && c1 != null, ErrorMessages.NullEvent);
@@ -84,7 +83,7 @@ namespace Dessert
             return new <#= Condition(i+1) #>(c => ev1.Succeeded && c1.Eval(c1), ev1<# for(int j = 1; j <= i; ++j) { #>, c1.Ev<#= j #><# } #>);
 		}
 		
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(i+1) #> And<#= ConditionGenerics(i+1) #>(this <#= Condition(i) #> c1, T<#= i+1 #> ev1) <#= ConditionClauses(i+1, 3) #>
 		{
 			Contract.Requires<ArgumentNullException>(ev1 != null && c1 != null, ErrorMessages.NullEvent);
@@ -93,7 +92,7 @@ namespace Dessert
             return new <#= Condition(i+1) #>(c => ev1.Succeeded && c1.Eval(c1)<# for(int j = 1; j <= i; ++j) { #>, c1.Ev<#= j #><# } #>, ev1);
 		}
 		
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(i+1) #> Or<#= ConditionGenerics(i+1) #>(this T1 ev1, <#= Condition(i, 2) #> c1) <#= ConditionClauses(i+1, 3) #>
 		{
 			Contract.Requires<ArgumentNullException>(ev1 != null && c1 != null, ErrorMessages.NullEvent);
@@ -102,7 +101,7 @@ namespace Dessert
             return new <#= Condition(i+1) #>(c => ev1.Succeeded || c1.Eval(c1), ev1<# for(int j = 1; j <= i; ++j) { #>, c1.Ev<#= j #><# } #>);
 		}
 		
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(i+1) #> Or<#= ConditionGenerics(i+1) #>(this <#= Condition(i) #> c1, T<#= i+1 #> ev1) <#= ConditionClauses(i+1, 3) #>
 		{
 			Contract.Requires<ArgumentNullException>(ev1 != null && c1 != null, ErrorMessages.NullEvent);
@@ -112,7 +111,7 @@ namespace Dessert
 		}
 
 <# for(int k = 1; k < MaxEventCount - i; ++k) { #>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(i+k) #> And<#= ConditionGenerics(i+k) #>(this <#= Condition(i) #> c1, <#= Condition(k, i+1) #> c2) <#= ConditionClauses(i+k, 3) #>
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -121,7 +120,7 @@ namespace Dessert
             return new <#= Condition(i+k) #>(c => c1.Eval(c1) && c2.Eval(c2)<# for(int j = 1; j <= i; ++j) { #>, c1.Ev<#= j #><# } #><# for(int j = 1; j <= k; ++j) { #>, c2.Ev<#= j #><# } #>);
 		}
 		
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(i+k) #> Or<#= ConditionGenerics(i+k) #>(this <#= Condition(i) #> c1, <#= Condition(k, i+1) #> c2) <#= ConditionClauses(i+k, 3) #>
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -143,7 +142,7 @@ namespace Dessert
         /// <returns>
         ///   A condition event that is marked as succeeded when both events have been successful.
         /// </returns>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<SimEvent, SimEvent> operator &(SimEvent ev1, SimEvent ev2)
         {
 			Contract.Requires<ArgumentNullException>(ev1 != null && ev2 != null, ErrorMessages.NullEvent);
@@ -159,7 +158,7 @@ namespace Dessert
         /// <returns>
         ///   A condition event that is marked as succeeded when any event has been successful.
         /// </returns>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<SimEvent, SimEvent> operator |(SimEvent ev1, SimEvent ev2)
         {
 			Contract.Requires<ArgumentNullException>(ev1 != null && ev2 != null, ErrorMessages.NullEvent);
@@ -168,7 +167,7 @@ namespace Dessert
         }
 
 <# for(int i = 1; i < MaxEventCount; ++i) { #>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= GenericCondition(i+1) #> operator &(SimEvent ev, <#= GenericCondition(i, 2) #> c)
 		{
 			Contract.Requires<ArgumentNullException>(ev != null && c != null, ErrorMessages.NullEvent);
@@ -177,7 +176,7 @@ namespace Dessert
             return new <#= GenericCondition(i+1) #>(cc => ev.Succeeded && c.Eval(c), ev<# for(int j = 1; j <= i; ++j) { #>, c.Ev<#= j #><# } #>);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= GenericCondition(i+1) #> operator |(SimEvent ev, <#= GenericCondition(i, 2) #> c)
 		{
 			Contract.Requires<ArgumentNullException>(ev != null && c != null, ErrorMessages.NullEvent);

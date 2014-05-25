@@ -166,15 +166,12 @@
     <Reference Include="Hippie.Unchecked">
       <HintPath>..\packages\Hippie.Unchecked.2.0.1\lib\portable-win8+net45+sl5+wp8\Hippie.Unchecked.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\packages\JetBrains.Annotations.Portable.8.0.5185.29681\lib\portable-win+net40+sl40+wp+Xbox40\JetBrains.Annotations.dll</HintPath>
-    </Reference>
     <Reference Include="Slinky.Unchecked">
       <HintPath>..\packages\Slinky.Unchecked.2.0.1\lib\portable-win8+net45+sl5+wp8\Slinky.Unchecked.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random">
-      <HintPath>..\packages\Troschuetz.Random.2.1.0\lib\portable-win8+net45+sl5+wp8\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\packages\Troschuetz.Random.2.1.1\lib\portable-win8+net45+sl5+wp8\Troschuetz.Random.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -237,7 +234,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Condition.cs</LastGenOutput>
     </None>
-    <None Include="Packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dessert.ico" />

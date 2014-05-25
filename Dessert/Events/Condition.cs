@@ -34,7 +34,6 @@ namespace Dessert.Events
     using System.Collections.Generic;
 	using System.Diagnostics.Contracts;
 	using Core;
-    using JetBrains.Annotations;
     using Slinky.Unchecked;
     
 	interface IParentCondition : ILinkedList<IParentCondition>
@@ -46,25 +45,25 @@ namespace Dessert.Events
 
 	#region Condition Evaluators
 
-	public delegate bool ConditionEval<T1>([NotNull] Condition<T1> condition) 
+	public delegate bool ConditionEval<T1>(Condition<T1> condition) 
         where T1 : SimEvent;
 
-	public delegate bool ConditionEval<T1, T2>([NotNull] Condition<T1, T2> condition) 
+	public delegate bool ConditionEval<T1, T2>(Condition<T1, T2> condition) 
         where T1 : SimEvent
         where T2 : SimEvent;
 
-	public delegate bool ConditionEval<T1, T2, T3>([NotNull] Condition<T1, T2, T3> condition) 
+	public delegate bool ConditionEval<T1, T2, T3>(Condition<T1, T2, T3> condition) 
         where T1 : SimEvent
         where T2 : SimEvent
         where T3 : SimEvent;
 
-	public delegate bool ConditionEval<T1, T2, T3, T4>([NotNull] Condition<T1, T2, T3, T4> condition) 
+	public delegate bool ConditionEval<T1, T2, T3, T4>(Condition<T1, T2, T3, T4> condition) 
         where T1 : SimEvent
         where T2 : SimEvent
         where T3 : SimEvent
         where T4 : SimEvent;
 
-	public delegate bool ConditionEval<T1, T2, T3, T4, T5>([NotNull] Condition<T1, T2, T3, T4, T5> condition) 
+	public delegate bool ConditionEval<T1, T2, T3, T4, T5>(Condition<T1, T2, T3, T4, T5> condition) 
         where T1 : SimEvent
         where T2 : SimEvent
         where T3 : SimEvent
@@ -118,7 +117,7 @@ namespace Dessert.Events
 
 		#region Public Members
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T1 Ev1
         {
             get { return _ev1; }
@@ -128,7 +127,7 @@ namespace Dessert.Events
 		/// <summary>
         ///   The user defined function used the evaluate the condition.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public ConditionEval<T1> Eval
         {
             get { return _eval; }
@@ -142,13 +141,13 @@ namespace Dessert.Events
 		///   A readonly list of events that succeeded
 		///   before this condition was satisfied.
 		/// </return>    
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public override IList<SimEvent> Value
         {
             get { return _succeeded; }
         }
 
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public static Condition<T1, SimEvent> operator &(Condition<T1> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -157,7 +156,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent>(ConditionEvaluators.AllEvents, c._ev1, ev);
 		}
 		
-        [NotNull, System.Diagnostics.Contracts.Pure]		
+        [Pure]		
 		public static Condition<T1, SimEvent> operator |(Condition<T1> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -166,7 +165,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent>(ConditionEvaluators.AnyEvent, c._ev1, ev);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, SimEvent> operator &(Condition<T1> c1, Condition<SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -175,7 +174,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c2.Ev1);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, SimEvent> operator |(Condition<T1> c1, Condition<SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -184,7 +183,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent>(ConditionEvaluators.AnyEvent, c1._ev1, c2.Ev1);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, SimEvent, SimEvent> operator &(Condition<T1> c1, Condition<SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -193,7 +192,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c2.Ev1, c2.Ev2);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, SimEvent, SimEvent> operator |(Condition<T1> c1, Condition<SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -202,7 +201,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent, SimEvent>(ConditionEvaluators.AnyEvent, c1._ev1, c2.Ev1, c2.Ev2);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, SimEvent, SimEvent, SimEvent> operator &(Condition<T1> c1, Condition<SimEvent, SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -211,7 +210,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent, SimEvent, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c2.Ev1, c2.Ev2, c2.Ev3);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, SimEvent, SimEvent, SimEvent> operator |(Condition<T1> c1, Condition<SimEvent, SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -220,7 +219,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent, SimEvent, SimEvent>(ConditionEvaluators.AnyEvent, c1._ev1, c2.Ev1, c2.Ev2, c2.Ev3);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, SimEvent, SimEvent, SimEvent, SimEvent> operator &(Condition<T1> c1, Condition<SimEvent, SimEvent, SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -229,7 +228,7 @@ namespace Dessert.Events
 			return new Condition<T1, SimEvent, SimEvent, SimEvent, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c2.Ev1, c2.Ev2, c2.Ev3, c2.Ev4);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, SimEvent, SimEvent, SimEvent, SimEvent> operator |(Condition<T1> c1, Condition<SimEvent, SimEvent, SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -376,13 +375,13 @@ namespace Dessert.Events
 
 		#region Public Members
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T1 Ev1
         {
             get { return _ev1; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T2 Ev2
         {
             get { return _ev2; }
@@ -392,7 +391,7 @@ namespace Dessert.Events
 		/// <summary>
         ///   The user defined function used the evaluate the condition.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public ConditionEval<T1, T2> Eval
         {
             get { return _eval; }
@@ -406,13 +405,13 @@ namespace Dessert.Events
 		///   A readonly list of events that succeeded
 		///   before this condition was satisfied.
 		/// </return>    
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public override IList<SimEvent> Value
         {
             get { return _succeeded; }
         }
 
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public static Condition<T1, T2, SimEvent> operator &(Condition<T1, T2> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -421,7 +420,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, SimEvent>(ConditionEvaluators.AllEvents, c._ev1, c._ev2, ev);
 		}
 		
-        [NotNull, System.Diagnostics.Contracts.Pure]		
+        [Pure]		
 		public static Condition<T1, T2, SimEvent> operator |(Condition<T1, T2> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -430,7 +429,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, SimEvent>(ConditionEvaluators.AnyEvent, c._ev1, c._ev2, ev);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, SimEvent> operator &(Condition<T1, T2> c1, Condition<SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -439,7 +438,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c1._ev2, c2.Ev1);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, SimEvent> operator |(Condition<T1, T2> c1, Condition<SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -448,7 +447,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, SimEvent>(ConditionEvaluators.AnyEvent, c1._ev1, c1._ev2, c2.Ev1);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, SimEvent, SimEvent> operator &(Condition<T1, T2> c1, Condition<SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -457,7 +456,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, SimEvent, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c1._ev2, c2.Ev1, c2.Ev2);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, SimEvent, SimEvent> operator |(Condition<T1, T2> c1, Condition<SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -466,7 +465,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, SimEvent, SimEvent>(ConditionEvaluators.AnyEvent, c1._ev1, c1._ev2, c2.Ev1, c2.Ev2);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, SimEvent, SimEvent, SimEvent> operator &(Condition<T1, T2> c1, Condition<SimEvent, SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -475,7 +474,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, SimEvent, SimEvent, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c1._ev2, c2.Ev1, c2.Ev2, c2.Ev3);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, SimEvent, SimEvent, SimEvent> operator |(Condition<T1, T2> c1, Condition<SimEvent, SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -630,19 +629,19 @@ namespace Dessert.Events
 
 		#region Public Members
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T1 Ev1
         {
             get { return _ev1; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T2 Ev2
         {
             get { return _ev2; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T3 Ev3
         {
             get { return _ev3; }
@@ -652,7 +651,7 @@ namespace Dessert.Events
 		/// <summary>
         ///   The user defined function used the evaluate the condition.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public ConditionEval<T1, T2, T3> Eval
         {
             get { return _eval; }
@@ -666,13 +665,13 @@ namespace Dessert.Events
 		///   A readonly list of events that succeeded
 		///   before this condition was satisfied.
 		/// </return>    
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public override IList<SimEvent> Value
         {
             get { return _succeeded; }
         }
 
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public static Condition<T1, T2, T3, SimEvent> operator &(Condition<T1, T2, T3> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -681,7 +680,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, T3, SimEvent>(ConditionEvaluators.AllEvents, c._ev1, c._ev2, c._ev3, ev);
 		}
 		
-        [NotNull, System.Diagnostics.Contracts.Pure]		
+        [Pure]		
 		public static Condition<T1, T2, T3, SimEvent> operator |(Condition<T1, T2, T3> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -690,7 +689,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, T3, SimEvent>(ConditionEvaluators.AnyEvent, c._ev1, c._ev2, c._ev3, ev);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, T3, SimEvent> operator &(Condition<T1, T2, T3> c1, Condition<SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -699,7 +698,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, T3, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c1._ev2, c1._ev3, c2.Ev1);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, T3, SimEvent> operator |(Condition<T1, T2, T3> c1, Condition<SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -708,7 +707,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, T3, SimEvent>(ConditionEvaluators.AnyEvent, c1._ev1, c1._ev2, c1._ev3, c2.Ev1);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, T3, SimEvent, SimEvent> operator &(Condition<T1, T2, T3> c1, Condition<SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -717,7 +716,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, T3, SimEvent, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c1._ev2, c1._ev3, c2.Ev1, c2.Ev2);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, T3, SimEvent, SimEvent> operator |(Condition<T1, T2, T3> c1, Condition<SimEvent, SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -880,25 +879,25 @@ namespace Dessert.Events
 
 		#region Public Members
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T1 Ev1
         {
             get { return _ev1; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T2 Ev2
         {
             get { return _ev2; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T3 Ev3
         {
             get { return _ev3; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T4 Ev4
         {
             get { return _ev4; }
@@ -908,7 +907,7 @@ namespace Dessert.Events
 		/// <summary>
         ///   The user defined function used the evaluate the condition.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public ConditionEval<T1, T2, T3, T4> Eval
         {
             get { return _eval; }
@@ -922,13 +921,13 @@ namespace Dessert.Events
 		///   A readonly list of events that succeeded
 		///   before this condition was satisfied.
 		/// </return>    
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public override IList<SimEvent> Value
         {
             get { return _succeeded; }
         }
 
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public static Condition<T1, T2, T3, T4, SimEvent> operator &(Condition<T1, T2, T3, T4> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -937,7 +936,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, T3, T4, SimEvent>(ConditionEvaluators.AllEvents, c._ev1, c._ev2, c._ev3, c._ev4, ev);
 		}
 		
-        [NotNull, System.Diagnostics.Contracts.Pure]		
+        [Pure]		
 		public static Condition<T1, T2, T3, T4, SimEvent> operator |(Condition<T1, T2, T3, T4> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -946,7 +945,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, T3, T4, SimEvent>(ConditionEvaluators.AnyEvent, c._ev1, c._ev2, c._ev3, c._ev4, ev);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, T3, T4, SimEvent> operator &(Condition<T1, T2, T3, T4> c1, Condition<SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -955,7 +954,7 @@ namespace Dessert.Events
 			return new Condition<T1, T2, T3, T4, SimEvent>(ConditionEvaluators.AllEvents, c1._ev1, c1._ev2, c1._ev3, c1._ev4, c2.Ev1);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static Condition<T1, T2, T3, T4, SimEvent> operator |(Condition<T1, T2, T3, T4> c1, Condition<SimEvent> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -1126,31 +1125,31 @@ namespace Dessert.Events
 
 		#region Public Members
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T1 Ev1
         {
             get { return _ev1; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T2 Ev2
         {
             get { return _ev2; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T3 Ev3
         {
             get { return _ev3; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T4 Ev4
         {
             get { return _ev4; }
         }
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T5 Ev5
         {
             get { return _ev5; }
@@ -1160,7 +1159,7 @@ namespace Dessert.Events
 		/// <summary>
         ///   The user defined function used the evaluate the condition.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public ConditionEval<T1, T2, T3, T4, T5> Eval
         {
             get { return _eval; }
@@ -1174,7 +1173,7 @@ namespace Dessert.Events
 		///   A readonly list of events that succeeded
 		///   before this condition was satisfied.
 		/// </return>    
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public override IList<SimEvent> Value
         {
             get { return _succeeded; }

@@ -40,7 +40,6 @@ namespace Dessert
     using System.Diagnostics.Contracts;
 	using Core;
 	using Events;
-    using JetBrains.Annotations;
 
 	public static partial class Sim
 	{
@@ -58,7 +57,7 @@ namespace Dessert
 <# idx += c.Weight; } idx = 1; #>
 		/// <param name="env">The environment to which given events belong.</param>
         /// <returns>A condition event that waits for all given events.</returns>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(CombinedItemCount) #> AllOf<#= ConditionGenerics(CombinedItemCount) #>(this SimEnvironment env, <#= ConditionParams() #>) <#= ConditionClauses(CombinedItemCount, 3) #>
 		{
 		    <#= GenericRequirements() #>
@@ -76,7 +75,7 @@ namespace Dessert
 <# idx += c.Weight; } idx = 1; #>
 		/// <param name="env">The environment to which given events belong.</param>
         /// <returns>A condition event that waits until one of given events is triggered.</returns>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(CombinedItemCount) #> AnyOf<#= ConditionGenerics(CombinedItemCount) #>(this SimEnvironment env, <#= ConditionParams() #>) <#= ConditionClauses(CombinedItemCount, 3) #>
 		{
 		    <#= GenericRequirements() #>
@@ -99,7 +98,7 @@ namespace Dessert
         ///   A condition event, that groups several events and is triggered if a given condition
         ///   (implemented by the evaluate function) becomes true.
         /// </returns>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= Condition(CombinedItemCount) #> Condition<#= ConditionGenerics(CombinedItemCount) #>(this SimEnvironment env, <#= ConditionParams() #>, <#= ConditionEval(CombinedItemCount) #> eval) <#= ConditionClauses(CombinedItemCount, 3) #>
 		{
 		    <#= GenericRequirements() #>

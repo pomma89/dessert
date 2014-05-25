@@ -28,11 +28,10 @@ namespace Dessert
 {
     using System;
     using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using Core;
     using Events;
-    using JetBrains.Annotations;
     using Slinky.Unchecked;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   The interface common to each event; it should be used to declare generator methods.
@@ -181,7 +180,7 @@ namespace Dessert
         /// <summary>
         ///   Returns the environment in which this entity was created.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public SimEnvironment Env
         {
             get { return _env; }
@@ -226,7 +225,7 @@ namespace Dessert
         ///   this property will return a null value when a value is not ready or 
         ///   when an event does not have a proper value.
         /// </remarks>
-        [CanBeNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public object Value
         {
             get { return GetValue(); }

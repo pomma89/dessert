@@ -29,8 +29,8 @@ namespace Dessert.Core
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using Events;
-    using JetBrains.Annotations;
     using Slinky.Unchecked;
 
     /// <summary>
@@ -71,7 +71,7 @@ namespace Dessert.Core
         ///   this property will return a null value when a value is not ready or 
         ///   when an event does not have a proper value.
         /// </remarks>
-        [CanBeNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public new abstract TVal Value { get; }
 
         #endregion
@@ -81,7 +81,7 @@ namespace Dessert.Core
         /// <summary>
         ///   Collection of functions that are called when the event is processed.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public ICollection<Action<TEv>> Callbacks
         {
             get { return _callbacks ?? (_callbacks = ListFactory.NewLinkedList<Action<TEv>>()); }

@@ -29,11 +29,9 @@ namespace Dessert.Recording
     using System;
     using System.Diagnostics.Contracts;
     using Core;
-    using JetBrains.Annotations;
     using Resources;
-    using Pure = System.Diagnostics.Contracts.PureAttribute;
 
-    [ContractClass(typeof(RecorderContract)), PublicAPI]
+    [ContractClass(typeof(RecorderContract))]
     public interface IRecorder
     {
         /// <summary>
@@ -45,7 +43,7 @@ namespace Dessert.Recording
         /// <summary>
         ///   Returns the environment in which this entity was created.
         /// </summary>
-        [NotNull, Pure]
+        [Pure]
         SimEnvironment Env { get; }
         
         /// <summary>

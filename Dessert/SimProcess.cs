@@ -33,7 +33,6 @@ namespace Dessert
     using System.Diagnostics.Contracts;
     using Core;
     using Events;
-    using JetBrains.Annotations;
     using Slinky.Unchecked;
 
     /// <summary>
@@ -176,7 +175,7 @@ namespace Dessert
         ///   May be a null event if the process was just started 
         ///   or interrupted and it did not yet yield a new event.
         /// </summary>
-        [CanBeNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public SimEvent Target { get; private set; }
 
         /// <summary>
@@ -391,7 +390,7 @@ namespace Dessert
         /// <summary>
         /// 
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public SimProcess By
         {
             get { return _by; }

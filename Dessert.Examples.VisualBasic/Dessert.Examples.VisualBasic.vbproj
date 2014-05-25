@@ -123,18 +123,13 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=8.0.5185.29681, Culture=neutral, PublicKeyToken=81e1e91c5c2ba347, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\JetBrains.Annotations.Portable.8.0.5185.29681\lib\portable-win+net40+sl40+wp+Xbox40\JetBrains.Annotations.dll</HintPath>
-    </Reference>
     <Reference Include="Slinky.Unchecked, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Slinky.Unchecked.2.0.1\lib\net40-client\Slinky.Unchecked.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="Troschuetz.Random, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Troschuetz.Random.2.1.0\lib\portable-win8+net45+sl5+wp8\Troschuetz.Random.dll</HintPath>
+    <Reference Include="Troschuetz.Random">
+      <HintPath>..\packages\Troschuetz.Random.2.1.1\lib\net40-client\Troschuetz.Random.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

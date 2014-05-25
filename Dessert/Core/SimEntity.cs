@@ -26,7 +26,7 @@
 
 namespace Dessert.Core
 {
-    using JetBrains.Annotations;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     ///   Represents an entity that belongs to a specific environment.
@@ -53,7 +53,7 @@ namespace Dessert.Core
         /// <summary>
         ///   Returns the environment in which this entity was created.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public SimEnvironment Env
         {
             get { return _env; }

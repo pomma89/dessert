@@ -131,10 +131,6 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\packages\JetBrains.Annotations.Portable.8.0.5185.29681\lib\portable-win+net40+sl40+wp+Xbox40\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Slinky.Unchecked">
       <HintPath>..\packages\Slinky.Unchecked.2.0.1\lib\net40-client\Slinky.Unchecked.dll</HintPath>
       <Private>True</Private>
@@ -151,7 +147,7 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
       <Private>True</Private>
     </ProjectReference>
     <Reference Include="Troschuetz.Random">
-      <HintPath>..\packages\Troschuetz.Random.2.1.0\lib\portable-win8+net45+sl5+wp8\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\packages\Troschuetz.Random.2.1.1\lib\net40-client\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
