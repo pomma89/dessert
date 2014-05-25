@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Dessert.Unchecked</id>
-    <version>3.0.8-alpha</version>
+    <version>3.0.9-alpha</version>
     <title>Dessert (unchecked)</title>
     <authors>Alessio Parma &lt;alessio.parma@gmail.com&gt;</authors>
     <owners>Alessio Parma &lt;alessio.parma@gmail.com&gt;</owners>
@@ -17,16 +17,15 @@ A discrete event simulation (DES) engine heavily based on the paradigm introduce
 A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
     </summary>
     <language>en-US</language>
-    <projectUrl>https://github.com/pomma89/Dessert</projectUrl>
-    <iconUrl>http://pomma89.altervista.it/dessert/logo-nuget.png</iconUrl>
+    <projectUrl>https://bitbucket.org/pomma89/dessert/overview</projectUrl>
+    <iconUrl>http://pomma89.altervista.it/dessert/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
     <copyright>Copyright (c) 2012-2014 Alessio Parma &lt;alessio.parma@gmail.com&gt;</copyright>
     <dependencies>
-        <dependency id="JetBrains.Annotations.Portable" version="8.0.5185.29681" />
-        <dependency id="Hippie.Unchecked" version="2.0.0" />
-        <dependency id="Slinky.Unchecked" version="2.0.0" />
-        <dependency id="Troschuetz.Random" version="2.1.0" />
+        <dependency id="Hippie.Unchecked" version="2.0.1" />
+        <dependency id="Slinky.Unchecked" version="2.0.1" />
+        <dependency id="Troschuetz.Random" version="2.1.1" />
     </dependencies>
     <references></references>
     <tags>des discrete event simulation simpy simula</tags>
