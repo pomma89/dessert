@@ -3,6 +3,8 @@
 
 A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/56n5nd18243fa3ey)](https://ci.appveyor.com/project/pomma89/dessert)
+
 | Item                                               | URL                                                   |
 | -------------------------------------------------- | ----------------------------------------------------- |
 | ![](http://is.gd/1wCmXL) NuGet package             | https://nuget.org/packages/Dessert/                   |
