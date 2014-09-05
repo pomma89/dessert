@@ -77,8 +77,12 @@
       <HintPath>..\packages\morelinq.2.0.0-alpha01\lib\net35\MoreLinq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PommaLabs.ConcurrentWorkQueue">
+      <HintPath>..\packages\PommaLabs.ConcurrentWorkQueue.0.9.1\lib\portable-win8+net40+sl5+wp8\PommaLabs.ConcurrentWorkQueue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Slinky.Unchecked">
-      <HintPath>..\packages\Slinky.Unchecked.2.0.1\lib\net40-client\Slinky.Unchecked.dll</HintPath>
+      <HintPath>..\packages\Slinky.Unchecked.2.1.0\lib\net40-client\Slinky.Unchecked.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -89,7 +93,7 @@
     </ProjectReference>
     <Reference Include="System.Data" />
     <Reference Include="Troschuetz.Random">
-      <HintPath>..\packages\Troschuetz.Random.2.1.1\lib\net40-client\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\packages\Troschuetz.Random.3.0.0\lib\net40-client\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
