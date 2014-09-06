@@ -48,9 +48,9 @@
       <HintPath>..\packages\Slinky.Unchecked.2.1.0\lib\net40-client\Slinky.Unchecked.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="Troschuetz.Random, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Troschuetz.Random, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Troschuetz.Random.3.1.0\lib\net40-client\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\packages\Troschuetz.Random.3.2.0\lib\net40-client\Troschuetz.Random.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
