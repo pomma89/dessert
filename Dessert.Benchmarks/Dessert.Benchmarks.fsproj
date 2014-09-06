@@ -149,7 +149,7 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
       <Private>True</Private>
     </ProjectReference>
     <Reference Include="Troschuetz.Random">
-      <HintPath>..\packages\Troschuetz.Random.3.0.0\lib\net40-client\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\packages\Troschuetz.Random.3.1.0\lib\net40-client\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

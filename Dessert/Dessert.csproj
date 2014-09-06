@@ -174,7 +174,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random">
-      <HintPath>..\packages\Troschuetz.Random.3.0.0\lib\portable-win8+net45+sl5+wp8\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\packages\Troschuetz.Random.3.1.0\lib\portable-win8+net45+sl5+wp8\Troschuetz.Random.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
