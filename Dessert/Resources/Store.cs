@@ -29,7 +29,6 @@ namespace Dessert.Resources
     using System.Collections.Generic;
     using Core;
     using Events;
-    using System.Runtime.CompilerServices;
 
     public sealed class Store<T> : SimEntity
     {

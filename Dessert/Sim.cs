@@ -38,7 +38,7 @@ namespace Dessert
 
     public static partial class Sim
     {
-        static readonly IDictionary<TimeUnit, double> SecondToUnit = new Dictionary<TimeUnit, double> {
+        static readonly Dictionary<TimeUnit, double> SecondToUnit = new Dictionary<TimeUnit, double> {
             {TimeUnit.Nanosecond, 0.000000001},
             {TimeUnit.Microsecond, 0.000001},
             {TimeUnit.Millisecond, 0.001},

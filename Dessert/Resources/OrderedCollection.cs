@@ -25,8 +25,9 @@ namespace Dessert.Resources
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using Hippie.Unchecked;
+    using DIBRIS.Hippie;
     using System.Diagnostics;
+    using PommaLabs.Portability;
 
     static class OrderedCollection
     {
@@ -56,7 +57,7 @@ namespace Dessert.Resources
         public OrderedCollection(bool allowDuplicates = false, bool reverseOrder = false)
         {
             var comparableType = typeof(IComparable<>).MakeGenericType(typeof(T));
-            Debug.Assert(comparableType.IsAssignableFrom(typeof(T)), "Generic type should implement IComparable<>");
+            Debug.Assert(GTypeInfo.IsAssignableFrom() comparableType.IsAssignableFrom(typeof(T)), "Generic type should implement IComparable<>");
             _comparer = new ComparableComparer<T>();
             _allowDuplicates = allowDuplicates;
             _reverseOrder = reverseOrder;

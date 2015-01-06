@@ -33,7 +33,7 @@ namespace Dessert
     using System.Diagnostics.Contracts;
     using Core;
     using Events;
-    using Slinky.Unchecked;
+    using PommaLabs.Collections;
 
     /// <summary>
     /// 

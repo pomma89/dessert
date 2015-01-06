@@ -31,7 +31,7 @@ namespace Dessert.Resources
     using System.Collections.Generic;
     using System.Diagnostics;
     using Core;
-    using Slinky.Unchecked;
+    using PommaLabs.Collections;
     using Troschuetz.Random;
     using Troschuetz.Random.Generators;
 
@@ -157,7 +157,7 @@ namespace Dessert.Resources
 
     sealed class FifoWaitQueue<T> : WaitQueueBase<T>
     {
-        readonly SinglyLinkedList<T> _items = ListFactory.NewLinkedList<T>();
+        readonly SinglyLinkedList<T> _items = new SinglyLinkedList<T>();
 
         public override int Count
         {
@@ -205,7 +205,7 @@ namespace Dessert.Resources
 
     sealed class LifoWaitQueue<T> : WaitQueueBase<T>
     {
-        readonly ThinLinkedList<T> _items = ListFactory.NewThinLinkedList<T>();
+        readonly ThinLinkedList<T> _items = new ThinLinkedList<T>();
 
         public override int Count
         {

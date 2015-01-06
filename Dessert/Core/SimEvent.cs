@@ -31,7 +31,7 @@ namespace Dessert.Core
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using Events;
-    using Slinky.Unchecked;
+    using PommaLabs.Collections;
 
     /// <summary>
     ///   A stronger typed event, which adds type notation to many properties which are untyped in SimPy.
@@ -84,7 +84,7 @@ namespace Dessert.Core
         [Pure]
         public ICollection<Action<TEv>> Callbacks
         {
-            get { return _callbacks ?? (_callbacks = ListFactory.NewLinkedList<Action<TEv>>()); }
+            get { return _callbacks ?? (_callbacks = new SinglyLinkedList<Action<TEv>>()); }
         }
 
         protected override sealed object GetValue()

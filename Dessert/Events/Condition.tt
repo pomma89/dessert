@@ -39,8 +39,7 @@ namespace Dessert.Events
     using System.Collections.Generic;
 	using System.Diagnostics.Contracts;
 	using Core;
-    using JetBrains.Annotations;
-    using Slinky.Unchecked;
+    using PommaLabs.Collections;
     
 	interface IParentCondition : ILinkedList<IParentCondition>
     {
@@ -52,7 +51,7 @@ namespace Dessert.Events
 	#region Condition Evaluators
 
 <# for(int i = 1; i <= MaxEventCount; i++) { #>
-	public delegate bool <#= ConditionEval(i) #>([NotNull] <#= Condition(i) #> condition) <#= ConditionClauses(i, 2) #>;
+	public delegate bool <#= ConditionEval(i) #>(<#= Condition(i) #> condition) <#= ConditionClauses(i, 2) #>;
 
 <#
     } 
@@ -107,7 +106,7 @@ namespace Dessert.Events
 		#region Public Members
 
 <# for (var j = 1; j <= i; ++j) { #>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
         public T<#= j #> Ev<#= j #>
         {
             get { return _ev<#= j #>; }
@@ -117,7 +116,7 @@ namespace Dessert.Events
 		/// <summary>
         ///   The user defined function used the evaluate the condition.
         /// </summary>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
         public <#= ConditionEval(i) #> Eval
         {
             get { return _eval; }
@@ -131,14 +130,14 @@ namespace Dessert.Events
 		///   A readonly list of events that succeeded
 		///   before this condition was satisfied.
 		/// </return>    
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public override IList<SimEvent> Value
         {
             get { return _succeeded; }
         }
 
 <# if (i < MaxEventCount) { #>
-        [NotNull, System.Diagnostics.Contracts.Pure]
+        [Pure]
 		public static <#= ConditionSimEvent(i+1, 1) #> operator &(<#= Condition(i) #> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -147,7 +146,7 @@ namespace Dessert.Events
 			return new <#= ConditionSimEvent(i+1, 1) #>(ConditionEvaluators.AllEvents, c._ev1<# for (var j = 2; j <= i; ++j) { #>, c._ev<#= j #><# } #>, ev);
 		}
 		
-        [NotNull, System.Diagnostics.Contracts.Pure]		
+        [Pure]		
 		public static <#= ConditionSimEvent(i+1, 1) #> operator |(<#= Condition(i) #> c, SimEvent ev)
 		{
 			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
@@ -158,7 +157,7 @@ namespace Dessert.Events
 <# } #>
 
 <# for (var k = 1; k + i <= MaxEventCount; ++k) { #>
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= ConditionSimEvent(i+k, k) #> operator &(<#= Condition(i) #> c1, <#= ConditionSimEvent(k) #> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
@@ -167,7 +166,7 @@ namespace Dessert.Events
 			return new <#= ConditionSimEvent(i+k, k) #>(ConditionEvaluators.AllEvents, c1._ev1<# for (var j = 2; j <= i; ++j) { #>, c1._ev<#= j #><# } #>, c2.Ev1<# for (var j = 2; j <= k; ++j) { #>, c2.Ev<#= j #><# } #>);
 		}
 
-		[NotNull, System.Diagnostics.Contracts.Pure]
+		[Pure]
 		public static <#= ConditionSimEvent(i+k, k) #> operator |(<#= Condition(i) #> c1, <#= ConditionSimEvent(k) #> c2)
 		{
 			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);

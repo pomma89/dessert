@@ -12,8 +12,8 @@
     <AssemblyName>Dessert</AssemblyName>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SourceAnalysisOverrideSettingsFile>C:\Users\Alessio\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile158</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
@@ -163,14 +163,17 @@
     <ApplicationIcon>Dessert.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DIBRIS.Hippie">
+      <HintPath>..\packages\Hippie.2.9.0\lib\portable-net45+win8+wp8+wpa81\DIBRIS.Hippie.dll</HintPath>
+    </Reference>
     <Reference Include="Hippie.Unchecked">
       <HintPath>..\packages\Hippie.Unchecked.2.0.1\lib\portable-win8+net45+sl5+wp8\Hippie.Unchecked.dll</HintPath>
     </Reference>
-    <Reference Include="PommaLabs.ConcurrentWorkQueue">
-      <HintPath>..\packages\PommaLabs.ConcurrentWorkQueue.0.9.1\lib\portable-win8+net40+sl5+wp8\PommaLabs.ConcurrentWorkQueue.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Slinky.Unchecked">
-      <HintPath>..\packages\Slinky.Unchecked.2.1.0\lib\portable-win8+net45+sl5+wp8\Slinky.Unchecked.dll</HintPath>
+    <Reference Include="PommaLabs.GRAMPA">
+      <HintPath>..\packages\PommaLabs.GRAMPA.2.1.2\lib\portable-net45+win8+wp8+wpa81\PommaLabs.GRAMPA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random">

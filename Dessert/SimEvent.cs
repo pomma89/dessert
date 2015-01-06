@@ -31,7 +31,7 @@ namespace Dessert
     using System.Diagnostics.Contracts;
     using Core;
     using Events;
-    using Slinky.Unchecked;
+    using PommaLabs.Collections;
 
     /// <summary>
     ///   The interface common to each event; it should be used to declare generator methods.
@@ -124,7 +124,7 @@ namespace Dessert
                 Subscribers = subscriber;
             } else if (Subscribers.Count == 1) {
                 if (!Subscribers.First.Equals(subscriber)) {
-                    var sub = ListFactory.NewLinkedList<SimProcess>();
+                    var sub = new SinglyLinkedList<SimProcess>();
                     sub.AddLast(Subscribers as SimProcess);
                     sub.AddLast(subscriber);
                     Subscribers = sub;
@@ -165,7 +165,7 @@ namespace Dessert
                 Conditions = condition;
             } else if (Conditions.Count == 1) {
                 if (!Conditions.First.Equals(condition)) {
-                    var conds = ListFactory.NewLinkedList<IParentCondition>();
+                    var conds = new SinglyLinkedList<IParentCondition>();
                     conds.AddLast(Conditions as IParentCondition);
                     conds.AddLast(condition);
                     Conditions = conds;

@@ -32,7 +32,7 @@ namespace Dessert.Resources
     using System.Diagnostics.Contracts;
     using Core;
     using Events;
-    using Slinky.Unchecked;
+    using PommaLabs.Collections;
 
     public sealed class Resource : SimEntity
     {
@@ -42,7 +42,7 @@ namespace Dessert.Resources
         /// <summary>
         ///   Stores the users which own this resource.
         /// </summary>
-        readonly ThinLinkedList<RequestEvent> _users = ListFactory.NewThinLinkedList<RequestEvent>();
+        readonly ThinLinkedList<RequestEvent> _users = new ThinLinkedList<RequestEvent>();
 
         /// <summary>
         /// 

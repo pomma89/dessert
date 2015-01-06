@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{50928C95-8920-409B-BCC9-67061B6E2BE7}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
@@ -13,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert", "Dessert\Dessert.csproj", "{7A2FE0C9-1C2E-458B-9482-0C50213EDA27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.Tests", "Dessert.Tests\Dessert.Tests.csproj", "{1BF035D6-A793-4B21-A10C-E4065CBA2063}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit Tests", "Dessert.Tests\Unit Tests.csproj", "{1BF035D6-A793-4B21-A10C-E4065CBA2063}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.Examples.CSharp", "Dessert.Examples.CSharp\Dessert.Examples.CSharp.csproj", "{9C4F34A7-5F5A-445A-8434-2DDF038947A8}"
 EndProject

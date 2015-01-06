@@ -31,8 +31,8 @@ namespace Dessert.Resources
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using Core;
+    using DIBRIS.Hippie;
     using Events;
-    using Hippie.Unchecked;
 
     public sealed class PreemptiveResource : SimEntity
     {

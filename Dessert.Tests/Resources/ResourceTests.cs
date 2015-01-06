@@ -32,7 +32,7 @@ namespace Dessert.Tests.Resources
     using System.Linq;
     using Dessert.Resources;
     using NUnit.Framework;
-    using Slinky.Unchecked;
+    using PommaLabs.Collections;
     using SimEvents = System.Collections.Generic.IEnumerable<SimEvent>;
 
     sealed class ResourceTests : TestBase
@@ -96,8 +96,8 @@ namespace Dessert.Tests.Resources
         public void Request_ManyProcesses_Fifo(int resourceCapacity, int userCount)
         {
             var resource = Sim.Resource(Env, resourceCapacity);
-            var completed = ListFactory.NewLinkedQueue<SimProcess>();
-            var expected = ListFactory.NewLinkedQueue<SimProcess>();
+            var completed = new LinkedQueue<SimProcess>();
+            var expected = new LinkedQueue<SimProcess>();
             for (var i = 1; i <= userCount; ++i) {
                 expected.Enqueue(Env.Process(ResourceRequester(resource, completed)));
             }
@@ -110,9 +110,9 @@ namespace Dessert.Tests.Resources
         public void Request_ManyProcesses_Lifo(int resourceCapacity, int userCount)
         {
             var resource = Sim.Resource(Env, resourceCapacity, WaitPolicy.LIFO);
-            var completed = ListFactory.NewLinkedQueue<SimProcess>();
-            var expected1 = ListFactory.NewLinkedQueue<SimProcess>();
-            var expected2 = ListFactory.NewLinkedStack<SimProcess>();
+            var completed = new LinkedQueue<SimProcess>();
+            var expected1 = new LinkedQueue<SimProcess>();
+            var expected2 = new LinkedStack<SimProcess>();
             for (var i = 1; i <= resourceCapacity; ++i) {
                 expected1.Enqueue(Env.Process(ResourceRequester(resource, completed)));
             }
@@ -128,8 +128,8 @@ namespace Dessert.Tests.Resources
         public void Request_ManyProcesses_Priority_Default(int resourceCapacity, int userCount)
         {
             var resource = Sim.Resource(Env, resourceCapacity, WaitPolicy.Priority);
-            var completed = ListFactory.NewLinkedQueue<SimProcess>();
-            var expected = ListFactory.NewLinkedQueue<SimProcess>();
+            var completed = new LinkedQueue<SimProcess>();
+            var expected = new LinkedQueue<SimProcess>();
             for (var i = 1; i <= userCount; ++i) {
                 expected.Enqueue(Env.Process(ResourceRequester(resource, completed)));
             }
@@ -142,8 +142,8 @@ namespace Dessert.Tests.Resources
         public void Request_ManyProcesses_Priority_Increasing(int resourceCapacity, int userCount)
         {
             var resource = Sim.Resource(Env, resourceCapacity, WaitPolicy.Priority);
-            var completed = ListFactory.NewLinkedQueue<SimProcess>();
-            var expected = ListFactory.NewLinkedQueue<SimProcess>();
+            var completed = new LinkedQueue<SimProcess>();
+            var expected = new LinkedQueue<SimProcess>();
             for (var i = 1; i <= userCount; ++i) {
                 expected.Enqueue(Env.Process(ResourceRequester_WithPriority(resource, completed, i)));
             }
@@ -156,9 +156,9 @@ namespace Dessert.Tests.Resources
         public void Request_ManyProcesses_Priority_Decreasing(int resourceCapacity, int userCount)
         {
             var resource = Sim.Resource(Env, resourceCapacity, WaitPolicy.Priority);
-            var completed = ListFactory.NewLinkedQueue<SimProcess>();
-            var expected1 = ListFactory.NewLinkedQueue<SimProcess>();
-            var expected2 = ListFactory.NewLinkedStack<SimProcess>();
+            var completed = new LinkedQueue<SimProcess>();
+            var expected1 = new LinkedQueue<SimProcess>();
+            var expected2 = new LinkedStack<SimProcess>();
             for (var i = 1; i <= resourceCapacity; ++i) {
                 expected1.Enqueue(Env.Process(ResourceRequester_WithPriority(resource, completed, userCount - i)));
             }
@@ -233,7 +233,7 @@ namespace Dessert.Tests.Resources
             var resource = Sim.Resource(Env, 1);
             Assert.AreEqual(resource.Capacity, 1);
             Assert.AreEqual(resource.Count, 0);
-            var log = ListFactory.NewLinkedList<Tuple<string, double>>();
+            var log = new SinglyLinkedList<Tuple<string, double>>();
             Env.Process(ContextManager_PEM(resource, "a", log));
             Env.Process(ContextManager_PEM(resource, "b", log));
             Env.Run();
@@ -258,7 +258,7 @@ namespace Dessert.Tests.Resources
             var resource = Sim.Resource(Env, 1);
             Assert.AreEqual(resource.Capacity, 1);
             Assert.AreEqual(resource.Count, 0);
-            var log = ListFactory.NewLinkedList<Tuple<string, double>>();
+            var log = new SinglyLinkedList<Tuple<string, double>>();
             Env.Process(Simple_PEM(resource, "a", log));
             Env.Process(Simple_PEM(resource, "b", log));
             Env.Run();
@@ -274,7 +274,7 @@ namespace Dessert.Tests.Resources
         public void Slots()
         {
             var resource = Sim.Resource(Env, 3);
-            var log = ListFactory.NewLinkedList<Tuple<string, double>>();
+            var log = new SinglyLinkedList<Tuple<string, double>>();
             for (var i = 0; i < 9; ++i) {
                 Env.Process(Slots_PEM(resource, i.ToString(CultureInfo.InvariantCulture), log));
             }
