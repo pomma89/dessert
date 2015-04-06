@@ -28,7 +28,7 @@ namespace Dessert.Core
 {
     using Resources;
 
-    static class ErrorMessages
+    static partial class ErrorMessages
     {
         public const string ContractClass = "A contract class cannot be instanced";
         public const string DifferentEnvironment = "Given event belongs to a different environment";

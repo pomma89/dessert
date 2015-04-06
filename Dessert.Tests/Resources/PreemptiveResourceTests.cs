@@ -29,9 +29,9 @@ namespace Dessert.Tests.Resources
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Collections;
     using Dessert.Resources;
     using NUnit.Framework;
-    using PommaLabs.Collections;
     using SimEvents = System.Collections.Generic.IEnumerable<SimEvent>;
 
     sealed class PreemptiveResourceTests : TestBase

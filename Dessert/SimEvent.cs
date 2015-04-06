@@ -29,9 +29,9 @@ namespace Dessert
     using System;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using Collections;
     using Core;
     using Events;
-    using PommaLabs.Collections;
 
     /// <summary>
     ///   The interface common to each event; it should be used to declare generator methods.
@@ -83,7 +83,7 @@ namespace Dessert
         /// <remarks>
         ///   It is important to use a LinkedList, because it behaves like a queue.
         /// </remarks>
-        protected ILinkedList<SimProcess> Subscribers;
+        internal ILinkedList<SimProcess> Subscribers;
 
         /// <summary>
         /// 

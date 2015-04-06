@@ -30,9 +30,9 @@ namespace Dessert.Resources
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using Collections;
     using Core;
     using Events;
-    using PommaLabs.Collections;
 
     public sealed class Resource : SimEntity
     {

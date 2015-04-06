@@ -33,8 +33,8 @@ namespace Dessert.Events
 	using System.Collections;
     using System.Collections.Generic;
 	using System.Diagnostics.Contracts;
+	using Collections;
 	using Core;
-    using PommaLabs.Collections;
     
 	interface IParentCondition : ILinkedList<IParentCondition>
     {

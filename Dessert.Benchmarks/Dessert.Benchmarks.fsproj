@@ -18,6 +18,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <NuGetPackageImportStamp>b01d5419</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -133,14 +134,6 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
       <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PommaLabs.ConcurrentWorkQueue">
-      <HintPath>..\packages\PommaLabs.ConcurrentWorkQueue.0.9.1\lib\portable-win8+net40+sl5+wp8\PommaLabs.ConcurrentWorkQueue.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Slinky.Unchecked">
-      <HintPath>..\packages\Slinky.Unchecked.2.1.0\lib\net40-client\Slinky.Unchecked.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <ProjectReference Include="..\Dessert.Examples.CSharp\Dessert.Examples.CSharp.csproj">
       <Name>Dessert.Examples.CSharp</Name>
@@ -157,6 +150,13 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
       <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

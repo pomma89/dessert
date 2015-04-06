@@ -30,9 +30,9 @@ namespace Dessert.Tests.Resources
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using Collections;
     using Dessert.Resources;
     using NUnit.Framework;
-    using PommaLabs.Collections;
     using SimEvents = System.Collections.Generic.IEnumerable<SimEvent>;
 
     sealed class ResourceTests : TestBase

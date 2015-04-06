@@ -30,8 +30,8 @@ namespace Dessert.Resources
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using Collections;
     using Core;
-    using PommaLabs.Collections;
     using Troschuetz.Random;
     using Troschuetz.Random.Generators;
 
