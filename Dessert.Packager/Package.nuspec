@@ -4,7 +4,7 @@
     <metadata>
         <id>Dessert</id>
         <version>3.0.10-alpha</version>
-        <title>Dessert</title>
+        <title>DIBRIS.Dessert - Discrete event simulation engine</title>
         <authors>Alessio Parma &lt;alessio.parma@gmail.com&gt;</authors>
         <owners>Alessio Parma &lt;alessio.parma@gmail.com&gt;</owners>
         <description>
@@ -28,7 +28,7 @@ A discrete event simulation (DES) engine heavily based on the paradigm introduce
             <dependency id="Troschuetz.Random" version="3.2.0" />
         </dependencies>
         <references></references>
-        <tags>des discrete event simulation simpy simula</tags>
+        <tags>des discrete event simulation engine simpy simula</tags>
     </metadata>
     <files>
         <file src="lib\" target="lib" />
