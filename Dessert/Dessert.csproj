@@ -167,14 +167,8 @@
     <Reference Include="DIBRIS.Hippie">
       <HintPath>..\packages\Hippie.2.9.1\lib\portable-net45+win8+wp8+wpa81\DIBRIS.Hippie.dll</HintPath>
     </Reference>
-    <Reference Include="Hippie.Unchecked">
-      <HintPath>..\packages\Hippie.Unchecked.2.0.1\lib\portable-win8+net45+sl5+wp8\Hippie.Unchecked.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PommaLabs.GRAMPA">
-      <HintPath>..\packages\PommaLabs.GRAMPA.2.1.2\lib\portable-net45+win8+wp8+wpa81\PommaLabs.GRAMPA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random">

@@ -69,6 +69,7 @@ namespace Dessert.Resources
             get { return _getQueue.Policy; }
         }
 
+        [Pure]
         public IEnumerable<GetEvent> GetQueue
         {
             get { return _getQueue; }
@@ -81,6 +82,7 @@ namespace Dessert.Resources
             get { return _putQueue.Policy; }
         }
 
+        [Pure]
         public IEnumerable<PutEvent> PutQueue
         {
             get { return _putQueue; }
