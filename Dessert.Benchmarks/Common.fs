@@ -60,7 +60,7 @@ module Common =
     }
 
     type Counter() =
-        let random = TRandom(MT19937Generator())
+        let random = TRandom(NR3Generator())
         let mutable total = 0UL
         member c.Total = total
         member c.Increment() = total <- total + 1UL

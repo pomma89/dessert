@@ -317,9 +317,9 @@ namespace Dessert.Resources
     sealed class RandomWaitQueue<T> : WaitQueueBase<T>
     {
         readonly OrderedCollection<WaitQueue.Pair<T, int>> _items;
-        readonly TRandom<MT19937Generator> _random;
+        readonly TRandom _random;
 
-        public RandomWaitQueue(TRandom<MT19937Generator> random)
+        public RandomWaitQueue(TRandom random)
         {
             _items = OrderedCollection.New<WaitQueue.Pair<T, int>>(true);
             _random = random;

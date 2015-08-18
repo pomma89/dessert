@@ -51,7 +51,7 @@ namespace Dessert
         /// </summary>
         readonly OptimizedSkewHeap _processes;
 
-        readonly TRandom<MT19937Generator> _random;
+        readonly TRandom _random;
 
         ulong _highPriority;
         ulong _lowPriority = 1000000UL;
@@ -81,7 +81,7 @@ namespace Dessert
 
             _processes = new OptimizedSkewHeap(dummyP);
             _events = new OptimizedSkewHeap(dummyEv);
-            _random = TRandom.New(new MT19937Generator(seed));
+            _random = TRandom.New(new NR3Generator(seed));
             EndEvent = new Dummy(this);         
         }
 
@@ -325,7 +325,7 @@ namespace Dessert
         ///   A random numbers generator which can be used inside simulations.
         /// </summary>
         [Pure]
-        public TRandom<MT19937Generator> Random
+        public TRandom Random
         {
             get { return _random; }
         }
