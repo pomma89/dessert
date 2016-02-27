@@ -93,6 +93,11 @@ namespace Dessert.Events
 
         protected override void OnEnd()
         {
+            if (Env.RealTime && At != double.MaxValue)
+            {
+                var sleep = (int) ((At - Env.Now) * 1000.0);
+                System.Threading.Tasks.Task.Delay(sleep).Wait();
+            }
             Env.Now = At;
         }
 

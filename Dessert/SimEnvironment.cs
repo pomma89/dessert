@@ -330,6 +330,12 @@ namespace Dessert
             get { return _random; }
         }
 
+        /// <summary>
+        ///   Whether the simulation must be run according to wall-clock time.
+        /// </summary>
+        [Pure]
+        public bool RealTime { get; set; } = false;
+
         #region Event Construction
 
         /// <summary>
