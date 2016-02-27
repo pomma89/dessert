@@ -86,17 +86,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <ProjectReference Include="..\Dessert\Dessert.csproj">
-      <Name>Dessert</Name>
-      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <Reference Include="System.Data" />
     <Reference Include="Troschuetz.Random">
       <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Troschuetz.Random" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dessert\Dessert.Portable.csproj">
+      <Name>Dessert.Portable</Name>
+      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

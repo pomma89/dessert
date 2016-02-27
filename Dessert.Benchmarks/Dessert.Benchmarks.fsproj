@@ -129,6 +129,11 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dessert\Dessert.Portable.csproj">
+      <Name>Dessert.Portable</Name>
+      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="PommaLabs.Thrower">
       <HintPath>..\packages\Thrower.2.2.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
@@ -138,11 +143,6 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
     <ProjectReference Include="..\Dessert.Examples.CSharp\Dessert.Examples.CSharp.csproj">
       <Name>Dessert.Examples.CSharp</Name>
       <Project>{9c4f34a7-5f5a-445a-8434-2ddf038947a8}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Dessert\Dessert.csproj">
-      <Name>Dessert</Name>
-      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
       <Private>True</Private>
     </ProjectReference>
     <Reference Include="Troschuetz.Random">

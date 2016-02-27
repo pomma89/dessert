@@ -99,9 +99,9 @@
       <Project>{3e652595-39a8-4eae-a303-c8f51f61f2a2}</Project>
       <Name>Dessert.Examples.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dessert\Dessert.csproj">
+    <ProjectReference Include="..\Dessert\Dessert.Portable.csproj">
       <Project>{7A2FE0C9-1C2E-458B-9482-0C50213EDA27}</Project>
-      <Name>Dessert</Name>
+      <Name>Dessert.Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

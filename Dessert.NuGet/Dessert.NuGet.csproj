@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="NuGetPackage.ps1" />
     <None Include="NuGetSetup.ps1" />
     <None Include="NuGet.exe" />
@@ -58,15 +59,17 @@
     <None Include="Package.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dessert\Dessert.csproj">
+    <ProjectReference Include="..\Dessert\Dessert.Portable.csproj">
       <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
-      <Name>Dessert</Name>
+      <Name>Dessert.Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE.txt" />
+    <None Include="LICENSE.md" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="lib\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
