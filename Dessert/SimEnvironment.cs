@@ -1,54 +1,49 @@
-//
-// SimEnvironment.cs
-//  
-// Author(s):
-//       Alessio Parma <alessio.parma@gmail.com>
+// File name: SimEnvironment.cs
+// 
+// Author(s): Alessio Parma <alessio.parma@gmail.com>
 // 
 // Copyright (c) 2012-2016 Alessio Parma <alessio.parma@gmail.com>
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 // 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 // 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace Dessert
 {
+    using Core;
+    using Events;
+    using Finsa.CodeServices.Clock;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    using Core;
-    using Events;
+    using System.Threading.Tasks;
     using Troschuetz.Random;
     using Troschuetz.Random.Generators;
-    using Finsa.CodeServices.Clock;
-    using System.Threading.Tasks;
+
     public sealed class SimEnvironment
     {
         internal readonly SimEvent EndEvent;
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         readonly OptimizedSkewHeap _events;
 
         /// <summary>
-        ///   Stores an instance of the <see cref="_processes"/> class, which wraps an heap
-        ///   and offers methods more specialized for the simulation task. As one can
-        ///   easily expect, the agenda is used to schedule processes and events.
+        ///   Stores an instance of the <see cref="_processes"/> class, which wraps an heap and
+        ///   offers methods more specialized for the simulation task. As one can easily expect, the
+        ///   agenda is used to schedule processes and events.
         /// </summary>
         readonly OptimizedSkewHeap _processes;
 
@@ -58,37 +53,35 @@ namespace Dessert
         ulong _lowPriority = 1000000UL;
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         double _now;
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         double _prevNow;
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="seed"></param>
         internal SimEnvironment(int seed)
-        {           
-            // We add a dummy timeout event and a dummy process, so that heaps are never empty.
-            // They have the maximum priority available, since they never have to be called.
+        {
+            // We add a dummy timeout event and a dummy process, so that heaps are never empty. They
+            // have the maximum priority available, since they never have to be called.
             const double maxPr = double.PositiveInfinity;
             const ulong maxVer = ulong.MaxValue;
-            var dummyP = new SimProcess(this, DummyProcess()) {At = maxPr, Version = maxVer};
-            var dummyEv = new Dummy(this) {At = maxPr, Version = maxVer};
+            var dummyP = new SimProcess(this, DummyProcess()) { At = maxPr, Version = maxVer };
+            var dummyEv = new Dummy(this) { At = maxPr, Version = maxVer };
 
             _processes = new OptimizedSkewHeap(dummyP);
             _events = new OptimizedSkewHeap(dummyEv);
             _random = TRandom.New(new MT19937Generator(seed));
-            EndEvent = new Dummy(this);         
+            EndEvent = new Dummy(this);
         }
 
         internal SimProcess ScheduleProcess(SimProcess process)
         {
-            if (!process.Succeeded && !process.Scheduled) {
+            if (!process.Succeeded && !process.Scheduled)
+            {
                 process.At = Now;
                 process.Version = _lowPriority++;
                 _processes.Add(process);
@@ -116,9 +109,14 @@ namespace Dessert
         {
             Debug.Assert(!timeout.Scheduled && !timeout.Succeeded && !timeout.Failed);
             timeout.At = Now + delay;
-            timeout.AtWallClock = WallClock.UnixTime + (delay * ScalingFactor);
             timeout.Version = _lowPriority++;
             _events.Add(timeout);
+
+            // Real-time management.
+            if (RealTime)
+            {
+                timeout.AtWallClock = WallClock.UnixTime + (delay * ScalingFactor);
+            }
         }
 
         internal void UnscheduleActiveProcess()
@@ -128,13 +126,16 @@ namespace Dessert
 
         void DoSimulate()
         {
-            while (!Ended) {
+            while (!Ended)
+            {
                 var minP = _processes.Min;
                 var minT = _events.Min;
-                if (SimEvent.IsSmaller(minP, minT)) {
+                if (SimEvent.IsSmaller(minP, minT))
+                {
                     // Step a process
                     minP.Step();
-                } else {
+                }
+                else {
                     // End an event
                     minT.End();
                     _events.RemoveMin();
@@ -144,10 +145,10 @@ namespace Dessert
 
         void EndSimulation()
         {
-            // If there are other events, time has to be adjusted
-            // so that final time will be equal to until event time.
-            // However, that is true only if following events are scheduled.
-            if (_processes.Count == 1 && _events.Count == 2) {
+            // If there are other events, time has to be adjusted so that final time will be equal
+            // to until event time. However, that is true only if following events are scheduled.
+            if (_processes.Count == 1 && _events.Count == 2)
+            {
                 _now = _prevNow;
             }
             Ended = true;
@@ -177,19 +178,19 @@ namespace Dessert
 
         public SimProcess Process(IEnumerable<SimEvent> generator)
         {
-// ReSharper disable PossibleMultipleEnumeration
+            // ReSharper disable PossibleMultipleEnumeration
             Contract.Requires<ArgumentNullException>(generator != null, ErrorMessages.NullGenerator);
             Contract.Requires<ArgumentNullException>(generator.GetEnumerator() != null, ErrorMessages.NullGenerator);
             Contract.Ensures(Contract.Result<SimProcess>() != null);
             Contract.Ensures(ReferenceEquals(Contract.Result<SimProcess>().Env, this));
             Contract.Ensures(ReferenceEquals(Contract.Result<SimProcess>().Value, null));
             return ScheduleProcess(new SimProcess(this, generator.GetEnumerator()));
-// ReSharper restore PossibleMultipleEnumeration
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public SimProcess DelayedProcess(IEnumerable<SimEvent> generator, double delay)
         {
-// ReSharper disable PossibleMultipleEnumeration
+            // ReSharper disable PossibleMultipleEnumeration
             Contract.Requires<ArgumentNullException>(generator != null, ErrorMessages.NullGenerator);
             Contract.Requires<ArgumentNullException>(generator.GetEnumerator() != null, ErrorMessages.NullGenerator);
             Contract.Requires<ArgumentOutOfRangeException>(IsValidDelay(delay), ErrorMessages.InvalidDelay);
@@ -197,7 +198,7 @@ namespace Dessert
             Contract.Ensures(ReferenceEquals(Contract.Result<SimProcess>().Env, this));
             Contract.Ensures(ReferenceEquals(Contract.Result<SimProcess>().Value, null));
             return ScheduleProcess(new SimProcess(this, DelayedProcessWrapper(generator.GetEnumerator(), delay)));
-// ReSharper restore PossibleMultipleEnumeration
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         IEnumerator<SimEvent> DelayedProcessWrapper(IEnumerator<SimEvent> realGenerator, double delay)
@@ -206,7 +207,7 @@ namespace Dessert
             yield return new Call<object>(this, realGenerator);
         }
 
-        #endregion
+        #endregion Process Construction
 
         #region Run Overloads
 
@@ -256,11 +257,8 @@ namespace Dessert
             DoSimulate();
         }
 
-        #endregion
+        #endregion Run Overloads
 
-        #region Timeout Construction
-
-        #endregion
 
         #region Object Members
 
@@ -269,7 +267,7 @@ namespace Dessert
             return string.Format("[Now: {0}]", Now);
         }
 
-        #endregion
+        #endregion Object Members
 
         #region IEnvironment Members
 
@@ -306,6 +304,7 @@ namespace Dessert
             _prevNow = _now;
             _now = nextNow;
 
+            // Real-time management.
             double delay;
             if (RealTime && (nextNow < double.MaxValue) && (delay = (nextWallClock - (WallClock.UnixTime * ScalingFactor)) * 1000.0) > 0.0)
             {
@@ -314,12 +313,12 @@ namespace Dessert
         }
 
         /// <summary>
-        ///   Returns the time of the next scheduled event, or <see cref="double.PositiveInfinity"/> 
+        ///   Returns the time of the next scheduled event, or <see cref="double.PositiveInfinity"/>
         ///   if there is no further event.
         /// </summary>
         /// <returns>
-        ///   The time of the next scheduled event, or <see cref="double.PositiveInfinity"/> 
-        ///   if there is no further event.
+        ///   The time of the next scheduled event, or <see cref="double.PositiveInfinity"/> if
+        ///   there is no further event.
         /// </returns>
         [Pure]
         public double Peek
@@ -357,7 +356,7 @@ namespace Dessert
         [Pure]
         public IClock WallClock { get; internal set; } = new SystemClock();
 
-        #endregion
+        #endregion Real-time
 
         #region Event Construction
 
@@ -386,15 +385,15 @@ namespace Dessert
             return new SimEvent<TVal>(this);
         }
 
-        #endregion
+        #endregion Event Construction
 
         #region Exit Construction
 
         /// <summary>
-        ///   Exits from current process or from current call. If called directly from
-        ///   a process body, then the process is stopped and the optional exit value
-        ///   can be found on <see cref="SimProcess.Value"/>. Otherwise, if this method
-        ///   is called from a procedure body, then the procedure is stopped.
+        ///   Exits from current process or from current call. If called directly from a process
+        ///   body, then the process is stopped and the optional exit value can be found on
+        ///   <see cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure
+        ///   body, then the procedure is stopped.
         /// </summary>
         /// <returns>The exit event that can be yielded to stop a process or a call.</returns>
         public SimEvent Exit()
@@ -404,11 +403,11 @@ namespace Dessert
         }
 
         /// <summary>
-        ///   Exits from current process or from current call. If called directly from
-        ///   a process body, then the process is stopped and the optional exit value
-        ///   can be found on <see cref="SimProcess.Value"/>. Otherwise, if this method
-        ///   is called from a procedure body, then the procedure is stopped and the
-        ///   optional exit value can be found on the event returned by <see cref="Call"/>.
+        ///   Exits from current process or from current call. If called directly from a process
+        ///   body, then the process is stopped and the optional exit value can be found on
+        ///   <see cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure
+        ///   body, then the procedure is stopped and the optional exit value can be found on the
+        ///   event returned by <see cref="Call"/>.
         /// </summary>
         /// <param name="value">The optional exit value.</param>
         /// <returns>The exit event that can be yielded to stop a process or a call.</returns>
@@ -418,9 +417,9 @@ namespace Dessert
             return EndEvent;
         }
 
-        #endregion
+        #endregion Exit Construction
 
-        #endregion
+        #endregion IEnvironment Members
 
         sealed class Dummy : SimEvent<Dummy, object>
         {
@@ -435,7 +434,7 @@ namespace Dessert
                 get { return null; /* IronPython requires this to be null. */ }
             }
 
-            #endregion
+            #endregion SimEvent Members
         }
     }
 
@@ -449,12 +448,12 @@ namespace Dessert
         [Pure]
         public static Call Call(this SimEnvironment env, IEnumerable<SimEvent> gen)
         {
-// ReSharper disable PossibleMultipleEnumeration
+            // ReSharper disable PossibleMultipleEnumeration
             Contract.Requires<ArgumentNullException>(env != null, ErrorMessages.NullEnvironment);
             Contract.Requires<ArgumentNullException>(gen != null && gen.GetEnumerator() != null, ErrorMessages.NullGenerator);
             Contract.Ensures(Contract.Result<Call>() != null);
             return new Call(env, gen.GetEnumerator());
-// ReSharper restore PossibleMultipleEnumeration
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         /// <summary>
@@ -470,7 +469,7 @@ namespace Dessert
             Contract.Ensures(Contract.Result<Call<T>>() != null);
             return new Call<T>(env, gen.GetEnumerator());
             // ReSharper restore PossibleMultipleEnumeration
-        }       
+        }
     }
 
     // Timeout creator
