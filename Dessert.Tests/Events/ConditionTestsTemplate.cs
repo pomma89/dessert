@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Tests.Events
+namespace DIBRIS.Dessert.Tests.Events
 {
 	using System.Collections.Generic;
 	using System.Diagnostics;

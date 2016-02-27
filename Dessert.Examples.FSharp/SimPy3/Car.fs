@@ -24,9 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.SimPy3.Car
+module DIBRIS.Dessert.Examples.FSharp.SimPy3.Car
 
-open Dessert
+open DIBRIS.Dessert
 
 let rec car(env: SimEnvironment) = seq<SimEvent> {
     printfn "Start parking at %g" env.Now

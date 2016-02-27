@@ -68,7 +68,8 @@
     <None Include="LICENSE.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="lib\" />
+    <Folder Include="lib\net40\" />
+    <Folder Include="lib\portable-win8+net45+sl5+wp8\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

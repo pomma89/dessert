@@ -8,7 +8,7 @@
     <ProjectGuid>{F5242F2F-FEE1-4AB3-BFA5-3515EE8FDCE8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Dessert.Benchmarks</RootNamespace>
-    <AssemblyName>Dessert.Benchmarks</AssemblyName>
+    <AssemblyName>DIBRIS.Dessert.Benchmarks</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Name>Dessert.Benchmarks</Name>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>

@@ -23,7 +23,8 @@
 ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ' THE SOFTWARE.
-Imports Dessert.Events
+
+Imports DIBRIS.Dessert.Events
 
 Public Module EventCallbacks
     Private Iterator Function DoFail(env As SimEnvironment, ev As SimEvent(Of String)) As IEnumerable(Of SimEvent)

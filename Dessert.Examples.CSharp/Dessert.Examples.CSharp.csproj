@@ -7,8 +7,8 @@
     <ProjectGuid>{9C4F34A7-5F5A-445A-8434-2DDF038947A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dessert.Examples.CSharp</RootNamespace>
-    <AssemblyName>Dessert.Examples.CSharp</AssemblyName>
+    <RootNamespace>DIBRIS.Dessert.Examples.CSharp</RootNamespace>
+    <AssemblyName>DIBRIS.Dessert.Examples.CSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

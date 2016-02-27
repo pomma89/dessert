@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Events
+namespace DIBRIS.Dessert.Events
 {
     sealed class Interrupt : InnerEvent
     {

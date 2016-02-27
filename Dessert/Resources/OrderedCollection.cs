@@ -20,7 +20,7 @@ limitations under the License.
 
 /* SOURCES BELOW HAVE BEEN CUSTOMIZED FOR DESSERT */
 
-namespace Dessert.Resources
+namespace DIBRIS.Dessert.Resources
 {
     using System;
     using System.Collections.Generic;

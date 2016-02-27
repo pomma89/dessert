@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Examples.FSharp
+namespace DIBRIS.Dessert.Examples.FSharp
 
 open System.Security
 

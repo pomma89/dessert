@@ -24,10 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.BankExample
+module DIBRIS.Dessert.Examples.FSharp.BankExample
 
-open Dessert
-open Dessert.Resources
+open DIBRIS.Dessert
+open DIBRIS.Dessert.Resources
 open MoreLinq // Espone MinBy, usato dentro Spawner
 
 Sim.CurrentTimeUnit <- TimeUnit.Minute

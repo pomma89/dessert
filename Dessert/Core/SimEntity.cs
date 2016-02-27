@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Core
+namespace DIBRIS.Dessert.Core
 {
     using System.Diagnostics.Contracts;
 

@@ -24,9 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.SimPy3.Clock
+module DIBRIS.Dessert.Examples.FSharp.SimPy3.Clock
 
-open Dessert // Yummy :P
+open DIBRIS.Dessert // Yummy :P
 
 let rec clock(env: SimEnvironment, name, tick) = seq<SimEvent> { 
     printfn "%s %.1f" name env.Now 

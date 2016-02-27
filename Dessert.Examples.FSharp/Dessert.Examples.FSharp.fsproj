@@ -8,7 +8,7 @@
     <ProjectGuid>18b35014-1191-4513-9f8f-aec139dd8bc1</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Dessert.Examples.FSharp</RootNamespace>
-    <AssemblyName>Dessert.Examples.FSharp</AssemblyName>
+    <AssemblyName>DIBRIS.Dessert.Examples.FSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Name>Dessert.Examples.FSharp</Name>
     <TargetFrameworkProfile>

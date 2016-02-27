@@ -7,8 +7,8 @@
     <ProjectGuid>{C8299569-BA47-4236-8B95-B4109585CB2C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dessert.Examples</RootNamespace>
-    <AssemblyName>Dessert.Examples</AssemblyName>
+    <RootNamespace>DIBRIS.Dessert.Examples</RootNamespace>
+    <AssemblyName>DIBRIS.Dessert.Examples</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -40,7 +40,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Dessert.Examples.Launcher</StartupObject>
+    <StartupObject>DIBRIS.Dessert.Examples.Launcher</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PommaLabs.Thrower, Version=2.2.0.0, Culture=neutral, PublicKeyToken=2f204b7110a52060, processorArchitecture=MSIL">

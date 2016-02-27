@@ -8,8 +8,8 @@
     <ProjectGuid>{7A2FE0C9-1C2E-458B-9482-0C50213EDA27}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dessert</RootNamespace>
-    <AssemblyName>Dessert</AssemblyName>
+    <RootNamespace>DIBRIS.Dessert</RootNamespace>
+    <AssemblyName>DIBRIS.Dessert</AssemblyName>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SourceAnalysisOverrideSettingsFile>C:\Users\Alessio\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -76,7 +76,7 @@
     <ConsolePause>False</ConsolePause>
     <DefineConstants>USETHROWER PORTABLE</DefineConstants>
     <CodeAnalysisRuleSet>Dessert.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\Dessert.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\DIBRIS.Dessert.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
@@ -120,7 +120,7 @@
     <OutputPath>bin\Release.Unchecked\</OutputPath>
     <DefineConstants>
     </DefineConstants>
-    <DocumentationFile>bin\Release.Unchecked\Dessert.xml</DocumentationFile>
+    <DocumentationFile>bin\Release.Unchecked\DIBRIS.Dessert.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -243,7 +243,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ConditionOperators.cs</LastGenOutput>
     </None>
-    <Content Include="doxyfile.txt" />
     <None Include="Dessert.ruleset" />
     <None Include="Events\Condition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

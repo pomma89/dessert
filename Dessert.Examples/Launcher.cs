@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Examples
+namespace DIBRIS.Dessert.Examples
 {
     using System;
     using CSharp;

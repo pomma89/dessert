@@ -25,7 +25,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Examples.CSharp.Galois
+namespace DIBRIS.Dessert.Examples.CSharp.Galois
 {
     using System.Collections.Generic;
     using Resources;

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3E652595-39A8-4EAE-A303-C8F51F61F2A2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Dessert.Examples.VisualBasic</RootNamespace>
-    <AssemblyName>Dessert.Examples.VisualBasic</AssemblyName>
+    <RootNamespace>DIBRIS.Dessert.Examples.VisualBasic</RootNamespace>
+    <AssemblyName>DIBRIS.Dessert.Examples.VisualBasic</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -137,7 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Dessert" />
-    <Import Include="IEvents = System.Collections.Generic.IEnumerable%28Of Dessert.SimEvent%29" />
+    <Import Include="IEvents = System.Collections.Generic.IEnumerable%28Of DIBRIS.Dessert.SimEvent%29" />
     <Import Include="System" />
     <Import Include="System.Collections.Generic" />
   </ItemGroup>

@@ -29,7 +29,7 @@
     // Empty, used because examples are not included in the .NET 4 solution.
 #else
 
-namespace Dessert.Tests
+namespace DIBRIS.Dessert.Tests
 {
 
 

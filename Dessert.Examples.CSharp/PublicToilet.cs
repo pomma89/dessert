@@ -1,4 +1,4 @@
-﻿namespace Dessert.Examples.CSharp
+﻿namespace DIBRIS.Dessert.Examples.CSharp
 {
     using System;
     using System.Collections.Generic;

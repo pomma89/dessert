@@ -63,7 +63,7 @@
 
 #endregion
 
-namespace Dessert.Examples.CSharp.SimPy3
+namespace DIBRIS.Dessert.Examples.CSharp.SimPy3
 {
     using System;
     using SimEvents = System.Collections.Generic.IEnumerable<SimEvent>;

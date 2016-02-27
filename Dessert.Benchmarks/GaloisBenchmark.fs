@@ -24,13 +24,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Benchmarks
+namespace DIBRIS.Dessert.Benchmarks
 
 open System
 open System.Diagnostics
 open System.IO
-open Dessert.Benchmarks.Common
-open Dessert.Examples.CSharp
+open DIBRIS.Dessert.Benchmarks.Common
+open DIBRIS.Dessert.Examples.CSharp
 
 module GaloisBenchmark =
     

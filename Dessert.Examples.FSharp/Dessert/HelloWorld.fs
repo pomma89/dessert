@@ -24,9 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.HelloWorld
+module DIBRIS.Dessert.Examples.FSharp.HelloWorld
 
-open Dessert
+open DIBRIS.Dessert
 
 let rec sayHello (env : SimEnvironment) = seq<SimEvent> {
     yield upcast env.Timeout 2.1

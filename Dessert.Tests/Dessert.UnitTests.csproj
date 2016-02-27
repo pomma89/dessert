@@ -8,8 +8,8 @@
     <ProjectGuid>{1BF035D6-A793-4B21-A10C-E4065CBA2063}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
-    <AssemblyName>UnitTests</AssemblyName>
+    <RootNamespace>DIBRIS.Dessert.UnitTests</RootNamespace>
+    <AssemblyName>DIBRIS.Dessert.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

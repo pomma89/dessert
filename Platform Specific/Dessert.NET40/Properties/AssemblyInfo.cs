@@ -1,4 +1,4 @@
-// File name: AssemblyInfo.cs
+﻿// File name: AssemblyInfo.cs
 // 
 // Author(s): Alessio Parma <alessio.parma@gmail.com>
 // 

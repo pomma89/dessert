@@ -98,7 +98,7 @@ F#, thanks to a lean syntax and to its functional principles, lets us write code
 The following is the translation in F# of the clock example:
 
 ```fs
-open Dessert // Yummy :P
+open DIBRIS.Dessert // Yummy :P
 
 let rec clock(env: IEnvironment, name, tick) = seq<IEvent> { 
     printfn "%s %.1f" name env.Now 
