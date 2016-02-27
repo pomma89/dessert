@@ -28,7 +28,6 @@ namespace DIBRIS.Dessert
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    using System.Threading.Tasks;
     using Troschuetz.Random;
     using Troschuetz.Random.Generators;
 
@@ -308,7 +307,11 @@ namespace DIBRIS.Dessert
             double delay;
             if (RealTime && (nextNow < double.MaxValue) && (delay = (nextWallClock - (WallClock.UnixTime * ScalingFactor)) * 1000.0) > 0.0)
             {
-                Task.Delay((int) delay).Wait();
+#if NET40
+                System.Threading.Thread.Sleep((int) delay);
+#else
+                System.Threading.Tasks.Task.Delay((int) delay).Wait();
+#endif
             }
         }
 
@@ -337,7 +340,7 @@ namespace DIBRIS.Dessert
         [Pure]
         public TRandom Random => _random;
 
-        #region Real-time
+#region Real-time
 
         /// <summary>
         ///   Whether the simulation must be run according to "wall clock" time.
@@ -356,9 +359,9 @@ namespace DIBRIS.Dessert
         [Pure]
         public IClock WallClock { get; internal set; } = new SystemClock();
 
-        #endregion Real-time
+#endregion Real-time
 
-        #region Event Construction
+#region Event Construction
 
         /// <summary>
         ///   Returns a new generic event.
@@ -385,9 +388,9 @@ namespace DIBRIS.Dessert
             return new SimEvent<TVal>(this);
         }
 
-        #endregion Event Construction
+#endregion Event Construction
 
-        #region Exit Construction
+#region Exit Construction
 
         /// <summary>
         ///   Exits from current process or from current call. If called directly from a process
@@ -417,9 +420,9 @@ namespace DIBRIS.Dessert
             return EndEvent;
         }
 
-        #endregion Exit Construction
+#endregion Exit Construction
 
-        #endregion IEnvironment Members
+#endregion IEnvironment Members
 
         sealed class Dummy : SimEvent<Dummy, object>
         {
@@ -427,14 +430,14 @@ namespace DIBRIS.Dessert
             {
             }
 
-            #region SimEvent Members
+#region SimEvent Members
 
             public override object Value
             {
                 get { return null; /* IronPython requires this to be null. */ }
             }
 
-            #endregion SimEvent Members
+#endregion SimEvent Members
         }
     }
 
