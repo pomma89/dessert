@@ -8,14 +8,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		CREDITS.md = CREDITS.md
-		Dessert.sln.DotSettings = Dessert.sln.DotSettings
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert", "Dessert\Dessert.csproj", "{7A2FE0C9-1C2E-458B-9482-0C50213EDA27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit Tests", "Dessert.Tests\Unit Tests.csproj", "{1BF035D6-A793-4B21-A10C-E4065CBA2063}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.UnitTests", "Dessert.Tests\Dessert.UnitTests.csproj", "{1BF035D6-A793-4B21-A10C-E4065CBA2063}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.Examples.CSharp", "Dessert.Examples.CSharp\Dessert.Examples.CSharp.csproj", "{9C4F34A7-5F5A-445A-8434-2DDF038947A8}"
 EndProject
