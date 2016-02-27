@@ -34,55 +34,55 @@
 
 namespace Dessert.Events
 {
-	using System;
-	using System.Collections;
+    using Finsa.CodeServices.Common.Collections;
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
-	using System.Diagnostics.Contracts;
-	using Core;
-    using PommaLabs.Collections;
+    using System.Diagnostics.Contracts;
+    using Core;
     
-	interface IParentCondition : ILinkedList<IParentCondition>
+    interface IParentCondition : ILinkedList<IParentCondition>
     {
-		bool Succeeded { get; }
+        bool Succeeded { get; }
 
         void Trigger(SimEvent child);
     }
 
-	#region Condition Evaluators
+    #region Condition Evaluators
 
 <# for(int i = 1; i <= MaxEventCount; i++) { #>
-	public delegate bool <#= ConditionEval(i) #>(<#= Condition(i) #> condition) <#= ConditionClauses(i, 2) #>;
+    public delegate bool <#= ConditionEval(i) #>(<#= Condition(i) #> condition) <#= ConditionClauses(i, 2) #>;
 
 <#
     } 
 #>
-	#endregion
+    #endregion
 
-	#region Condition Declarations
+    #region Condition Declarations
 
 <# for(int i = 1; i <= MaxEventCount; i++) { #>
-	public sealed class <#= Condition(i) #> : SimEvent<<#= Condition(i) #>, IList<SimEvent>>, IParentCondition <#= ConditionClauses(i, 2) #>
-	{
-		readonly FakeReadOnlyList<SimEvent> _succeeded = new FakeReadOnlyList<SimEvent>();
+    public sealed class <#= Condition(i) #> : SimEvent<<#= Condition(i) #>, IList<SimEvent>>, IParentCondition <#= ConditionClauses(i, 2) #>
+    {
+        readonly FakeReadOnlyList<SimEvent> _succeeded = new FakeReadOnlyList<SimEvent>();
 <# for (var j = 1; j <= i; ++j) { #>
-		readonly T<#= j #> _ev<#= j #>;
+        readonly T<#= j #> _ev<#= j #>;
 <# } #>	
-		readonly <#= ConditionEval(i) #> _eval;
+        readonly <#= ConditionEval(i) #> _eval;
         State _finalState;
 
-		internal Condition(<#= ConditionEval(i) #> eval, <#= ConditionParams(i) #>) : base(ev1.Env)
+        internal Condition(<#= ConditionEval(i) #> eval, <#= ConditionParams(i) #>) : base(ev1.Env)
         {
             _eval = eval;
-			// Some events may have already succeeded (like store put events,
+            // Some events may have already succeeded (like store put events,
             // container put events, conditions and generic events); therefore,
             // we have to check the condition immediately.
 <# for (var j = 1; j <= i; ++j) { #>
-			_ev<#= j #> = ev<#= j #>;
-			if (ev<#= j #>) {
-				(this as IParentCondition).Trigger(ev<#= j #>);
-			} else {
-				ev<#= j #>.AddParent(this);			
-			}
+            _ev<#= j #> = ev<#= j #>;
+            if (ev<#= j #>) {
+                (this as IParentCondition).Trigger(ev<#= j #>);
+            } else {
+                ev<#= j #>.AddParent(this);			
+            }
 <# } #>        }
 
         void IParentCondition.Trigger(SimEvent child)
@@ -92,28 +92,28 @@ namespace Dessert.Events
             if (_finalState == State.Succeeded) {
                 return;
             }
-			// We add child event to succeeded events and then we check
-			// if condition is now verified.
-			_succeeded.ForceAdd(child);
-			if (!_eval(this)) {
-				return;
-			}
-			// Condition has succeeded, therefore we need to schedule it.
+            // We add child event to succeeded events and then we check
+            // if condition is now verified.
+            _succeeded.ForceAdd(child);
+            if (!_eval(this)) {
+                return;
+            }
+            // Condition has succeeded, therefore we need to schedule it.
             _finalState = State.Succeeded;
             Env.ScheduleEvent(this);
         }
 
-		#region Public Members
+        #region Public Members
 
 <# for (var j = 1; j <= i; ++j) { #>
-		[Pure]
+        [Pure]
         public T<#= j #> Ev<#= j #>
         {
             get { return _ev<#= j #>; }
         }
 
 <# } #> 
-		/// <summary>
+        /// <summary>
         ///   The user defined function used the evaluate the condition.
         /// </summary>
         [Pure]
@@ -122,62 +122,62 @@ namespace Dessert.Events
             get { return _eval; }
         }
 
-		/// <summary>
-		///   Returns a readonly list of events that succeeded
-		///   before this condition was satisfied.
-		/// </summary>
-		/// <return>
-		///   A readonly list of events that succeeded
-		///   before this condition was satisfied.
-		/// </return>    
+        /// <summary>
+        ///   Returns a readonly list of events that succeeded
+        ///   before this condition was satisfied.
+        /// </summary>
+        /// <return>
+        ///   A readonly list of events that succeeded
+        ///   before this condition was satisfied.
+        /// </return>    
         [Pure]
-		public override IList<SimEvent> Value
+        public override IList<SimEvent> Value
         {
             get { return _succeeded; }
         }
 
 <# if (i < MaxEventCount) { #>
         [Pure]
-		public static <#= ConditionSimEvent(i+1, 1) #> operator &(<#= Condition(i) #> c, SimEvent ev)
-		{
-			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
+        public static <#= ConditionSimEvent(i+1, 1) #> operator &(<#= Condition(i) #> c, SimEvent ev)
+        {
+            Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
             Contract.Requires<ArgumentException>(ReferenceEquals(c.Env, ev.Env), ErrorMessages.DifferentEnvironment);
-		    Contract.Ensures(Contract.Result<<#= ConditionSimEvent(i+1, 1) #>>() != null);
-			return new <#= ConditionSimEvent(i+1, 1) #>(ConditionEvaluators.AllEvents, c._ev1<# for (var j = 2; j <= i; ++j) { #>, c._ev<#= j #><# } #>, ev);
-		}
-		
+            Contract.Ensures(Contract.Result<<#= ConditionSimEvent(i+1, 1) #>>() != null);
+            return new <#= ConditionSimEvent(i+1, 1) #>(ConditionEvaluators.AllEvents, c._ev1<# for (var j = 2; j <= i; ++j) { #>, c._ev<#= j #><# } #>, ev);
+        }
+        
         [Pure]		
-		public static <#= ConditionSimEvent(i+1, 1) #> operator |(<#= Condition(i) #> c, SimEvent ev)
-		{
-			Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
+        public static <#= ConditionSimEvent(i+1, 1) #> operator |(<#= Condition(i) #> c, SimEvent ev)
+        {
+            Contract.Requires<ArgumentNullException>(c != null && ev != null, ErrorMessages.NullEvent);
             Contract.Requires<ArgumentException>(ReferenceEquals(c.Env, ev.Env), ErrorMessages.DifferentEnvironment);
-		    Contract.Ensures(Contract.Result<<#= ConditionSimEvent(i+1, 1) #>>() != null);
-			return new <#= ConditionSimEvent(i+1, 1) #>(ConditionEvaluators.AnyEvent, c._ev1<# for (var j = 2; j <= i; ++j) { #>, c._ev<#= j #><# } #>, ev);
-		}
+            Contract.Ensures(Contract.Result<<#= ConditionSimEvent(i+1, 1) #>>() != null);
+            return new <#= ConditionSimEvent(i+1, 1) #>(ConditionEvaluators.AnyEvent, c._ev1<# for (var j = 2; j <= i; ++j) { #>, c._ev<#= j #><# } #>, ev);
+        }
 <# } #>
 
 <# for (var k = 1; k + i <= MaxEventCount; ++k) { #>
-		[Pure]
-		public static <#= ConditionSimEvent(i+k, k) #> operator &(<#= Condition(i) #> c1, <#= ConditionSimEvent(k) #> c2)
-		{
-			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
+        [Pure]
+        public static <#= ConditionSimEvent(i+k, k) #> operator &(<#= Condition(i) #> c1, <#= ConditionSimEvent(k) #> c2)
+        {
+            Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
             Contract.Requires<ArgumentException>(ReferenceEquals(c1.Env, c2.Env), ErrorMessages.DifferentEnvironment);
-		    Contract.Ensures(Contract.Result<<#= ConditionSimEvent(i+k, k) #>>() != null);
-			return new <#= ConditionSimEvent(i+k, k) #>(ConditionEvaluators.AllEvents, c1._ev1<# for (var j = 2; j <= i; ++j) { #>, c1._ev<#= j #><# } #>, c2.Ev1<# for (var j = 2; j <= k; ++j) { #>, c2.Ev<#= j #><# } #>);
-		}
+            Contract.Ensures(Contract.Result<<#= ConditionSimEvent(i+k, k) #>>() != null);
+            return new <#= ConditionSimEvent(i+k, k) #>(ConditionEvaluators.AllEvents, c1._ev1<# for (var j = 2; j <= i; ++j) { #>, c1._ev<#= j #><# } #>, c2.Ev1<# for (var j = 2; j <= k; ++j) { #>, c2.Ev<#= j #><# } #>);
+        }
 
-		[Pure]
-		public static <#= ConditionSimEvent(i+k, k) #> operator |(<#= Condition(i) #> c1, <#= ConditionSimEvent(k) #> c2)
-		{
-			Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
+        [Pure]
+        public static <#= ConditionSimEvent(i+k, k) #> operator |(<#= Condition(i) #> c1, <#= ConditionSimEvent(k) #> c2)
+        {
+            Contract.Requires<ArgumentNullException>(c1 != null && c2 != null, ErrorMessages.NullEvent);
             Contract.Requires<ArgumentException>(ReferenceEquals(c1.Env, c2.Env), ErrorMessages.DifferentEnvironment);
-		    Contract.Ensures(Contract.Result<<#= ConditionSimEvent(i+k, k) #>>() != null);
-			return new <#= ConditionSimEvent(i+k, k) #>(ConditionEvaluators.AnyEvent, c1._ev1<# for (var j = 2; j <= i; ++j) { #>, c1._ev<#= j #><# } #>, c2.Ev1<# for (var j = 2; j <= k; ++j) { #>, c2.Ev<#= j #><# } #>);
-		}
+            Contract.Ensures(Contract.Result<<#= ConditionSimEvent(i+k, k) #>>() != null);
+            return new <#= ConditionSimEvent(i+k, k) #>(ConditionEvaluators.AnyEvent, c1._ev1<# for (var j = 2; j <= i; ++j) { #>, c1._ev<#= j #><# } #>, c2.Ev1<# for (var j = 2; j <= k; ++j) { #>, c2.Ev<#= j #><# } #>);
+        }
 
 <# } #>
 
-		#endregion
+        #endregion
 
         #region ILinkedList Members
 
@@ -262,12 +262,12 @@ namespace Dessert.Events
         }
 
         #endregion
-	}
+    }
 <#
     } 
 #>
 
-	#endregion
+    #endregion
 }
 
 <#+ // Functions used throughout the template
@@ -275,78 +275,78 @@ private const int MaxEventCount = 5;
 
 private string Condition(int eventCount)
 {
-	Debug.Assert(eventCount >= 1);
-	var builder = new StringBuilder("Condition<T1");
-	for (var i = 2; i <= eventCount; ++i) {
-		builder.AppendFormat(", T{0}", i);
-	}
-	builder.Append('>');
-	return builder.ToString();
+    Debug.Assert(eventCount >= 1);
+    var builder = new StringBuilder("Condition<T1");
+    for (var i = 2; i <= eventCount; ++i) {
+        builder.AppendFormat(", T{0}", i);
+    }
+    builder.Append('>');
+    return builder.ToString();
 }
 
 private string ConditionClauses(int eventCount, int tabCount)
 {
-	Debug.Assert(eventCount >= 1);
-	var tabBuilder = new StringBuilder();
-	for (var i = 0; i < tabCount; ++i) {
-		tabBuilder.Append("    ");
-	}
-	var tabs = tabBuilder.ToString();
-	var clauseBuilder = new StringBuilder();
-	clauseBuilder.AppendLine();
-	for (var i = 0; i < eventCount; ++i) {
-		clauseBuilder.Append(tabs);
-		clauseBuilder.AppendFormat("where T{0} : SimEvent", i + 1);
-		if (i != eventCount - 1) {
-			clauseBuilder.AppendLine();		
-		}
-	}
-	return clauseBuilder.ToString();
+    Debug.Assert(eventCount >= 1);
+    var tabBuilder = new StringBuilder();
+    for (var i = 0; i < tabCount; ++i) {
+        tabBuilder.Append("    ");
+    }
+    var tabs = tabBuilder.ToString();
+    var clauseBuilder = new StringBuilder();
+    clauseBuilder.AppendLine();
+    for (var i = 0; i < eventCount; ++i) {
+        clauseBuilder.Append(tabs);
+        clauseBuilder.AppendFormat("where T{0} : SimEvent", i + 1);
+        if (i != eventCount - 1) {
+            clauseBuilder.AppendLine();		
+        }
+    }
+    return clauseBuilder.ToString();
 }
 
 private string ConditionEval(int eventCount)
 {
-	Debug.Assert(eventCount >= 1);
-	var builder = new StringBuilder("ConditionEval<T1");
-	for (var i = 2; i <= eventCount; ++i) {
-		builder.AppendFormat(", T{0}", i);
-	}
-	builder.Append('>');
-	return builder.ToString();
+    Debug.Assert(eventCount >= 1);
+    var builder = new StringBuilder("ConditionEval<T1");
+    for (var i = 2; i <= eventCount; ++i) {
+        builder.AppendFormat(", T{0}", i);
+    }
+    builder.Append('>');
+    return builder.ToString();
 }
 
 static string ConditionParams(int eventCount)
 {
-	Debug.Assert(eventCount >= 1);
-	var builder = new StringBuilder("T1 ev1");
-	for (var i = 2; i <= eventCount; ++i) {
-		builder.AppendFormat(", T{0} ev{0}", i);
-	}
-	return builder.ToString();
+    Debug.Assert(eventCount >= 1);
+    var builder = new StringBuilder("T1 ev1");
+    for (var i = 2; i <= eventCount; ++i) {
+        builder.AppendFormat(", T{0} ev{0}", i);
+    }
+    return builder.ToString();
 }
 
 private string ConditionSimEvent(int eventCount)
 {
-	Debug.Assert(eventCount >= 1);
-	var builder = new StringBuilder("Condition<SimEvent");
-	for (var i = 1; i < eventCount; ++i) {
-		builder.Append(", SimEvent");
-	}
-	builder.Append('>');
-	return builder.ToString();
+    Debug.Assert(eventCount >= 1);
+    var builder = new StringBuilder("Condition<SimEvent");
+    for (var i = 1; i < eventCount; ++i) {
+        builder.Append(", SimEvent");
+    }
+    builder.Append('>');
+    return builder.ToString();
 }
 
 private string ConditionSimEvent(int eventCount, int simEventCount)
 {
-	Debug.Assert(eventCount >= 1 && eventCount - simEventCount >= 1);
-	var builder = new StringBuilder("Condition<T1");
-	for (var i = 2; i <= eventCount - simEventCount; ++i) {
-		builder.AppendFormat(", T{0}", i);
-	}
-	for (var i = 0; i < simEventCount; ++i) {
-		builder.Append(", SimEvent");
-	}
-	builder.Append('>');
-	return builder.ToString();
+    Debug.Assert(eventCount >= 1 && eventCount - simEventCount >= 1);
+    var builder = new StringBuilder("Condition<T1");
+    for (var i = 2; i <= eventCount - simEventCount; ++i) {
+        builder.AppendFormat(", T{0}", i);
+    }
+    for (var i = 0; i < simEventCount; ++i) {
+        builder.Append(", SimEvent");
+    }
+    builder.Append('>');
+    return builder.ToString();
 }
 #>

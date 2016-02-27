@@ -30,11 +30,10 @@ namespace Dessert.Resources
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using Collections;
     using Core;
     using Troschuetz.Random;
     using Troschuetz.Random.Generators;
-
+    using Finsa.CodeServices.Common.Collections;
     interface IWaitQueue<T> : ICollection<T>
     {
         T First { get; }
@@ -317,9 +316,9 @@ namespace Dessert.Resources
     sealed class RandomWaitQueue<T> : WaitQueueBase<T>
     {
         readonly OrderedCollection<WaitQueue.Pair<T, int>> _items;
-        readonly TRandom<MT19937Generator> _random;
+        readonly TRandom _random;
 
-        public RandomWaitQueue(TRandom<MT19937Generator> random)
+        public RandomWaitQueue(TRandom random)
         {
             _items = OrderedCollection.New<WaitQueue.Pair<T, int>>(true);
             _random = random;

@@ -27,8 +27,7 @@ namespace Dessert.Resources
     using System.Collections.ObjectModel;
     using DIBRIS.Hippie;
     using System.Diagnostics;
-    using Portability;
-
+    using PommaLabs.Thrower.Reflection;
     static class OrderedCollection
     {
         public static OrderedCollection<T> New<T>(bool allowDuplicates = false, bool reverseOrder = false)
@@ -57,7 +56,7 @@ namespace Dessert.Resources
         public OrderedCollection(bool allowDuplicates = false, bool reverseOrder = false)
         {
             var comparableType = typeof(IComparable<>).MakeGenericType(typeof(T));
-            Debug.Assert(GTypeInfo.IsAssignableFrom(comparableType, typeof(T)), "Generic type should implement IComparable<>");
+            Debug.Assert(PortableTypeInfo.IsAssignableFrom(comparableType, typeof(T)), "Generic type should implement IComparable<>");
             _comparer = new ComparableComparer<T>();
             _allowDuplicates = allowDuplicates;
             _reverseOrder = reverseOrder;
@@ -172,7 +171,8 @@ namespace Dessert.Resources
         // crosses a certain threshold.
         int GetInsertIndexComplex(T item)
         {
-            int minIndex = 0, maxIndex = Count - 1;
+            var minIndex = 0;
+            var maxIndex = Count - 1;
             while (minIndex <= maxIndex) {
                 var pivotIndex = (maxIndex + minIndex)/2;
                 var comparison = ReverseComparisonIfNeeded(Compare(item, Items[pivotIndex]));

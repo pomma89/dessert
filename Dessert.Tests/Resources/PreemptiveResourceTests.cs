@@ -29,10 +29,10 @@ namespace Dessert.Tests.Resources
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Collections;
     using Dessert.Resources;
     using NUnit.Framework;
     using SimEvents = System.Collections.Generic.IEnumerable<SimEvent>;
+    using Finsa.CodeServices.Common.Collections;
 
     sealed class PreemptiveResourceTests : TestBase
     {

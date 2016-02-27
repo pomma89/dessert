@@ -51,7 +51,7 @@ namespace Dessert
         /// </summary>
         readonly OptimizedSkewHeap _processes;
 
-        readonly TRandom<MT19937Generator> _random;
+        readonly TRandom _random;
 
         ulong _highPriority;
         ulong _lowPriority = 1000000UL;
@@ -325,7 +325,7 @@ namespace Dessert
         ///   A random numbers generator which can be used inside simulations.
         /// </summary>
         [Pure]
-        public TRandom<MT19937Generator> Random
+        public TRandom Random
         {
             get { return _random; }
         }

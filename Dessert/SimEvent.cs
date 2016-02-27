@@ -29,9 +29,9 @@ namespace Dessert
     using System;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    using Collections;
     using Core;
     using Events;
+    using Finsa.CodeServices.Common.Collections;
 
     /// <summary>
     ///   The interface common to each event; it should be used to declare generator methods.

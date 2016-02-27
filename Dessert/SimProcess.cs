@@ -31,9 +31,9 @@ namespace Dessert
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    using Collections;
     using Core;
     using Events;
+    using Finsa.CodeServices.Common.Collections;
 
     /// <summary>
     /// 

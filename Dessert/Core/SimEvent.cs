@@ -30,8 +30,8 @@ namespace Dessert.Core
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    using Collections;
     using Events;
+    using Finsa.CodeServices.Common.Collections;
 
     /// <summary>
     ///   A stronger typed event, which adds type notation to many properties which are untyped in SimPy.
