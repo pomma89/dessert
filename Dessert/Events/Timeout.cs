@@ -86,20 +86,20 @@ namespace Dessert.Events
 
         #region SimEvent Members
 
-        public override T Value
-        {
-            get { return _value; }
-        }
+        public override T Value => _value;
 
         protected override void OnEnd()
         {
-            if (Env.RealTime && At != double.MaxValue)
-            {
-                var sleep = (int) ((At - Env.Now) * 1000.0);
-                System.Threading.Tasks.Task.Delay(sleep).Wait();
-            }
-            Env.Now = At;
+            Env.SetNow(At, AtWallClock);
         }
+
+        #endregion
+
+        #region Real-time Helpers
+
+        internal const long NoWallClock = -1;
+
+        internal double AtWallClock = NoWallClock;
 
         #endregion
     }

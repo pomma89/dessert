@@ -34,7 +34,8 @@ namespace Dessert
     using Events;
     using Troschuetz.Random;
     using Troschuetz.Random.Generators;
-
+    using Finsa.CodeServices.Clock;
+    using System.Threading.Tasks;
     public sealed class SimEnvironment
     {
         internal readonly SimEvent EndEvent;
@@ -115,6 +116,7 @@ namespace Dessert
         {
             Debug.Assert(!timeout.Scheduled && !timeout.Succeeded && !timeout.Failed);
             timeout.At = Now + delay;
+            timeout.AtWallClock = WallClock.UnixTime + (delay * ScalingFactor);
             timeout.Version = _lowPriority++;
             _events.Add(timeout);
         }
@@ -146,7 +148,7 @@ namespace Dessert
             // so that final time will be equal to until event time.
             // However, that is true only if following events are scheduled.
             if (_processes.Count == 1 && _events.Count == 2) {
-                Now = _prevNow;
+                _now = _prevNow;
             }
             Ended = true;
             Sim.RemoveFromSuspendInfo(this);
@@ -165,7 +167,7 @@ namespace Dessert
             EndSimulation();
         }
 
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
         public bool IsValidDelay(double delay)
         {
             return delay >= 0 && (Now + delay) <= double.MaxValue;
@@ -284,21 +286,30 @@ namespace Dessert
             }
         }
 
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
         public bool Ended { get; private set; }
 
         /// <summary>
         ///   Returns current simulation time.
         /// </summary>
         /// <returns>Current simulation time.</returns>
-        [System.Diagnostics.Contracts.Pure]
-        public double Now
+        [Pure]
+        public double Now => _now;
+
+        /// <summary>
+        ///   Sets the simulation time.
+        /// </summary>
+        /// <param name="nextNow">The new simulation time.</param>
+        /// <param name="nextWallClock">The new wall clock, used in real-time mode.</param>
+        internal void SetNow(double nextNow, double nextWallClock)
         {
-            get { return _now; }
-            internal set
+            _prevNow = _now;
+            _now = nextNow;
+
+            double delay;
+            if (RealTime && (nextNow < double.MaxValue) && (delay = (nextWallClock - (WallClock.UnixTime * ScalingFactor)) * 1000.0) > 0.0)
             {
-                _prevNow = _now;
-                _now = value;
+                Task.Delay((int) delay).Wait();
             }
         }
 
@@ -310,7 +321,7 @@ namespace Dessert
         ///   The time of the next scheduled event, or <see cref="double.PositiveInfinity"/> 
         ///   if there is no further event.
         /// </returns>
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
         public double Peek
         {
             get
@@ -325,16 +336,28 @@ namespace Dessert
         ///   A random numbers generator which can be used inside simulations.
         /// </summary>
         [Pure]
-        public TRandom Random
-        {
-            get { return _random; }
-        }
+        public TRandom Random => _random;
+
+        #region Real-time
 
         /// <summary>
-        ///   Whether the simulation must be run according to wall-clock time.
+        ///   Whether the simulation must be run according to "wall clock" time.
         /// </summary>
         [Pure]
-        public bool RealTime { get; set; } = false;
+        public bool RealTime { get; internal set; } = false;
+
+        /// <summary>
+        ///   The real-time scaling factor.
+        /// </summary>
+        public double ScalingFactor { get; internal set; } = 1.0;
+
+        /// <summary>
+        ///   The "wall clock" used for the real-time simulation.
+        /// </summary>
+        [Pure]
+        public IClock WallClock { get; internal set; } = new SystemClock();
+
+        #endregion
 
         #region Event Construction
 

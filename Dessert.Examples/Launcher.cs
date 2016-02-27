@@ -136,6 +136,14 @@ namespace Dessert.Examples
             RunExample("Dessert - Hello World", HelloWorld.Run);
 
             // Expected output:
+            // Hello World simulation :)
+            // Hello World at 2.1!
+            // Hello World at 4.2!
+            // Hello World at 6.3!
+            // Hello World at 8.4!
+            RunExample("Dessert - Real-time", RealTime.Run);
+
+            // Expected output:
             // Interupted at: NOW
             RunExample("Dessert - Interrupt handling", InterruptHandling.Run);
 

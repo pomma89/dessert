@@ -169,8 +169,12 @@
       <HintPath>..\packages\Hippie.2.10.1\lib\portable-net45+win8+wp8+wpa81\DIBRIS.Hippie.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Finsa.CodeServices.Clock, Version=4.1.0.0, Culture=neutral, PublicKeyToken=db894830fb4e4dbb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Finsa.CodeServices.Clock.4.1.2\lib\portable-net45+win8+wp8+wpa81\Finsa.CodeServices.Clock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Finsa.CodeServices.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=db894830fb4e4dbb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Finsa.CodeServices.Common.4.1.1\lib\portable-net45+win8+wp8+wpa81\Finsa.CodeServices.Common.dll</HintPath>
+      <HintPath>..\packages\Finsa.CodeServices.Common.4.1.2\lib\portable-net45+win8+wp8+wpa81\Finsa.CodeServices.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -242,7 +246,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ConditionOperators.cs</LastGenOutput>
     </None>
-    <None Include="Dessert.doxyfile" />
+    <Content Include="doxyfile.txt" />
     <None Include="Dessert.ruleset" />
     <None Include="Events\Condition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -283,5 +287,4 @@ if $(ConfigurationName) == Release (
     copy "%25ASR_IN%25.xml" "$(SolutionDir)Dessert.Packager/lib/portable-win8+net45+sl5+wp8"
 )</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

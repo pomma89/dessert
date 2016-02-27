@@ -292,9 +292,9 @@ namespace Dessert
 
         internal static bool IsSmaller(SimEvent h1, SimEvent h2)
         {
-// ReSharper disable CompareOfFloatsByEqualityOperator
+#pragma warning disable RECS0018 // Comparison of floating point numbers with equality operator
             return h1.At < h2.At || (h1.At == h2.At && h1.Version < h2.Version);
-// ReSharper restore CompareOfFloatsByEqualityOperator
+#pragma warning restore RECS0018 // Comparison of floating point numbers with equality operator
         }
 
         #endregion

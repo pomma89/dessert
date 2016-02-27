@@ -71,7 +71,6 @@ copy $(ProjectDir)SimPy3\* $(TargetDir)simpy
 mkdir $(TargetDir)simpy\resources
 copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
     <None Include="Galois\__init__.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
