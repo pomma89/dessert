@@ -8,7 +8,7 @@
     <ProjectGuid>{F5242F2F-FEE1-4AB3-BFA5-3515EE8FDCE8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Dessert.Benchmarks</RootNamespace>
-    <AssemblyName>Dessert.Benchmarks</AssemblyName>
+    <AssemblyName>DIBRIS.Dessert.Benchmarks</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Name>Dessert.Benchmarks</Name>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -71,7 +71,6 @@ copy $(ProjectDir)SimPy3\* $(TargetDir)simpy
 mkdir $(TargetDir)simpy\resources
 copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
     <None Include="Galois\__init__.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -130,6 +129,11 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Platform Specific\Dessert.Portable\Dessert.Portable.csproj">
+      <Name>Dessert.Portable</Name>
+      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="PommaLabs.Thrower">
       <HintPath>..\packages\Thrower.2.2.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
@@ -139,11 +143,6 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
     <ProjectReference Include="..\Dessert.Examples.CSharp\Dessert.Examples.CSharp.csproj">
       <Name>Dessert.Examples.CSharp</Name>
       <Project>{9c4f34a7-5f5a-445a-8434-2ddf038947a8}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Dessert\Dessert.csproj">
-      <Name>Dessert</Name>
-      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
       <Private>True</Private>
     </ProjectReference>
     <Reference Include="Troschuetz.Random">

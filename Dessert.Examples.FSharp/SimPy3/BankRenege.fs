@@ -24,10 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.SimPy3.BankRenege
+module DIBRIS.Dessert.Examples.FSharp.SimPy3.BankRenege
 
-open Dessert
-open Dessert.Resources
+open DIBRIS.Dessert
+open DIBRIS.Dessert.Resources
 open Troschuetz.Random
 open Troschuetz.Random.Generators
 

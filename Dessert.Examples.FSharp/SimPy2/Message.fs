@@ -24,9 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.SimPy2.Message
+module DIBRIS.Dessert.Examples.FSharp.SimPy2.Message
 
-open Dessert
+open DIBRIS.Dessert
 
 let go (env: SimEnvironment) id len = seq<SimEvent> {
     printfn "%g %d Starting" env.Now id

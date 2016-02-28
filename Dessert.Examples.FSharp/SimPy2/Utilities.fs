@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.Utilities
+module DIBRIS.Dessert.Examples.FSharp.Utilities
 
 open System.Collections.Generic
 open System.Text

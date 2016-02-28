@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<package>
+    <metadata>
+        <id>Dessert</id>
+        <version>3.0.11</version>
+        <title>Dessert - Discrete event simulation engine</title>
+        <authors>Alessio Parma &lt;alessio.parma@gmail.com&gt;</authors>
+        <owners>Alessio Parma &lt;alessio.parma@gmail.com&gt;</owners>
+        <description>
+A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
+NOTICE: If you need more performance, please have a look at the Dessert.Unchecked package. It is a release where all integrity checks have been stripped away.
+        </description>
+        <releaseNotes>
+* Still work in progress, but many pieces are already working well.
+        </releaseNotes>
+        <summary>
+A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
+        </summary>
+        <language>en-US</language>
+        <projectUrl>https://github.com/pomma89/Dessert</projectUrl>
+        <iconUrl>https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/logo-128.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+        <copyright>Copyright (c) 2012-2016 Alessio Parma &lt;alessio.parma@gmail.com&gt;</copyright>
+        <dependencies>
+            <dependency id="Finsa.CodeServices.Clock" version="4.1.2" />
+            <dependency id="Finsa.CodeServices.Common" version="4.1.2" />
+            <dependency id="Hippie" version="2.10.1" />
+        </dependencies>
+        <references></references>
+        <tags>des discrete event simulation engine simpy simula</tags>
+    </metadata>
+    <files>
+        <file src="lib\" target="lib" />
+        <file src="LICENSE.md" target="LICENSE.md" />
+        <file src="refman.pdf" target="refman.pdf" />
+    </files>
+</package>

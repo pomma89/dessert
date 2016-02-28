@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Examples.CSharp.SimPy2
+namespace DIBRIS.Dessert.Examples.CSharp.SimPy2
 {
     using System;
     using IEvents = System.Collections.Generic.IEnumerable<SimEvent>;

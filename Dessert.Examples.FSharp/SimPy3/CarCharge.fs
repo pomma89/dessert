@@ -24,9 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.SimPy3.CarCharge
+module DIBRIS.Dessert.Examples.FSharp.SimPy3.CarCharge
 
-open Dessert
+open DIBRIS.Dessert
 
 type Car (env: SimEnvironment) as x =
     // Starts the "run" process every time an instance is created.

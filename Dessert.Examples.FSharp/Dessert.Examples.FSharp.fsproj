@@ -8,7 +8,7 @@
     <ProjectGuid>18b35014-1191-4513-9f8f-aec139dd8bc1</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Dessert.Examples.FSharp</RootNamespace>
-    <AssemblyName>Dessert.Examples.FSharp</AssemblyName>
+    <AssemblyName>DIBRIS.Dessert.Examples.FSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Name>Dessert.Examples.FSharp</Name>
     <TargetFrameworkProfile>
@@ -86,11 +86,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <ProjectReference Include="..\Dessert\Dessert.csproj">
-      <Name>Dessert</Name>
-      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <Reference Include="System.Data" />
     <Reference Include="Troschuetz.Random">
       <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
@@ -98,7 +93,13 @@
     </Reference>
     <Reference Include="Troschuetz.Random" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <ItemGroup>
+    <ProjectReference Include="..\Platform Specific\Dessert.Portable\Dessert.Portable.csproj">
+      <Name>Dessert.Portable</Name>
+      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

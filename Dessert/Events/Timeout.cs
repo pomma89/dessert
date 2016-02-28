@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Events
+namespace DIBRIS.Dessert.Events
 {
     using System;
     using System.Diagnostics.Contracts;
@@ -86,15 +86,20 @@ namespace Dessert.Events
 
         #region SimEvent Members
 
-        public override T Value
-        {
-            get { return _value; }
-        }
+        public override T Value => _value;
 
         protected override void OnEnd()
         {
-            Env.Now = At;
+            Env.SetNow(At, AtWallClock);
         }
+
+        #endregion
+
+        #region Real-time Helpers
+
+        internal const long NoWallClock = -1;
+
+        internal double AtWallClock = NoWallClock;
 
         #endregion
     }

@@ -24,12 +24,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.SimPy2.Client
+module DIBRIS.Dessert.Examples.FSharp.SimPy2.Client
 
 open System.Collections.Generic
-open Dessert
-open Dessert.Examples.FSharp.Utilities
-open Dessert.Resources
+open DIBRIS.Dessert
+open DIBRIS.Dessert.Examples.FSharp.Utilities
+open DIBRIS.Dessert.Resources
 
 let inClients = List<string>()  // List with the clients ordered by their requests.
 let outClients = List<string>() // List with the clients ordered by completion of service.

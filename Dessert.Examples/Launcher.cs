@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Examples
+namespace DIBRIS.Dessert.Examples
 {
     using System;
     using CSharp;
@@ -34,6 +34,8 @@ namespace Dessert.Examples
     using FSharp;
     using FSharp.SimPy2;
     using FSharp.SimPy3;
+    using System.Globalization;
+    using System.Threading;
     using VisualBasic;
     using VisualBasic.SimPy3;
     using BankRenege = CSharp.SimPy3.BankRenege;
@@ -50,6 +52,10 @@ namespace Dessert.Examples
                 RunExample("Dessert - Galois fields", () => Starter.Run());
                 return;
             }
+
+            // Force en-US culture.
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
             RunCSharpExamples();
             RunFSharpExamples();
@@ -134,6 +140,22 @@ namespace Dessert.Examples
             // Hello World at 6.3!
             // Hello World at 8.4!
             RunExample("Dessert - Hello World", HelloWorld.Run);
+
+            // Expected output:
+            // Hello World real - time simulation:)
+            // A - Sleeping at 0, real 28/02/2016 08:12:37...
+            // B - Sleeping at 1, real 28/02/2016 08:12:38...
+            // A - Awake at 3, real 28/02/2016 08:12:40
+            // A - Sleeping at 3, real 28/02/2016 08:12:40...
+            // B - Awake at 4, real 28/02/2016 08:12:41
+            // B - Sleeping at 4, real 28/02/2016 08:12:41...
+            // A - Awake at 6, real 28/02/2016 08:12:43
+            // A - Sleeping at 6, real 28/02/2016 08:12:43...
+            // B - Awake at 7, real 28/02/2016 08:12:44
+            // B - Sleeping at 7, real 28/02/2016 08:12:44...
+            // A - Awake at 9, real 28/02/2016 08:12:46
+            // A - Sleeping at 9, real 28/02/2016 08:12:46...
+            RunExample("Dessert - Real-time", RealTime.Run);
 
             // Expected output:
             // Interupted at: NOW

@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Examples.CSharp
+namespace DIBRIS.Dessert.Examples.CSharp
 {
     using System;
     using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace Dessert.Examples.CSharp
         static TrainInterrupt()
         {
             Sim.CurrentTimeUnit = TimeUnit.Minute;
-            AvgTravelTime = 20.Minutes();
+            AvgTravelTime = 10.Minutes();
             BreakTime = 50.Minutes();
         }
 

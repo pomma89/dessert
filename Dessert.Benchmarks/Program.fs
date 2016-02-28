@@ -24,12 +24,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Benchmarks
+namespace DIBRIS.Dessert.Benchmarks
 
 open System
 open System.Diagnostics
-open Dessert
-open Dessert.Benchmarks.Common
+open DIBRIS.Dessert
+open DIBRIS.Dessert.Benchmarks.Common
 
 module Program =
     

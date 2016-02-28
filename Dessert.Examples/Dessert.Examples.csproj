@@ -7,8 +7,8 @@
     <ProjectGuid>{C8299569-BA47-4236-8B95-B4109585CB2C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dessert.Examples</RootNamespace>
-    <AssemblyName>Dessert.Examples</AssemblyName>
+    <RootNamespace>DIBRIS.Dessert.Examples</RootNamespace>
+    <AssemblyName>DIBRIS.Dessert.Examples</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -40,7 +40,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Dessert.Examples.Launcher</StartupObject>
+    <StartupObject>DIBRIS.Dessert.Examples.Launcher</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PommaLabs.Thrower, Version=2.2.0.0, Culture=neutral, PublicKeyToken=2f204b7110a52060, processorArchitecture=MSIL">
@@ -74,9 +74,9 @@
       <Project>{3e652595-39a8-4eae-a303-c8f51f61f2a2}</Project>
       <Name>Dessert.Examples.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dessert\Dessert.csproj">
+    <ProjectReference Include="..\Platform Specific\Dessert.Portable\Dessert.Portable.csproj">
       <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
-      <Name>Dessert</Name>
+      <Name>Dessert.Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

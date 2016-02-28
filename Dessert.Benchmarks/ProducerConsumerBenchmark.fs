@@ -24,15 +24,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Benchmarks
+namespace DIBRIS.Dessert.Benchmarks
 
 open System
 open System.Diagnostics
 open System.IO
-open Dessert
-open Dessert.Benchmarks.Common
-open Dessert.Examples.CSharp.Galois
-open Dessert.Resources
+open DIBRIS.Dessert
+open DIBRIS.Dessert.Benchmarks.Common
+open DIBRIS.Dessert.Examples.CSharp.Galois
+open DIBRIS.Dessert.Resources
 
 module ProducerConsumerBenchmark =
     

@@ -24,11 +24,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-module Dessert.Examples.FSharp.WaterDrinkers
+module DIBRIS.Dessert.Examples.FSharp.WaterDrinkers
 
-open Dessert
-open Dessert.Events
-open Dessert.Resources
+open DIBRIS.Dessert
+open DIBRIS.Dessert.Events
+open DIBRIS.Dessert.Resources
 
 let boxCapacity = 1.0 // Liters
 let glassCapacity = 0.25 // Liters

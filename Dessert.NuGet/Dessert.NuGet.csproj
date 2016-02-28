@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{64DCD156-79BD-40D7-8BAE-F7A0F389ED61}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dessert</RootNamespace>
+    <AssemblyName>Dessert</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Release\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="NuGetPackage.ps1" />
+    <None Include="NuGetSetup.ps1" />
+    <None Include="NuGet.exe" />
+    <None Include="NuGet.config" />
+    <None Include="Package.nuspec" />
+    <None Include="refman.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Platform Specific\Dessert.Portable\Dessert.Portable.csproj">
+      <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
+      <Name>Dessert.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LICENSE.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\net40\" />
+    <Folder Include="lib\netstandard1.0\" />
+    <Folder Include="lib\portable-win8+net45+sl5+wp8\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>-->
+  <Target Name="AfterBuild">
+    <Delete Files=".\NuGet.log" />
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " ContinueOnError="True" Command="PowerShell.exe -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Unrestricted -Command &quot;&amp; {.\NuGetPackage.ps1} &quot;" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="ExitCode" />
+    </Exec>
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " ContinueOnError="True" Command="PowerShell.exe -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command &quot;&amp; {.\NuGetPackage.ps1 -Publish} &quot;" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="ExitCode" />
+    </Exec>
+    <Message Text=" " Importance="High" />
+    <Message Text="Build Exit Code: $(ExitCode)" Importance="High" />
+    <Error Text="Encountered error(s) when creating package.%0aCheck the NuGet.log file for details." Condition=" '$(ExitCode)' == '1' " File="NuGet.log" />
+    <Error Text="Created package but encountered error(s) when trying to publish it.%0aCheck the NuGet.log file for details." Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Release|AnyCPU|2' " File="NuGet.log" />
+    <Message Text="SUCCESS: Created package." Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Debug|AnyCPU|0' " Importance="High" />
+    <Message Text="SUCCESS: Published package." Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Release|AnyCPU|0' " Importance="High" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>del "$(ProjectDir)*.nupkg"
+del "$(ProjectDir)*.nupkg.bak"
+
+if not exist "$(ProjectDir)lib\net40" mkdir "$(ProjectDir)lib\net40"
+copy "$(SolutionDir)Platform Specific\Dessert.NET40\bin\Release\DIBRIS.Dessert.dll" "$(ProjectDir)lib\net40"
+copy "$(SolutionDir)Platform Specific\Dessert.NET40\bin\Release\DIBRIS.Dessert.pdb" "$(ProjectDir)lib\net40"
+copy "$(SolutionDir)Platform Specific\Dessert.NET40\bin\Release\DIBRIS.Dessert.xml" "$(ProjectDir)lib\net40"
+
+if not exist "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81" mkdir "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.dll" "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.pdb" "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.xml" "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81"
+
+if not exist "$(ProjectDir)lib\dnxcore50" mkdir "$(ProjectDir)lib\netstandard1.0"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.dll" "$(ProjectDir)lib\netstandard1.0"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.pdb" "$(ProjectDir)lib\netstandard1.0"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.xml" "$(ProjectDir)lib\netstandard1.0"</PreBuildEvent>
+  </PropertyGroup>
+</Project>

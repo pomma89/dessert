@@ -24,14 +24,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Benchmarks
+namespace DIBRIS.Dessert.Benchmarks
 
 open System
 open System.Diagnostics
 open System.Globalization
 open System.Threading
-open Dessert
-open Dessert.Recording
+open DIBRIS.Dessert
+open DIBRIS.Dessert.Recording
 open Troschuetz.Random
 open Troschuetz.Random.Generators
 

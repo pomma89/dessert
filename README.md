@@ -1,19 +1,16 @@
-![](http://pomma89.altervista.org/dessert/logo.64.png "Dessert Logo") Dessert
-=============================================================================
+![](https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/logo-64.png "Dessert Logo") Dessert
+==================================================================================================================
 
 A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/56n5nd18243fa3ey)](https://ci.appveyor.com/project/pomma89/dessert)
+## Summary ##
 
-| Item                                               | URL                                                   |
-| -------------------------------------------------- | ----------------------------------------------------- |
-| ![](http://is.gd/1wCmXL) NuGet package             | https://nuget.org/packages/Dessert/                   |
-| ![](http://is.gd/1wCmXL) NuGet package (unchecked) | https://nuget.org/packages/Dessert.Unchecked/         |
-| ![](http://is.gd/4uKNfs) Tutorial                  | TODO                                                  |
-| ![](http://is.gd/U2M21W) Documentation (HTML)      | http://pomma89.altervista.org/dessert/html/index.html |
-| ![](http://is.gd/I7ThMS) Documentation (PDF)       | http://pomma89.altervista.org/dessert/refman.pdf      |
-| ![](http://is.gd/I7ThMS) Thesis (Italian)          | http://pomma89.altervista.org/doc/mthesis-essay.pdf   |
-| ![](http://is.gd/I7ThMS) Slides (Italian)          | http://pomma89.altervista.org/doc/mthesis-slides.pdf  |
+* Latest release version: `v3.0.11`
+* [Thesis (Italian)](https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/mthesis-essay.pdf) and [Slides (Italian)](https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/mthesis-slides.pdf)
+* Build status on [AppVeyor](https://ci.appveyor.com): [![Build status](https://ci.appveyor.com/api/projects/status/w1wmaefjipfv8cfu?svg=true)](https://ci.appveyor.com/project/pomma89/dessert)
+* [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html) documentation: https://goo.gl/f3MgrO
+* [NuGet](https://www.nuget.org) package(s):
+    + [DIBRIS.Dessert](https://www.nuget.org/packages/Dessert/)
 
 Overview
 --------
@@ -24,9 +21,14 @@ Current maintainers of the project are [Alessio Parma](http://pomma89.altervista
 
 For the same reasons, documentation is pretty short: in any case, please refer to our working examples ([C#](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.CSharp), [F#](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.FSharp), [VB.NET](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.VisualBasic), [Boo](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.Boo)) to get a better insight of what you can do with Dessert, and how the code really resembles the one you could write with SimPy.
 
-### Side project: Armando
+How to build
+------------
 
-By using the magic [IronPython](https://ironpython.codeplex.com/) library, we pushed Dessert a step further, that is, we created a DES engine which is able to run **unmodified** SimPy simulations on Dessert. Initial tests show that, at least under Windows, Armando yields better performance than SimPy.
+In order to build Dessert, the following development environment is required:
+
+* Visual Studio 2015, the Community edition is more than enough.
+* Visual Studio must be installed with ["Shared projects" support](http://www.c-sharpcorner.com/UploadFile/7ca517/shared-project-an-impressive-features-of-visual-studio-201/).
+* The [Code Contracts extension](https://visualstudiogallery.msdn.microsoft.com/1ec7db13-3363-46c9-851f-1ce455f66970) must also be installed.
 
 Quick example
 -------------
@@ -98,7 +100,7 @@ F#, thanks to a lean syntax and to its functional principles, lets us write code
 The following is the translation in F# of the clock example:
 
 ```fs
-open Dessert // Yummy :P
+open DIBRIS.Dessert // Yummy :P
 
 let rec clock(env: IEnvironment, name, tick) = seq<IEvent> { 
     printfn "%s %.1f" name env.Now 
@@ -155,3 +157,7 @@ def run():
 	env.Process(clock(env, "slow", 1.0))
 	env.Run(2)
 ```
+
+## About this repository and its maintainer ##
+
+Everything done on this repository is freely offered on the terms of the project license. You are free to do everything you want with the code and its related files, as long as you respect the license and use common sense while doing it :-)

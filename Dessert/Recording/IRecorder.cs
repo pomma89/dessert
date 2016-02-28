@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Recording
+namespace DIBRIS.Dessert.Recording
 {
     using System;
     using System.Diagnostics.Contracts;

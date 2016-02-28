@@ -1,40 +1,36 @@
-﻿//
-// Sim.cs
-//  
-// Author(s):
-//       Alessio Parma <alessio.parma@gmail.com>
+﻿// File name: Sim.cs
+// 
+// Author(s): Alessio Parma <alessio.parma@gmail.com>
 // 
 // Copyright (c) 2012-2016 Alessio Parma <alessio.parma@gmail.com>
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 // 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 // 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace Dessert
+namespace DIBRIS.Dessert
 {
+    using Core;
+    using Events;
+    using PommaLabs.Thrower;
+    using Recording;
+    using Resources;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    using Core;
-    using Events;
-    using Recording;
-    using Resources;
 
     public static partial class Sim
     {
@@ -116,21 +112,18 @@ namespace Dessert
             return new Container(env, capacity, level, getPolicy, putPolicy);
         }
 
-        #endregion
+        #endregion Container Construction
 
         #region Environment Construction
 
         /// <summary>
-        ///   Creates a new environment; the kind of the heap can also be optionally specified.
+        ///   Creates a new environment.
         /// </summary>
         /// <returns>A new simulation environment.</returns>
-        public static SimEnvironment Environment()
-        {
-            return Environment(System.Environment.TickCount);
-        }
+        public static SimEnvironment Environment() => Environment(System.Environment.TickCount);
 
         /// <summary>
-        ///   Creates a new environment; the kind of the heap can also be optionally specified.
+        ///   Creates a new environment with a custom seed.
         /// </summary>
         /// <param name="seed">The seed used by the exposed random generator.</param>
         /// <returns>A new simulation environment.</returns>
@@ -139,13 +132,88 @@ namespace Dessert
             var env = new SimEnvironment(seed);
             Debug.Assert(env.Now.Equals(0));
             Debug.Assert(env.Random.Seed == seed);
-            lock (SuspendInfo) {
+            lock (SuspendInfo)
+            {
                 SuspendInfo[env] = new Dictionary<SimProcess, SimEvent<object>>();
             }
             return env;
         }
 
-        #endregion
+        /// <summary>
+        ///   Creates a new real-time environment with the default options.
+        /// </summary>
+        /// <returns>A new real-time simulation environment.</returns>
+        public static SimEnvironment RealTimeEnvironment()
+        {
+            var env = Environment(System.Environment.TickCount);
+            env.RealTime.Enabled = true;
+            return env;
+        }
+
+        /// <summary>
+        ///   Creates a new real-time environment with a custom seed and the default options.
+        /// </summary>
+        /// <param name="seed">The seed used by the exposed random generator.</param>
+        /// <returns>A new real-time simulation environment.</returns>
+        public static SimEnvironment RealTimeEnvironment(int seed)
+        {
+            var env = Environment(seed);
+            env.RealTime.Enabled = true;
+            return env;
+        }
+
+        /// <summary>
+        ///   Creates a new real-time environment with custom options.
+        /// </summary>
+        /// <param name="realTimeOptions">The custom real-time options.</param>
+        /// <returns>A new real-time simulation environment.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///   <paramref name="realTimeOptions"/> is null, or the specified "wall clock" is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///   The specified scaling factor is too small (less than 0.010).
+        /// </exception>
+        public static SimEnvironment RealTimeEnvironment(SimEnvironment.RealTimeOptions realTimeOptions)
+        {
+            // Preconditions
+            RaiseArgumentNullException.IfIsNull(realTimeOptions, nameof(realTimeOptions));
+            RaiseArgumentNullException.IfIsNull(realTimeOptions.WallClock, nameof(realTimeOptions.WallClock));
+            RaiseArgumentOutOfRangeException.IfIsLessOrEqual(realTimeOptions.ScalingFactor, 0.010, nameof(realTimeOptions.ScalingFactor));
+
+            var env = Environment(System.Environment.TickCount);
+            env.RealTime.Enabled = true;
+            env.RealTime.WallClock = realTimeOptions.WallClock;
+            env.RealTime.ScalingFactor = realTimeOptions.ScalingFactor;
+            return env;
+        }
+
+        /// <summary>
+        ///   Creates a new real-time environment with a custom seed and custom options.
+        /// </summary>
+        /// <param name="seed">The seed used by the exposed random generator.</param>
+        /// <param name="realTimeOptions">The custom real-time options.</param>
+        /// <returns>A new real-time simulation environment.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///   <paramref name="realTimeOptions"/> is null, or the specified "wall clock" is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///   The specified scaling factor is too small (less than 0.010).
+        /// </exception>
+        public static SimEnvironment RealTimeEnvironment(int seed, SimEnvironment.RealTimeOptions realTimeOptions)
+        {
+            // Preconditions
+            RaiseArgumentNullException.IfIsNull(realTimeOptions, nameof(realTimeOptions));
+            RaiseArgumentNullException.IfIsNull(realTimeOptions.WallClock, nameof(realTimeOptions.WallClock));
+            RaiseArgumentOutOfRangeException.IfIsLessOrEqual(realTimeOptions.ScalingFactor, 0.010, nameof(realTimeOptions.ScalingFactor));
+
+            var env = Environment(seed);
+            env.RealTime.Enabled = true;
+            env.RealTime.WallClock = realTimeOptions.WallClock;
+            env.RealTime.ScalingFactor = realTimeOptions.ScalingFactor;
+            return env;
+        }
+
+        #endregion Environment Construction
 
         #region FilterStore Construction
 
@@ -219,7 +287,7 @@ namespace Dessert
             return new FilterStore<T>(env, capacity, getPolicy, putPolicy, itemPolicy);
         }
 
-        #endregion
+        #endregion FilterStore Construction
 
         #region Monitor Construction
 
@@ -241,7 +309,7 @@ namespace Dessert
             return new Monitor(DummyEnv);
         }
 
-        #endregion
+        #endregion Monitor Construction
 
         #region PreemptiveResource Construction
 
@@ -258,7 +326,7 @@ namespace Dessert
             return new PreemptiveResource(env, capacity);
         }
 
-        #endregion
+        #endregion PreemptiveResource Construction
 
         #region Resource Construction
 
@@ -289,7 +357,7 @@ namespace Dessert
             return new Resource(env, capacity, requestPolicy);
         }
 
-        #endregion
+        #endregion Resource Construction
 
         #region Store Construction
 
@@ -362,7 +430,7 @@ namespace Dessert
             return new Store<T>(env, capacity, getPolicy, putPolicy, itemPolicy);
         }
 
-        #endregion
+        #endregion Store Construction
 
         #region Tally Construction
 
@@ -384,7 +452,7 @@ namespace Dessert
             return new Tally(DummyEnv);
         }
 
-        #endregion
+        #endregion Tally Construction
 
         #region Dessert Extensions
 
@@ -394,7 +462,8 @@ namespace Dessert
         public static void Resume(this SimProcess process)
         {
             SimEvent<object> suspend;
-            if (SuspendInfo[process.Env].TryGetValue(process, out suspend)) {
+            if (SuspendInfo[process.Env].TryGetValue(process, out suspend))
+            {
                 suspend.TrySucceed();
             }
         }
@@ -402,7 +471,8 @@ namespace Dessert
         public static void Resume(this SimProcess process, double delay)
         {
             SimEvent<object> suspend;
-            if (SuspendInfo[process.Env].TryGetValue(process, out suspend)) {
+            if (SuspendInfo[process.Env].TryGetValue(process, out suspend))
+            {
                 process.Env.Process(ResumeDelayed(suspend, delay));
             }
         }
@@ -415,7 +485,8 @@ namespace Dessert
         internal static void RemoveFromSuspendInfo(SimEnvironment env)
         {
             Debug.Assert(SuspendInfo.ContainsKey(env));
-            lock (SuspendInfo) {
+            lock (SuspendInfo)
+            {
                 SuspendInfo.Remove(env);
             }
         }
@@ -426,163 +497,127 @@ namespace Dessert
             suspend.TrySucceed();
         }
 
-        #endregion
+        #endregion Dessert Extensions
 
         #region Time Utilities
 
         public static TimeUnit CurrentTimeUnit { get; set; }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Nanoseconds(this double time)
         {
             return ConvertTime(time, TimeUnit.Nanosecond);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Nanoseconds(this int time)
         {
             return ConvertTime(time, TimeUnit.Nanosecond);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Microseconds(this double time)
         {
             return ConvertTime(time, TimeUnit.Microsecond);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Microseconds(this int time)
         {
             return ConvertTime(time, TimeUnit.Microsecond);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Milliseconds(this double time)
         {
             return ConvertTime(time, TimeUnit.Millisecond);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Milliseconds(this int time)
         {
             return ConvertTime(time, TimeUnit.Millisecond);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Seconds(this double time)
         {
             return ConvertTime(time, TimeUnit.Second);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Seconds(this int time)
         {
             return ConvertTime(time, TimeUnit.Second);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Minutes(this double time)
         {
             return ConvertTime(time, TimeUnit.Minute);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Minutes(this int time)
         {
             return ConvertTime(time, TimeUnit.Minute);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Hours(this double time)
         {
             return ConvertTime(time, TimeUnit.Hour);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
+        ///   </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        /// <remarks>
-        ///   Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5
-        /// </remarks>
+        /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
         public static double Hours(this int time)
         {
             return ConvertTime(time, TimeUnit.Hour);
@@ -590,10 +625,10 @@ namespace Dessert
 
         static double ConvertTime(double time, TimeUnit unit)
         {
-            return time*(SecondToUnit[unit]/SecondToUnit[CurrentTimeUnit]);
+            return time * (SecondToUnit[unit] / SecondToUnit[CurrentTimeUnit]);
         }
 
-        #endregion
+        #endregion Time Utilities
     }
 
     public enum TimeUnit : byte
@@ -608,8 +643,7 @@ namespace Dessert
     }
 
     /// <summary>
-    ///   
-    /// </summary>
+    ///   </summary>
     public sealed class InterruptUncaughtException : Exception
     {
         internal InterruptUncaughtException() : base(ErrorMessages.InterruptUncaught)

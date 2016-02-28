@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Dessert.Examples.CSharp.SimPy3
+namespace DIBRIS.Dessert.Examples.CSharp.SimPy3
 {
     using System;
     using System.Collections.Generic;
