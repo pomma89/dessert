@@ -37,7 +37,7 @@ namespace DIBRIS.Dessert.Examples.CSharp
         static TrainInterrupt()
         {
             Sim.CurrentTimeUnit = TimeUnit.Minute;
-            AvgTravelTime = 20.Minutes();
+            AvgTravelTime = 10.Minutes();
             BreakTime = 50.Minutes();
         }
 

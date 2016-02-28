@@ -34,6 +34,8 @@ namespace DIBRIS.Dessert.Examples
     using FSharp;
     using FSharp.SimPy2;
     using FSharp.SimPy3;
+    using System.Globalization;
+    using System.Threading;
     using VisualBasic;
     using VisualBasic.SimPy3;
     using BankRenege = CSharp.SimPy3.BankRenege;
@@ -50,6 +52,10 @@ namespace DIBRIS.Dessert.Examples
                 RunExample("Dessert - Galois fields", () => Starter.Run());
                 return;
             }
+
+            // Force en-US culture.
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
             RunCSharpExamples();
             RunFSharpExamples();
