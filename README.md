@@ -1,5 +1,5 @@
-![](http://pomma89.altervista.org/dessert/logo.64.png "Dessert Logo") Dessert
-=============================================================================
+![](https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/logo-64.png "Dessert Logo") Dessert
+==================================================================================================================
 
 A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
 
