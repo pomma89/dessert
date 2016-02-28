@@ -21,6 +21,15 @@ Current maintainers of the project are [Alessio Parma](http://pomma89.altervista
 
 For the same reasons, documentation is pretty short: in any case, please refer to our working examples ([C#](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.CSharp), [F#](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.FSharp), [VB.NET](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.VisualBasic), [Boo](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.Boo)) to get a better insight of what you can do with Dessert, and how the code really resembles the one you could write with SimPy.
 
+How to build
+------------
+
+In order to build Dessert, the following development environment is required:
+
+* Visual Studio 2015, the Community edition is more than enough.
+* Visual Studio must be installed with ["Shared projects" support](http://www.c-sharpcorner.com/UploadFile/7ca517/shared-project-an-impressive-features-of-visual-studio-201/).
+* The [Code Contracts extension](https://visualstudiogallery.msdn.microsoft.com/1ec7db13-3363-46c9-851f-1ce455f66970) must also be installed.
+
 Quick example
 -------------
 
