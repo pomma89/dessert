@@ -189,12 +189,11 @@
     <None Include="Packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dessert\Dessert.Portable.csproj">
+    <ProjectReference Include="..\Platform Specific\Dessert.Portable\Dessert.Portable.csproj">
       <Project>{7a2fe0c9-1c2e-458b-9482-0c50213eda27}</Project>
       <Name>Dessert.Portable</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

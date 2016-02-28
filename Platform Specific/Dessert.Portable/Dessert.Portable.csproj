@@ -132,24 +132,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DIBRIS.Hippie, Version=2.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hippie.2.10.1\lib\portable-net45+win8+wp8+wpa81\DIBRIS.Hippie.dll</HintPath>
+      <HintPath>..\..\packages\Hippie.2.10.1\lib\portable-net45+win8+wp8+wpa81\DIBRIS.Hippie.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Finsa.CodeServices.Clock, Version=4.1.0.0, Culture=neutral, PublicKeyToken=db894830fb4e4dbb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Finsa.CodeServices.Clock.4.1.2\lib\portable-net45+win8+wp8+wpa81\Finsa.CodeServices.Clock.dll</HintPath>
+      <HintPath>..\..\packages\Finsa.CodeServices.Clock.4.1.2\lib\portable-net45+win8+wp8+wpa81\Finsa.CodeServices.Clock.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Finsa.CodeServices.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=db894830fb4e4dbb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Finsa.CodeServices.Common.4.1.2\lib\portable-net45+win8+wp8+wpa81\Finsa.CodeServices.Common.dll</HintPath>
+      <HintPath>..\..\packages\Finsa.CodeServices.Common.4.1.2\lib\portable-net45+win8+wp8+wpa81\Finsa.CodeServices.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PommaLabs.Thrower, Version=2.2.0.0, Culture=neutral, PublicKeyToken=2f204b7110a52060, processorArchitecture=MSIL">
-      <HintPath>..\packages\Thrower.2.2.1\lib\portable-net45+win8+wp8+wpa81\PommaLabs.Thrower.dll</HintPath>
+      <HintPath>..\..\packages\Thrower.2.2.1\lib\portable-net45+win8+wp8+wpa81\PommaLabs.Thrower.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random, Version=4.0.3.0, Culture=neutral, PublicKeyToken=2f204b7110a52060, processorArchitecture=MSIL">
-      <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\portable-net45+win8+wp8+wpa81\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\..\packages\Troschuetz.Random.4.0.3\lib\portable-net45+win8+wp8+wpa81\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -165,7 +165,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup />
-  <Import Project="..\Dessert.Shared\Dessert.Shared.projitems" Label="Shared" />
+  <Import Project="..\..\Dessert.Shared\Dessert.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Target Name="AfterBuild" />
   <PropertyGroup>
