@@ -136,7 +136,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="Dessert" />
+    <Import Include="DIBRIS.Dessert" />
     <Import Include="IEvents = System.Collections.Generic.IEnumerable%28Of DIBRIS.Dessert.SimEvent%29" />
     <Import Include="System" />
     <Import Include="System.Collections.Generic" />
