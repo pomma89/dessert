@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\net40\" />
+    <Folder Include="lib\netstandard1.0\" />
     <Folder Include="lib\portable-win8+net45+sl5+wp8\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -91,4 +92,23 @@
     <Message Text="SUCCESS: Created package." Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Debug|AnyCPU|0' " Importance="High" />
     <Message Text="SUCCESS: Published package." Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Release|AnyCPU|0' " Importance="High" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>del "$(ProjectDir)*.nupkg"
+del "$(ProjectDir)*.nupkg.bak"
+
+if not exist "$(ProjectDir)lib\net40" mkdir "$(ProjectDir)lib\net40"
+copy "$(SolutionDir)Platform Specific\Dessert.NET40\bin\Release\DIBRIS.Dessert.dll" "$(ProjectDir)lib\net40"
+copy "$(SolutionDir)Platform Specific\Dessert.NET40\bin\Release\DIBRIS.Dessert.pdb" "$(ProjectDir)lib\net40"
+copy "$(SolutionDir)Platform Specific\Dessert.NET40\bin\Release\DIBRIS.Dessert.xml" "$(ProjectDir)lib\net40"
+
+if not exist "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81" mkdir "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.dll" "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.pdb" "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.xml" "$(ProjectDir)lib\portable-net45+win8+wp8+wpa81"
+
+if not exist "$(ProjectDir)lib\dnxcore50" mkdir "$(ProjectDir)lib\netstandard1.0"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.dll" "$(ProjectDir)lib\netstandard1.0"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.pdb" "$(ProjectDir)lib\netstandard1.0"
+copy "$(SolutionDir)Platform Specific\Dessert.Portable\bin\Release\DIBRIS.Dessert.xml" "$(ProjectDir)lib\netstandard1.0"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

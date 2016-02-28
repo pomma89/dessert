@@ -3,7 +3,7 @@
 <package>
     <metadata>
         <id>Dessert</id>
-        <version>3.0.10-alpha</version>
+        <version>3.0.10</version>
         <title>Dessert - Discrete event simulation engine</title>
         <authors>Alessio Parma &lt;alessio.parma@gmail.com&gt;</authors>
         <owners>Alessio Parma &lt;alessio.parma@gmail.com&gt;</owners>
