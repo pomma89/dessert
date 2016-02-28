@@ -57,6 +57,7 @@
     <None Include="NuGet.exe" />
     <None Include="NuGet.config" />
     <None Include="Package.nuspec" />
+    <None Include="refman.pdf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Platform Specific\Dessert.Portable\Dessert.Portable.csproj">
