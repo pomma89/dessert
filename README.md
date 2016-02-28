@@ -6,7 +6,7 @@ A discrete event simulation (DES) engine heavily based on the paradigm introduce
 ## Summary ##
 
 * Latest release version: `v3.0.11`
-* [Thesis (Italian)](http://pomma89.altervista.org/doc/mthesis-essay.pdf) and [Slides (Italian)](http://pomma89.altervista.org/doc/mthesis-slides.pdf)
+* [Thesis (Italian)](https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/mthesis-essay.pdf) and [Slides (Italian)](https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/mthesis-slides.pdf)
 * Build status on [AppVeyor](https://ci.appveyor.com): [![Build status](https://ci.appveyor.com/api/projects/status/7qgv5o7or96rr8a2?svg=true)](https://ci.appveyor.com/project/pomma89/dessert)
 * [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html) documentation: TODO
 * [NuGet](https://www.nuget.org) package(s):
