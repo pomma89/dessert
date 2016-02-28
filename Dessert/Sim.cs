@@ -23,7 +23,6 @@ namespace DIBRIS.Dessert
 {
     using Core;
     using Events;
-    using Finsa.CodeServices.Clock;
     using PommaLabs.Thrower;
     using Recording;
     using Resources;
@@ -124,7 +123,7 @@ namespace DIBRIS.Dessert
         public static SimEnvironment Environment() => Environment(System.Environment.TickCount);
 
         /// <summary>
-        ///   Creates a new environment.
+        ///   Creates a new environment with a custom seed.
         /// </summary>
         /// <param name="seed">The seed used by the exposed random generator.</param>
         /// <returns>A new simulation environment.</returns>
@@ -141,66 +140,76 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   Creates a new real-time environment.
+        ///   Creates a new real-time environment with the default options.
         /// </summary>
-        /// <param name="scalingFactor">Scaling factor of the real-time.</param>
         /// <returns>A new real-time simulation environment.</returns>
-        public static SimEnvironment RealTimeEnvironment(double scalingFactor = 1.0)
+        public static SimEnvironment RealTimeEnvironment()
         {
             var env = Environment(System.Environment.TickCount);
-            env.RealTime = true;
-            env.ScalingFactor = scalingFactor;
+            env.RealTime.Enabled = true;
             return env;
         }
 
         /// <summary>
-        ///   Creates a new real-time environment.
+        ///   Creates a new real-time environment with a custom seed and the default options.
         /// </summary>
         /// <param name="seed">The seed used by the exposed random generator.</param>
-        /// <param name="scalingFactor">Scaling factor of the real-time.</param>
         /// <returns>A new real-time simulation environment.</returns>
-        public static SimEnvironment RealTimeEnvironment(int seed, double scalingFactor = 1.0)
+        public static SimEnvironment RealTimeEnvironment(int seed)
         {
             var env = Environment(seed);
-            env.RealTime = true;
-            env.ScalingFactor = scalingFactor;
+            env.RealTime.Enabled = true;
             return env;
         }
 
         /// <summary>
-        ///   Creates a new real-time environment.
+        ///   Creates a new real-time environment with custom options.
         /// </summary>
-        /// <param name="wallClock">The "wall clock" that will be used in the simulation.</param>
-        /// <param name="scalingFactor">Scaling factor of the real-time.</param>
+        /// <param name="realTimeOptions">The custom real-time options.</param>
         /// <returns>A new real-time simulation environment.</returns>
-        public static SimEnvironment RealTimeEnvironment(IClock wallClock, double scalingFactor = 1.0)
+        /// <exception cref="ArgumentNullException">
+        ///   <paramref name="realTimeOptions"/> is null, or the specified "wall clock" is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///   The specified scaling factor is too small (less than 0.010).
+        /// </exception>
+        public static SimEnvironment RealTimeEnvironment(SimEnvironment.RealTimeOptions realTimeOptions)
         {
             // Preconditions
-            RaiseArgumentNullException.IfIsNull(wallClock, nameof(wallClock));
+            RaiseArgumentNullException.IfIsNull(realTimeOptions, nameof(realTimeOptions));
+            RaiseArgumentNullException.IfIsNull(realTimeOptions.WallClock, nameof(realTimeOptions.WallClock));
+            RaiseArgumentOutOfRangeException.IfIsLessOrEqual(realTimeOptions.ScalingFactor, 0.010, nameof(realTimeOptions.ScalingFactor));
 
             var env = Environment(System.Environment.TickCount);
-            env.RealTime = true;
-            env.WallClock = wallClock;
-            env.ScalingFactor = scalingFactor;
+            env.RealTime.Enabled = true;
+            env.RealTime.WallClock = realTimeOptions.WallClock;
+            env.RealTime.ScalingFactor = realTimeOptions.ScalingFactor;
             return env;
         }
 
         /// <summary>
-        ///   Creates a new real-time environment.
+        ///   Creates a new real-time environment with a custom seed and custom options.
         /// </summary>
         /// <param name="seed">The seed used by the exposed random generator.</param>
-        /// <param name="wallClock">The "wall clock" that will be used in the simulation.</param>
-        /// <param name="scalingFactor">Scaling factor of the real-time.</param>
+        /// <param name="realTimeOptions">The custom real-time options.</param>
         /// <returns>A new real-time simulation environment.</returns>
-        public static SimEnvironment RealTimeEnvironment(int seed, IClock wallClock, double scalingFactor = 1.0)
+        /// <exception cref="ArgumentNullException">
+        ///   <paramref name="realTimeOptions"/> is null, or the specified "wall clock" is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///   The specified scaling factor is too small (less than 0.010).
+        /// </exception>
+        public static SimEnvironment RealTimeEnvironment(int seed, SimEnvironment.RealTimeOptions realTimeOptions)
         {
             // Preconditions
-            RaiseArgumentNullException.IfIsNull(wallClock, nameof(wallClock));
+            RaiseArgumentNullException.IfIsNull(realTimeOptions, nameof(realTimeOptions));
+            RaiseArgumentNullException.IfIsNull(realTimeOptions.WallClock, nameof(realTimeOptions.WallClock));
+            RaiseArgumentOutOfRangeException.IfIsLessOrEqual(realTimeOptions.ScalingFactor, 0.010, nameof(realTimeOptions.ScalingFactor));
 
             var env = Environment(seed);
-            env.RealTime = true;
-            env.WallClock = wallClock;
-            env.ScalingFactor = scalingFactor;
+            env.RealTime.Enabled = true;
+            env.RealTime.WallClock = realTimeOptions.WallClock;
+            env.RealTime.ScalingFactor = realTimeOptions.ScalingFactor;
             return env;
         }
 

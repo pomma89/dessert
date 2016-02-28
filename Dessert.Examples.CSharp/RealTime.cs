@@ -31,12 +31,13 @@ namespace DIBRIS.Dessert.Examples.CSharp
 
     public static class RealTime
     {
-        static IEvents SayHello(SimEnvironment env)
+        static IEvents SayHello(SimEnvironment env, char id)
         {
             while (true)
             {
-                yield return env.Timeout(2);
-                Console.WriteLine("Hello World at {0}!", env.WallClock.UtcNow);
+                Console.WriteLine("{0} - Sleeping at {1}, real {2}...", id, env.Now, env.RealTime.WallClock.UtcNow);
+                yield return env.Timeout(3);
+                Console.WriteLine("{0} - Awake at {1}, real {2}", id, env.Now, env.RealTime.WallClock.UtcNow);
             }
         }
 
@@ -50,8 +51,8 @@ namespace DIBRIS.Dessert.Examples.CSharp
         {
             Console.WriteLine("Hello World real-time simulation :)");
             var env = Sim.RealTimeEnvironment();
-            env.Process(SayHello(env));
-            env.DelayedProcess(SayHello(env), 1);
+            env.Process(SayHello(env, 'A'));
+            env.DelayedProcess(SayHello(env, 'B'), 1);
             env.Run(9.5);
         }
     }

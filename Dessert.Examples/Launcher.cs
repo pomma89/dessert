@@ -136,11 +136,19 @@ namespace DIBRIS.Dessert.Examples
             RunExample("Dessert - Hello World", HelloWorld.Run);
 
             // Expected output:
-            // Hello World simulation :)
-            // Hello World at 2.1!
-            // Hello World at 4.2!
-            // Hello World at 6.3!
-            // Hello World at 8.4!
+            // Hello World real - time simulation:)
+            // A - Sleeping at 0, real 28/02/2016 08:12:37...
+            // B - Sleeping at 1, real 28/02/2016 08:12:38...
+            // A - Awake at 3, real 28/02/2016 08:12:40
+            // A - Sleeping at 3, real 28/02/2016 08:12:40...
+            // B - Awake at 4, real 28/02/2016 08:12:41
+            // B - Sleeping at 4, real 28/02/2016 08:12:41...
+            // A - Awake at 6, real 28/02/2016 08:12:43
+            // A - Sleeping at 6, real 28/02/2016 08:12:43...
+            // B - Awake at 7, real 28/02/2016 08:12:44
+            // B - Sleeping at 7, real 28/02/2016 08:12:44...
+            // A - Awake at 9, real 28/02/2016 08:12:46
+            // A - Sleeping at 9, real 28/02/2016 08:12:46...
             RunExample("Dessert - Real-time", RealTime.Run);
 
             // Expected output:

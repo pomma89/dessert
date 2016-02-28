@@ -112,9 +112,9 @@ namespace DIBRIS.Dessert
             _events.Add(timeout);
 
             // Real-time management.
-            if (RealTime)
+            if (RealTime.Enabled)
             {
-                timeout.AtWallClock = WallClock.UnixTime + (delay * ScalingFactor);
+                timeout.AtWallClock = RealTime.CurrentUnixTime + (delay * RealTime.ScalingFactor);
             }
         }
 
@@ -125,6 +125,13 @@ namespace DIBRIS.Dessert
 
         void DoSimulate()
         {
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
+
             while (!Ended)
             {
                 var minP = _processes.Min;
@@ -258,7 +265,6 @@ namespace DIBRIS.Dessert
 
         #endregion Run Overloads
 
-
         #region Object Members
 
         public override string ToString()
@@ -304,14 +310,21 @@ namespace DIBRIS.Dessert
             _now = nextNow;
 
             // Real-time management.
-            double delay;
-            if (RealTime && (nextNow < double.MaxValue) && (delay = (nextWallClock - (WallClock.UnixTime * ScalingFactor)) * 1000.0) > 0.0)
+            if (RealTime.Enabled)
             {
+                double delay;
+                if (nextNow < double.MaxValue && (delay = (nextWallClock - RealTime.ScaledUnixTime)) > 0.0)
+                {
+                    // "delay" is measured in seconds, it must be converted into milliseconds.
 #if NET40
-                System.Threading.Thread.Sleep((int) delay);
+                    System.Threading.Thread.Sleep((int) (delay * 1000.0));
 #else
-                System.Threading.Tasks.Task.Delay((int) delay).Wait();
+                    System.Threading.Tasks.Task.Delay((int) (delay * 1000.0)).Wait();
 #endif
+                }
+
+                // Update the base UNIX time after having waited.
+                RealTime.SetCurrentUnixTime();
             }
         }
 
@@ -340,28 +353,7 @@ namespace DIBRIS.Dessert
         [Pure]
         public TRandom Random => _random;
 
-#region Real-time
-
-        /// <summary>
-        ///   Whether the simulation must be run according to "wall clock" time.
-        /// </summary>
-        [Pure]
-        public bool RealTime { get; internal set; } = false;
-
-        /// <summary>
-        ///   The real-time scaling factor.
-        /// </summary>
-        public double ScalingFactor { get; internal set; } = 1.0;
-
-        /// <summary>
-        ///   The "wall clock" used for the real-time simulation.
-        /// </summary>
-        [Pure]
-        public IClock WallClock { get; internal set; } = new SystemClock();
-
-#endregion Real-time
-
-#region Event Construction
+        #region Event Construction
 
         /// <summary>
         ///   Returns a new generic event.
@@ -388,9 +380,9 @@ namespace DIBRIS.Dessert
             return new SimEvent<TVal>(this);
         }
 
-#endregion Event Construction
+        #endregion Event Construction
 
-#region Exit Construction
+        #region Exit Construction
 
         /// <summary>
         ///   Exits from current process or from current call. If called directly from a process
@@ -420,9 +412,57 @@ namespace DIBRIS.Dessert
             return EndEvent;
         }
 
-#endregion Exit Construction
+        #endregion Exit Construction
 
-#endregion IEnvironment Members
+        #endregion IEnvironment Members
+
+        #region Real-time
+
+        /// <summary>
+        ///   Options for the real-time mode.
+        /// </summary>
+        public RealTimeOptions RealTime { get; } = new RealTimeOptions();
+
+        /// <summary>
+        ///   Available options for the real-time mode.
+        /// </summary>
+        public sealed class RealTimeOptions
+        {
+            /// <summary>
+            ///   Whether the simulation must be run according to "wall clock" time.
+            /// </summary>
+            [Pure]
+            public bool Enabled { get; internal set; } = false;
+
+            /// <summary>
+            ///   The real-time scaling factor.
+            /// </summary>
+            public double ScalingFactor { get; internal set; } = 1.0;
+
+            /// <summary>
+            ///   The "wall clock" used for the real-time simulation.
+            /// </summary>
+            [Pure]
+            public IClock WallClock { get; internal set; } = new SystemClock();
+
+            /// <summary>
+            ///   Returns the <see cref="WallClock"/> UNIX time scaled by the specified <see cref="ScalingFactor"/>.
+            /// </summary>
+            [Pure]
+            internal double ScaledUnixTime => WallClock.UnixTime * ScalingFactor;
+
+            /// <summary>
+            ///   The current UNIX time, written by the most recent timeout event.
+            /// </summary>
+            internal double CurrentUnixTime { get; private set; }
+
+            /// <summary>
+            ///   Sets the current UNIX time, written by the most recent timeout event.
+            /// </summary>
+            internal void SetCurrentUnixTime() => CurrentUnixTime = ScaledUnixTime;
+        }
+
+        #endregion Real-time
 
         sealed class Dummy : SimEvent<Dummy, object>
         {
@@ -430,14 +470,14 @@ namespace DIBRIS.Dessert
             {
             }
 
-#region SimEvent Members
+            #region SimEvent Members
 
             public override object Value
             {
                 get { return null; /* IronPython requires this to be null. */ }
             }
 
-#endregion SimEvent Members
+            #endregion SimEvent Members
         }
     }
 
