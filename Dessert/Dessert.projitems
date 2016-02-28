@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>eddba306-e61a-4ab7-a8da-4293d04be43f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DIBRIS.Dessert</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)doxyfile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)ConditionCreators.tt">
+      <LastGenOutput>ConditionCreators.cs</LastGenOutput>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)ConditionOperators.tt">
+      <LastGenOutput>ConditionOperators.cs</LastGenOutput>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Events\Condition.tt">
+      <LastGenOutput>Condition.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConditionCreators.cs">
+      <DependentUpon>ConditionCreators.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ConditionOperators.cs">
+      <DependentUpon>ConditionOperators.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ConditionEvaluators.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\DessertException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\FakeReadOnlyList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\OptimizedSkewHeap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Resources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\SimEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\SimEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Call.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Condition.cs">
+      <DependentUpon>Condition.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Interrupt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\SimEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Templates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Timeout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Recording\IRecorder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Recording\Monitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Recording\Tally.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Container.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\FilterStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\OrderedCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\PreemptiveResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Resource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Store.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\WaitPolicy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\WaitQueues.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sim.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimEnvironment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimProcess.cs" />
+  </ItemGroup>
+</Project>

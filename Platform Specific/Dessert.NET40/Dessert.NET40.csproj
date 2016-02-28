@@ -191,7 +191,7 @@
     <None Include="Dessert.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="..\..\Dessert.Shared\Dessert.Shared.projitems" Label="Shared" />
+  <Import Project="..\..\Dessert\Dessert.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

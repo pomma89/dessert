@@ -40,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project Logo", "Project Log
 		Project Logo\logo-original.svg = Project Logo\logo-original.svg
 	EndProjectSection
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Dessert", "Dessert.Shared\Dessert.shproj", "{EDDBA306-E61A-4AB7-A8DA-4293D04BE43F}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Dessert", "Dessert\Dessert.shproj", "{EDDBA306-E61A-4AB7-A8DA-4293D04BE43F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.NuGet", "Dessert.NuGet\Dessert.NuGet.csproj", "{64DCD156-79BD-40D7-8BAE-F7A0F389ED61}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -51,9 +51,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.NET40", "Platform S
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Dessert.Shared\Dessert.Shared.projitems*{eddba306-e61a-4ab7-a8da-4293d04be43f}*SharedItemsImports = 13
-		Dessert.Shared\Dessert.Shared.projitems*{2d7f5999-8648-4f4d-b967-f1358449d4ab}*SharedItemsImports = 4
-		Dessert.Shared\Dessert.Shared.projitems*{7a2fe0c9-1c2e-458b-9482-0c50213eda27}*SharedItemsImports = 4
+		Dessert\Dessert.projitems*{eddba306-e61a-4ab7-a8da-4293d04be43f}*SharedItemsImports = 13
+		Dessert\Dessert.projitems*{2d7f5999-8648-4f4d-b967-f1358449d4ab}*SharedItemsImports = 4
+		Dessert\Dessert.projitems*{7a2fe0c9-1c2e-458b-9482-0c50213eda27}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
