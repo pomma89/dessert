@@ -80,7 +80,6 @@
       <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MoreLinq" />
     <Reference Include="PommaLabs.Thrower">
       <HintPath>..\packages\Thrower.2.2.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
       <Private>True</Private>
@@ -91,7 +90,6 @@
       <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Troschuetz.Random" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Platform Specific\Dessert.Portable\Dessert.Portable.csproj">

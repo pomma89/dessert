@@ -149,7 +149,6 @@ copy $(ProjectDir)SimPy3\resources\* $(TargetDir)simpy\resources</PostBuildEvent
       <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Troschuetz.Random" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
