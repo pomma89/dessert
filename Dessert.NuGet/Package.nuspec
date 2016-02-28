@@ -34,5 +34,6 @@ A discrete event simulation (DES) engine heavily based on the paradigm introduce
     <files>
         <file src="lib\" target="lib" />
         <file src="LICENSE.md" target="LICENSE.md" />
+        <file src="refman.pdf" target="refman.pdf" />
     </files>
 </package>
