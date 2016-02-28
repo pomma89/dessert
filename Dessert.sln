@@ -40,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project Logo", "Project Log
 		Project Logo\logo-original.svg = Project Logo\logo-original.svg
 	EndProjectSection
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Dessert.Shared", "Dessert.Shared\Dessert.Shared.shproj", "{EDDBA306-E61A-4AB7-A8DA-4293D04BE43F}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Dessert", "Dessert.Shared\Dessert.shproj", "{EDDBA306-E61A-4AB7-A8DA-4293D04BE43F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dessert.NuGet", "Dessert.NuGet\Dessert.NuGet.csproj", "{64DCD156-79BD-40D7-8BAE-F7A0F389ED61}"
 	ProjectSection(ProjectDependencies) = postProject
