@@ -3,17 +3,14 @@
 
 A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/56n5nd18243fa3ey)](https://ci.appveyor.com/project/pomma89/dessert)
+## Summary ##
 
-| Item                                               | URL                                                   |
-| -------------------------------------------------- | ----------------------------------------------------- |
-| ![](http://is.gd/1wCmXL) NuGet package             | https://nuget.org/packages/Dessert/                   |
-| ![](http://is.gd/1wCmXL) NuGet package (unchecked) | https://nuget.org/packages/Dessert.Unchecked/         |
-| ![](http://is.gd/4uKNfs) Tutorial                  | TODO                                                  |
-| ![](http://is.gd/U2M21W) Documentation (HTML)      | http://pomma89.altervista.org/dessert/html/index.html |
-| ![](http://is.gd/I7ThMS) Documentation (PDF)       | http://pomma89.altervista.org/dessert/refman.pdf      |
-| ![](http://is.gd/I7ThMS) Thesis (Italian)          | http://pomma89.altervista.org/doc/mthesis-essay.pdf   |
-| ![](http://is.gd/I7ThMS) Slides (Italian)          | http://pomma89.altervista.org/doc/mthesis-slides.pdf  |
+* Latest release version: `v3.0.11`
+* [Thesis (Italian)](http://pomma89.altervista.org/doc/mthesis-essay.pdf) and [Slides (Italian)](http://pomma89.altervista.org/doc/mthesis-slides.pdf)
+* Build status on [AppVeyor](https://ci.appveyor.com): [![Build status](https://ci.appveyor.com/api/projects/status/7qgv5o7or96rr8a2?svg=true)](https://ci.appveyor.com/project/pomma89/dessert)
+* [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html) documentation: TODO
+* [NuGet](https://www.nuget.org) package(s):
+    + [DIBRIS.Dessert](https://www.nuget.org/packages/Dessert/)
 
 Overview
 --------
@@ -23,10 +20,6 @@ The aim of project Dessert is to bring the "powerful simplicity" of the [SimPy l
 Current maintainers of the project are [Alessio Parma](http://pomma89.altervista.org/) and [Giovanni Lagorio](http://www.disi.unige.it/person/LagorioG/). Since we do not have too much manpower and time to invest in this project, our current goals are to maintain a working "clone" of the release 3.0 of SimPy.
 
 For the same reasons, documentation is pretty short: in any case, please refer to our working examples ([C#](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.CSharp), [F#](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.FSharp), [VB.NET](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.VisualBasic), [Boo](https://github.com/pomma89/Dessert/tree/master/Dessert.Examples.Boo)) to get a better insight of what you can do with Dessert, and how the code really resembles the one you could write with SimPy.
-
-### Side project: Armando
-
-By using the magic [IronPython](https://ironpython.codeplex.com/) library, we pushed Dessert a step further, that is, we created a DES engine which is able to run **unmodified** SimPy simulations on Dessert. Initial tests show that, at least under Windows, Armando yields better performance than SimPy.
 
 Quick example
 -------------
@@ -155,3 +148,7 @@ def run():
 	env.Process(clock(env, "slow", 1.0))
 	env.Run(2)
 ```
+
+## About this repository and its maintainer ##
+
+Everything done on this repository is freely offered on the terms of the project license. You are free to do everything you want with the code and its related files, as long as you respect the license and use common sense while doing it :-)
