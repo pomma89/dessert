@@ -75,6 +75,8 @@ namespace DIBRIS.Dessert.Examples
             // Expected output:
             RunExample("Dessert - My second simulation", MySecondSimulation.Run);
 
+            RunExample("Dessert - Machine sensors monitoring", MachineSensorsMonitoring.Run);
+
             // Expected output:
             // 7
             // True

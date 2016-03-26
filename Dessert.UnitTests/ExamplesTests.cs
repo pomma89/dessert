@@ -1,29 +1,23 @@
-﻿// 
-// ExamplesTests.cs
-//  
-// Author(s):
-//       Alessio Parma <alessio.parma@gmail.com>
-//       Giovanni Lagorio <giovanni.lagorio@gmail.com>
-// 
+﻿// ExamplesTests.cs
+//
+// Author(s): Alessio Parma <alessio.parma@gmail.com> Giovanni Lagorio <giovanni.lagorio@gmail.com>
+//
 // Copyright (c) 2012-2016 Alessio Parma <alessio.parma@gmail.com>
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #if NET40
     // Empty, used because examples are not included in the .NET 4 solution.
@@ -31,13 +25,6 @@
 
 namespace DIBRIS.Dessert.Tests
 {
-
-
-    using System;
-    using System.Collections;
-    using System.Globalization;
-    using System.IO;
-    using System.Text;
     using Examples.CSharp;
     using Examples.CSharp.SimPy2;
     using Examples.CSharp.SimPy3;
@@ -47,6 +34,12 @@ namespace DIBRIS.Dessert.Tests
     using Examples.VisualBasic;
     using Examples.VisualBasic.SimPy3;
     using NUnit.Framework;
+    using System;
+    using System.Collections;
+    using System.Globalization;
+    using System.IO;
+    using System.Text;
+    using System.Threading;
     using BankRenege = Examples.CSharp.SimPy3.BankRenege;
     using ClockExample = Examples.CSharp.SimPy3.ClockExample;
     using HelloWorld = Examples.CSharp.HelloWorld;
@@ -55,9 +48,15 @@ namespace DIBRIS.Dessert.Tests
     [TestFixture]
     sealed class ExamplesTests
     {
+        private static readonly CultureInfo EnUsCulture = new CultureInfo("en-US");
+
         [SetUp]
         public void SetUp()
         {
+            // Force en-US culture.
+            Thread.CurrentThread.CurrentCulture = EnUsCulture;
+            Thread.CurrentThread.CurrentUICulture = EnUsCulture;
+
             _loggedStream = new MemoryStream();
             _loggedWriter = new FormattedWriter(_loggedStream);
             _originalOutput = Console.Out;
@@ -99,21 +98,16 @@ namespace DIBRIS.Dessert.Tests
             _loggedStream.Read(bytes, 0, length);
 
             var text = _encoding.GetString(bytes, 0, length);
-            _lines = text.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).GetEnumerator();
+            _lines = text.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).GetEnumerator();
         }
 
         sealed class FormattedWriter : StreamWriter
         {
-            static readonly IFormatProvider CultureInfo = new CultureInfo("en-GB");
-
             public FormattedWriter(Stream stream) : base(stream)
             {
             }
 
-            public override IFormatProvider FormatProvider
-            {
-                get { return CultureInfo; }
-            }
+            public override IFormatProvider FormatProvider => EnUsCulture;
         }
 
         [Test]
@@ -249,6 +243,178 @@ namespace DIBRIS.Dessert.Tests
             AssertRightLine("65: Eseguo il comando A");
             AssertRightLine("90: Carico la macchina...");
             AssertRightLine("95: Eseguo il comando C");
+            AssertNoMoreLines();
+        }
+
+        [Test]
+        public void CSharp_Dessert_MachineSensorsMonitoring()
+        {
+            MachineSensorsMonitoring.Run();
+            ReadLoggedStream();
+            AssertRightLine("Machine A has powered up");
+            AssertRightLine("All sensors for machine A are active");
+            AssertRightLine("Machine A has started work cycle 1");
+            AssertRightLine("Machine B has powered up");
+            AssertRightLine("All sensors for machine B are active");
+            AssertRightLine("Machine B has started work cycle 1");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1049.84 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 116 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 967.83 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 108 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1098.67 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 98 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 955.66 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 97 °F");
+            AssertRightLine("Machine A has ended work cycle 1");
+            AssertRightLine("Machine A has started work cycle 2");
+            AssertRightLine("Machine B has ended work cycle 1");
+            AssertRightLine("Machine B has started work cycle 2");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1041.94 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 101 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1020.73 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 107 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 970.67 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 90 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1044.08 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 110 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1012.59 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 106 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 960.82 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 107 °F");
+            AssertRightLine("Machine A has ended work cycle 2");
+            AssertRightLine("Machine A has started work cycle 3");
+            AssertRightLine("Machine B has ended work cycle 2");
+            AssertRightLine("Machine B has started work cycle 3");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1012.51 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 101 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1051.31 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 100 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1041.60 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 96 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 974.64 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 92 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 989.34 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 103 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 998.58 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 91 °F");
+            AssertRightLine("Machine A has ended work cycle 3");
+            AssertRightLine("Machine A has started work cycle 4");
+            AssertRightLine("Machine B has ended work cycle 3");
+            AssertRightLine("Machine B has started work cycle 4");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1001.04 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 98 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 889.92 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 104 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 974.86 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 105 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1034.73 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 89 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 992.05 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 117 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1021.72 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 102 °F");
+            AssertRightLine("Machine A has ended work cycle 4");
+            AssertRightLine("Machine A has started work cycle 5");
+            AssertRightLine("Machine B has ended work cycle 4");
+            AssertRightLine("Machine B has started work cycle 5");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 971.61 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 95 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 979.54 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 100 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1072.05 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 91 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 968.02 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 103 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1042.59 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 97 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1047.13 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 105 °F");
+            AssertRightLine("Machine A has ended work cycle 5");
+            AssertRightLine("Machine A has started work cycle 6");
+            AssertRightLine("Machine B has ended work cycle 5");
+            AssertRightLine("Machine B has started work cycle 6");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1005.22 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 100 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 990.29 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 102 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1085.14 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 94 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 959.36 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 100 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1038.38 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 93 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1025.65 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 114 °F");
+            AssertRightLine("Machine A has ended work cycle 6");
+            AssertRightLine("Machine A has started work cycle 7");
+            AssertRightLine("Machine B has ended work cycle 6");
+            AssertRightLine("Machine B has started work cycle 7");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1050.31 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 107 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 981.72 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 104 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1007.29 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 98 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 943.18 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 103 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 988.34 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 104 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 914.24 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 84 °F");
+            AssertRightLine("Machine A has ended work cycle 7");
+            AssertRightLine("Machine A has started work cycle 8");
+            AssertRightLine("Machine B has ended work cycle 7");
+            AssertRightLine("Machine B has started work cycle 8");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 980.92 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 103 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 927.73 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 96 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1043.72 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 99 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 974.55 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 101 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1016.03 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 99 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 993.43 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 108 °F");
+            AssertRightLine("Machine A has ended work cycle 8");
+            AssertRightLine("Machine A has started work cycle 9");
+            AssertRightLine("Machine B has ended work cycle 8");
+            AssertRightLine("Machine B has started work cycle 9");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1004.31 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 85 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1042.83 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 86 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 993.43 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 96 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1063.74 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 102 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 921.31 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 116 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 952.20 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 92 °F");
+            AssertRightLine("Machine A has ended work cycle 9");
+            AssertRightLine("Machine A has started work cycle 10");
+            AssertRightLine("Machine B has ended work cycle 9");
+            AssertRightLine("Machine B has started work cycle 10");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 969.27 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 96 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 957.86 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 97 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 1121.96 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 111 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1052.07 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 99 °F");
+            AssertRightLine("Pressure sensor for machine A has recorded a pressure of 921.35 bar");
+            AssertRightLine("Temperature sensor for machine A has recorded a temperature of 90 °F");
+            AssertRightLine("Pressure sensor for machine B has recorded a pressure of 1036.28 bar");
+            AssertRightLine("Temperature sensor for machine B has recorded a temperature of 123 °F");
+            AssertRightLine("Machine A average pressure: 1014.43 bar");
+            AssertRightLine("Machine A average temperature: 100.17 °F");
+            AssertRightLine("Machine B average pressure: 990.68 bar");
+            AssertRightLine("Machine B average temperature: 100.90 °F");
+            AssertRightLine("Machine B pressure values: 967.83, 955.66, 1020.73, 1044.08, 960.82, 1051.31, 974.64, 998.58, 889.92, 1034.73, 1021.72, 979.54, 968.02, 1047.13, 990.29, 959.36, 1025.65, 981.72, 943.18, 914.24, 927.73, 974.55, 993.43, 1042.83, 1063.74, 952.20, 957.86, 1052.07, 1036.28");
+            AssertRightLine("Machine B temperature values: 108, 97, 107, 110, 107, 100, 92, 91, 104, 89, 102, 100, 103, 105, 102, 100, 114, 104, 103, 84, 96, 101, 108, 86, 102, 92, 97, 99, 123");
             AssertNoMoreLines();
         }
 
