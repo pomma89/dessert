@@ -56,7 +56,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random, Version=4.0.3.0, Culture=neutral, PublicKeyToken=2f204b7110a52060, processorArchitecture=MSIL">
-      <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
+      <HintPath>..\packages\Troschuetz.Random.4.0.4\lib\net45\Troschuetz.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
