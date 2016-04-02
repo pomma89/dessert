@@ -60,8 +60,8 @@ namespace DIBRIS.Dessert
             Contract.Ensures(Contract.Result<Container>().Level.Equals(Default.Level));
             Contract.Ensures(Contract.Result<Container>().GetPolicy == Default.Policy);
             Contract.Ensures(Contract.Result<Container>().PutPolicy == Default.Policy);
-            Contract.Ensures(!Contract.Result<Container>().GetQueue.Any());
-            Contract.Ensures(!Contract.Result<Container>().PutQueue.Any());
+            Contract.Ensures(Contract.Result<Container>().GetQueue.Count == 0);
+            Contract.Ensures(Contract.Result<Container>().PutQueue.Count == 0);
             return new Container(env, Default.Capacity, Default.Level, Default.Policy, Default.Policy);
         }
 
@@ -74,8 +74,8 @@ namespace DIBRIS.Dessert
             Contract.Ensures(Contract.Result<Container>().Level.Equals(Default.Level));
             Contract.Ensures(Contract.Result<Container>().GetPolicy == Default.Policy);
             Contract.Ensures(Contract.Result<Container>().PutPolicy == Default.Policy);
-            Contract.Ensures(!Contract.Result<Container>().GetQueue.Any());
-            Contract.Ensures(!Contract.Result<Container>().PutQueue.Any());
+            Contract.Ensures(Contract.Result<Container>().GetQueue.Count == 0);
+            Contract.Ensures(Contract.Result<Container>().PutQueue.Count == 0);
             return new Container(env, capacity, Default.Level, Default.Policy, Default.Policy);
         }
 
@@ -89,8 +89,8 @@ namespace DIBRIS.Dessert
             Contract.Ensures(Contract.Result<Container>().Level.Equals(level));
             Contract.Ensures(Contract.Result<Container>().GetPolicy == Default.Policy);
             Contract.Ensures(Contract.Result<Container>().PutPolicy == Default.Policy);
-            Contract.Ensures(!Contract.Result<Container>().GetQueue.Any());
-            Contract.Ensures(!Contract.Result<Container>().PutQueue.Any());
+            Contract.Ensures(Contract.Result<Container>().GetQueue.Count == 0);
+            Contract.Ensures(Contract.Result<Container>().PutQueue.Count == 0);
             return new Container(env, capacity, level, Default.Policy, Default.Policy);
         }
 
@@ -107,8 +107,8 @@ namespace DIBRIS.Dessert
             Contract.Ensures(Contract.Result<Container>().Level.Equals(level));
             Contract.Ensures(Contract.Result<Container>().GetPolicy == getPolicy);
             Contract.Ensures(Contract.Result<Container>().PutPolicy == putPolicy);
-            Contract.Ensures(!Contract.Result<Container>().GetQueue.Any());
-            Contract.Ensures(!Contract.Result<Container>().PutQueue.Any());
+            Contract.Ensures(Contract.Result<Container>().GetQueue.Count == 0);
+            Contract.Ensures(Contract.Result<Container>().PutQueue.Count == 0);
             return new Container(env, capacity, level, getPolicy, putPolicy);
         }
 

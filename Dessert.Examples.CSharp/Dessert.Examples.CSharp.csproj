@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MachineSensorsMonitoring.cs" />
-    <Compile Include="RealTime.cs" />
+    <Compile Include="RealTime\SayHelloInRealTime.cs" />
     <Compile Include="SimPy3\ClockExample.cs" />
     <Compile Include="ConditionOperators.cs" />
     <Compile Include="ConditionTester.cs" />
