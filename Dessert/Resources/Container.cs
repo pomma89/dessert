@@ -70,7 +70,7 @@ namespace DIBRIS.Dessert.Resources
         }
 
         [Pure]
-        public ICollection<GetEvent> GetQueue
+        public IEnumerable<GetEvent> GetQueue
         {
             get { return _getQueue; }
         }
@@ -83,7 +83,7 @@ namespace DIBRIS.Dessert.Resources
         }
 
         [Pure]
-        public ICollection<PutEvent> PutQueue
+        public IEnumerable<PutEvent> PutQueue
         {
             get { return _putQueue; }
         }
