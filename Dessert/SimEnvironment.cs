@@ -1,29 +1,30 @@
 // File name: SimEnvironment.cs
-// 
+//
 // Author(s): Alessio Parma <alessio.parma@gmail.com>
-// 
+//
 // Copyright (c) 2012-2016 Alessio Parma <alessio.parma@gmail.com>
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 // associated documentation files (the "Software"), to deal in the Software without restriction,
 // including without limitation the rights to use, copy, modify, merge, publish, distribute,
 // sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 // NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace DIBRIS.Dessert
 {
     using Core;
     using Events;
     using Finsa.CodeServices.Clock;
+    using PommaLabs.Thrower;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -36,31 +37,31 @@ namespace DIBRIS.Dessert
         internal readonly SimEvent EndEvent;
 
         /// <summary>
-        ///   </summary>
-        readonly OptimizedSkewHeap _events;
+        /// </summary>
+        private readonly OptimizedSkewHeap _events;
 
         /// <summary>
         ///   Stores an instance of the <see cref="_processes"/> class, which wraps an heap and
         ///   offers methods more specialized for the simulation task. As one can easily expect, the
         ///   agenda is used to schedule processes and events.
         /// </summary>
-        readonly OptimizedSkewHeap _processes;
+        private readonly OptimizedSkewHeap _processes;
 
-        readonly TRandom _random;
+        private readonly TRandom _random;
 
-        ulong _highPriority;
-        ulong _lowPriority = 1000000UL;
-
-        /// <summary>
-        ///   </summary>
-        double _now;
+        private ulong _highPriority;
+        private ulong _lowPriority = 1000000UL;
 
         /// <summary>
-        ///   </summary>
-        double _prevNow;
+        /// </summary>
+        private double _now;
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
+        private double _prevNow;
+
+        /// <summary>
+        /// </summary>
         /// <param name="seed"></param>
         internal SimEnvironment(int seed)
         {
@@ -123,7 +124,7 @@ namespace DIBRIS.Dessert
             _processes.RemoveMin();
         }
 
-        void DoSimulate()
+        private void DoSimulate()
         {
             // Real-time management.
             if (RealTime.Enabled)
@@ -149,10 +150,10 @@ namespace DIBRIS.Dessert
             }
         }
 
-        void EndSimulation()
+        private void EndSimulation()
         {
-            // If there are other events, time has to be adjusted so that final time will be equal
-            // to until event time. However, that is true only if following events are scheduled.
+            // If there are other events, time has to be adjusted so that final time will be equal to
+            // until event time. However, that is true only if following events are scheduled.
             if (_processes.Count == 1 && _events.Count == 2)
             {
                 _now = _prevNow;
@@ -161,14 +162,14 @@ namespace DIBRIS.Dessert
             Sim.RemoveFromSuspendInfo(this);
         }
 
-        IEnumerator<SimEvent> DummyProcess()
+        private IEnumerator<SimEvent> DummyProcess()
         {
             Ended = true;
             Sim.RemoveFromSuspendInfo(this);
             yield return Exit(null);
         }
 
-        IEnumerable<SimEvent> UntilProcess(SimEvent ev)
+        private IEnumerable<SimEvent> UntilProcess(SimEvent ev)
         {
             yield return ev;
             EndSimulation();
@@ -207,7 +208,7 @@ namespace DIBRIS.Dessert
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        IEnumerator<SimEvent> DelayedProcessWrapper(IEnumerator<SimEvent> realGenerator, double delay)
+        private IEnumerator<SimEvent> DelayedProcessWrapper(IEnumerator<SimEvent> realGenerator, double delay)
         {
             yield return new Timeout<double>(this, delay, delay);
             yield return new Call<object>(this, realGenerator);
@@ -333,8 +334,8 @@ namespace DIBRIS.Dessert
         ///   if there is no further event.
         /// </summary>
         /// <returns>
-        ///   The time of the next scheduled event, or <see cref="double.PositiveInfinity"/> if
-        ///   there is no further event.
+        ///   The time of the next scheduled event, or <see cref="double.PositiveInfinity"/> if there
+        ///   is no further event.
         /// </returns>
         [Pure]
         public double Peek
@@ -386,9 +387,9 @@ namespace DIBRIS.Dessert
 
         /// <summary>
         ///   Exits from current process or from current call. If called directly from a process
-        ///   body, then the process is stopped and the optional exit value can be found on
-        ///   <see cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure
-        ///   body, then the procedure is stopped.
+        ///   body, then the process is stopped and the optional exit value can be found on <see
+        ///   cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure body,
+        ///   then the procedure is stopped.
         /// </summary>
         /// <returns>The exit event that can be yielded to stop a process or a call.</returns>
         public SimEvent Exit()
@@ -399,10 +400,10 @@ namespace DIBRIS.Dessert
 
         /// <summary>
         ///   Exits from current process or from current call. If called directly from a process
-        ///   body, then the process is stopped and the optional exit value can be found on
-        ///   <see cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure
-        ///   body, then the procedure is stopped and the optional exit value can be found on the
-        ///   event returned by <see cref="Call"/>.
+        ///   body, then the process is stopped and the optional exit value can be found on <see
+        ///   cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure body,
+        ///   then the procedure is stopped and the optional exit value can be found on the event
+        ///   returned by <see cref="Call"/>.
         /// </summary>
         /// <param name="value">The optional exit value.</param>
         /// <returns>The exit event that can be yielded to stop a process or a call.</returns>
@@ -428,22 +429,96 @@ namespace DIBRIS.Dessert
         /// </summary>
         public sealed class RealTimeOptions
         {
+            private double _scalingFactor = DefaultScalingFactor;
+            private bool _scalingFactorSet;
+            private IClock _wallClock = DefaultWallClock;
+            private bool _wallClockSet;
+
             /// <summary>
-            ///   Whether the simulation must be run according to "wall clock" time.
+            ///   The minimum value which can be assigned to the scaling factor.
+            /// </summary>
+            public static double MinScalingFactor { get; } = 0.01;
+
+            /// <summary>
+            ///   The default scaling factor.
+            /// </summary>
+            public static double DefaultScalingFactor { get; } = 1.0;
+
+            /// <summary>
+            ///   The default "wall clock" instance.
+            /// </summary>
+            public static IClock DefaultWallClock { get; } = new SystemClock();
+
+            /// <summary>
+            ///   Whether the simulation must be run according to "wall clock" time. Default value is <c>false</c>.
+            ///
+            ///   This flag is automatically set to <c>true</c> when a real-time environment is
+            ///   created through <see cref="Sim"/> static factories, such as <see
+            ///   cref="Sim.RealTimeEnvironment(RealTimeOptions)"/> and <see
+            ///   cref="Sim.RealTimeEnvironment(int, RealTimeOptions)"/>.
             /// </summary>
             [Pure]
             public bool Enabled { get; internal set; } = false;
 
             /// <summary>
-            ///   The real-time scaling factor.
+            ///   The real-time scaling factor. Default value is <c>1.0</c>.
             /// </summary>
-            public double ScalingFactor { get; internal set; } = 1.0;
+            /// <exception cref="ArgumentOutOfRangeException">
+            ///   The specified scaling factor is too small (less than <see cref="MinScalingFactor"/>).
+            /// </exception>
+            /// <exception cref="InvalidOperationException">
+            ///   Scaling factor has already been set, it cannot be overwritten.
+            /// </exception>
+            [Pure]
+            public double ScalingFactor
+            {
+                get
+                {
+                    var result = _scalingFactor;
+
+                    // Postconditions
+                    Debug.Assert(result >= MinScalingFactor);
+                    return result;
+                }
+                set
+                {
+                    // Preconditions
+                    RaiseArgumentOutOfRangeException.IfIsLessOrEqual(value, MinScalingFactor, nameof(value));
+                    RaiseInvalidOperationException.If(_scalingFactorSet, ErrorMessages.ScalingFactorNotUpdatable);
+
+                    _scalingFactor = value;
+                    _scalingFactorSet = true;
+                }
+            }
 
             /// <summary>
-            ///   The "wall clock" used for the real-time simulation.
+            ///   The "wall clock" used for the real-time simulation. Default instance is <see cref="SystemClock"/>.
             /// </summary>
+            /// <exception cref="ArgumentNullException">The specified "wall clock" is null.</exception>
+            /// <exception cref="InvalidOperationException">
+            ///   "Wall clock" has already been set, it cannot be overwritten.
+            /// </exception>
             [Pure]
-            public IClock WallClock { get; internal set; } = new SystemClock();
+            public IClock WallClock
+            {
+                get
+                {
+                    var result = _wallClock;
+
+                    // Postconditions
+                    Debug.Assert(!ReferenceEquals(result, null));
+                    return result;
+                }
+                set
+                {
+                    // Preconditions
+                    RaiseArgumentNullException.IfIsNull(value, nameof(value));
+                    RaiseInvalidOperationException.If(_wallClockSet, ErrorMessages.WallClockNotUpdatable);
+
+                    _wallClock = value;
+                    _wallClockSet = true;
+                }
+            }
 
             /// <summary>
             ///   Returns the <see cref="WallClock"/> UNIX time scaled by the specified <see cref="ScalingFactor"/>.
@@ -464,7 +539,7 @@ namespace DIBRIS.Dessert
 
         #endregion Real-time
 
-        sealed class Dummy : SimEvent<Dummy, object>
+        private sealed class Dummy : SimEvent<Dummy, object>
         {
             internal Dummy(SimEnvironment env) : base(env)
             {

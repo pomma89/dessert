@@ -1,40 +1,35 @@
-﻿// 
-// TestBase.cs
-//  
-// Author(s):
-//       Alessio Parma <alessio.parma@gmail.com>
-// 
+﻿// TestBase.cs
+//
+// Author(s): Alessio Parma <alessio.parma@gmail.com>
+//
 // Copyright (c) 2012-2016 Alessio Parma <alessio.parma@gmail.com>
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace DIBRIS.Dessert.Tests
 {
+    using Dessert.Events;
+    using NUnit.Framework;
     using System;
     using System.Diagnostics;
     using System.Linq;
-    using Dessert.Events;
-    using NUnit.Framework;
     using SimEvents = System.Collections.Generic.IEnumerable<SimEvent>;
 
     [TestFixture]
-    abstract class TestBase
+    internal abstract class TestBase
     {
         [SetUp]
         public virtual void SetUp()
@@ -55,8 +50,8 @@ namespace DIBRIS.Dessert.Tests
         protected const double SmallNeg = -1;
         protected const double LargeNeg = -100;
 
-        const double Delta = 0.000001;
-        const double Epsilon = 0.15; // Relative error: less than 15%
+        private const double Delta = 0.000001;
+        private const double Epsilon = 0.15; // Relative error: less than 15%
 
         protected SimEnvironment Env;
 
@@ -73,7 +68,8 @@ namespace DIBRIS.Dessert.Tests
 
         protected SimEvents Interrupter(SimProcess victim, String value, Double timeout = 0)
         {
-            while (true) {
+            while (true)
+            {
                 victim.Interrupt(value);
                 yield return Env.Timeout(timeout);
             }
@@ -86,14 +82,17 @@ namespace DIBRIS.Dessert.Tests
 
         protected static void ApproxEquals(double expected, double observed)
         {
-            if (double.IsNaN(expected)) {
+            if (double.IsNaN(expected))
+            {
                 Assert.Fail("NaN should not be returned");
             }
             var errMsg = string.Format("Expected {0}, observed {1}", expected, observed);
-            if (expected > -Delta && expected < Delta) {
+            if (expected > -Delta && expected < Delta)
+            {
                 Assert.True(Math.Abs(expected - observed) < Epsilon, errMsg);
-            } else {
-                Assert.True(Math.Abs((expected - observed)/expected) < Epsilon, errMsg);
+            }
+            else {
+                Assert.True(Math.Abs((expected - observed) / expected) < Epsilon, errMsg);
             }
         }
     }
@@ -109,21 +108,30 @@ namespace DIBRIS.Dessert.Tests
         [SetUp]
         public static void SetUp()
         {
-            var removeListener = Debug.Listeners.OfType<DefaultTraceListener>().First();
-            Debug.Listeners.Remove(removeListener);
-            Debug.Listeners.Add(new FailOnAssert());
+            var removeListener = Debug.Listeners.OfType<DefaultTraceListener>().FirstOrDefault();
+            if (removeListener != null)
+            {
+                Debug.Listeners.Remove(removeListener);
+#pragma warning disable CC0022 // Should dispose object
+                Debug.Listeners.Add(new FailOnAssert());
+#pragma warning restore CC0022 // Should dispose object
+            }
         }
 
-        sealed class FailOnAssert : TraceListener
+        private sealed class FailOnAssert : TraceListener
         {
             public override void Fail(string message)
             {
-                Assert.Fail("DEBUG.ASSERT: " + message);
+                var errMsg = "DEBUG.ASSERT: " + message;
+                Console.WriteLine(errMsg);
+                Assert.Fail(errMsg);
             }
 
             public override void Fail(string message, string detailMessage)
             {
-                Assert.Fail("DEBUG.ASSERT: " + message + "\n" + detailMessage);
+                var errMsg = "DEBUG.ASSERT: " + message + Environment.NewLine + detailMessage;
+                Console.WriteLine(errMsg);
+                Assert.Fail(errMsg);
             }
 
             public override void Write(string message)

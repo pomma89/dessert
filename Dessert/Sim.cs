@@ -1,23 +1,23 @@
 ﻿// File name: Sim.cs
-// 
+//
 // Author(s): Alessio Parma <alessio.parma@gmail.com>
-// 
+//
 // Copyright (c) 2012-2016 Alessio Parma <alessio.parma@gmail.com>
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 // associated documentation files (the "Software"), to deal in the Software without restriction,
 // including without limitation the rights to use, copy, modify, merge, publish, distribute,
 // sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 // NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace DIBRIS.Dessert
 {
@@ -34,7 +34,7 @@ namespace DIBRIS.Dessert
 
     public static partial class Sim
     {
-        static readonly Dictionary<TimeUnit, double> SecondToUnit = new Dictionary<TimeUnit, double> {
+        private static readonly Dictionary<TimeUnit, double> SecondToUnit = new Dictionary<TimeUnit, double> {
             {TimeUnit.Nanosecond, 0.000000001},
             {TimeUnit.Microsecond, 0.000001},
             {TimeUnit.Millisecond, 0.001},
@@ -45,10 +45,10 @@ namespace DIBRIS.Dessert
         };
 
         /// <summary>
-        ///   Stores a reference to a dummy environment used by unbound instances of
-        ///   <see cref="Recording.Monitor"/> and <see cref="Recording.Tally"/>.
+        ///   Stores a reference to a dummy environment used by unbound instances of <see
+        ///   cref="Recording.Monitor"/> and <see cref="Recording.Tally"/>.
         /// </summary>
-        static readonly SimEnvironment DummyEnv = new SimEnvironment(0);
+        private static readonly SimEnvironment DummyEnv = new SimEnvironment(0);
 
         #region Container Construction
 
@@ -171,14 +171,14 @@ namespace DIBRIS.Dessert
         ///   <paramref name="realTimeOptions"/> is null, or the specified "wall clock" is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///   The specified scaling factor is too small (less than 0.010).
+        ///   The specified scaling factor is too small (less than <see cref="SimEnvironment.RealTimeOptions.MinScalingFactor"/>).
         /// </exception>
         public static SimEnvironment RealTimeEnvironment(SimEnvironment.RealTimeOptions realTimeOptions)
         {
             // Preconditions
             RaiseArgumentNullException.IfIsNull(realTimeOptions, nameof(realTimeOptions));
             RaiseArgumentNullException.IfIsNull(realTimeOptions.WallClock, nameof(realTimeOptions.WallClock));
-            RaiseArgumentOutOfRangeException.IfIsLessOrEqual(realTimeOptions.ScalingFactor, 0.010, nameof(realTimeOptions.ScalingFactor));
+            RaiseArgumentOutOfRangeException.IfIsLessOrEqual(realTimeOptions.ScalingFactor, SimEnvironment.RealTimeOptions.MinScalingFactor, nameof(realTimeOptions.ScalingFactor));
 
             var env = Environment(System.Environment.TickCount);
             env.RealTime.Enabled = true;
@@ -197,14 +197,14 @@ namespace DIBRIS.Dessert
         ///   <paramref name="realTimeOptions"/> is null, or the specified "wall clock" is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///   The specified scaling factor is too small (less than 0.010).
+        ///   The specified scaling factor is too small (less than <see cref="SimEnvironment.RealTimeOptions.MinScalingFactor"/>).
         /// </exception>
         public static SimEnvironment RealTimeEnvironment(int seed, SimEnvironment.RealTimeOptions realTimeOptions)
         {
             // Preconditions
             RaiseArgumentNullException.IfIsNull(realTimeOptions, nameof(realTimeOptions));
             RaiseArgumentNullException.IfIsNull(realTimeOptions.WallClock, nameof(realTimeOptions.WallClock));
-            RaiseArgumentOutOfRangeException.IfIsLessOrEqual(realTimeOptions.ScalingFactor, 0.010, nameof(realTimeOptions.ScalingFactor));
+            RaiseArgumentOutOfRangeException.IfIsLessOrEqual(realTimeOptions.ScalingFactor, SimEnvironment.RealTimeOptions.MinScalingFactor, nameof(realTimeOptions.ScalingFactor));
 
             var env = Environment(seed);
             env.RealTime.Enabled = true;
@@ -456,7 +456,7 @@ namespace DIBRIS.Dessert
 
         #region Dessert Extensions
 
-        static readonly IDictionary<SimEnvironment, IDictionary<SimProcess, SimEvent<object>>> SuspendInfo =
+        private static readonly IDictionary<SimEnvironment, IDictionary<SimProcess, SimEvent<object>>> SuspendInfo =
             new Dictionary<SimEnvironment, IDictionary<SimProcess, SimEvent<object>>>();
 
         public static void Resume(this SimProcess process)
@@ -491,7 +491,7 @@ namespace DIBRIS.Dessert
             }
         }
 
-        static IEnumerable<SimEvent> ResumeDelayed(SimEvent<object> suspend, double delay)
+        private static IEnumerable<SimEvent> ResumeDelayed(SimEvent<object> suspend, double delay)
         {
             yield return suspend.Env.Timeout(delay);
             suspend.TrySucceed();
@@ -504,7 +504,7 @@ namespace DIBRIS.Dessert
         public static TimeUnit CurrentTimeUnit { get; set; }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -514,7 +514,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -524,7 +524,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -534,7 +534,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -544,7 +544,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -554,7 +554,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -564,7 +564,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -574,7 +574,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -584,7 +584,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -594,7 +594,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -604,7 +604,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -614,7 +614,7 @@ namespace DIBRIS.Dessert
         }
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         /// <remarks>Design inspired by Humanizer library: http://www.mehdi-khalili.com/humanizer-v0-5</remarks>
@@ -623,7 +623,7 @@ namespace DIBRIS.Dessert
             return ConvertTime(time, TimeUnit.Hour);
         }
 
-        static double ConvertTime(double time, TimeUnit unit)
+        private static double ConvertTime(double time, TimeUnit unit)
         {
             return time * (SecondToUnit[unit] / SecondToUnit[CurrentTimeUnit]);
         }
@@ -643,7 +643,7 @@ namespace DIBRIS.Dessert
     }
 
     /// <summary>
-    ///   </summary>
+    /// </summary>
     public sealed class InterruptUncaughtException : Exception
     {
         internal InterruptUncaughtException() : base(ErrorMessages.InterruptUncaught)
