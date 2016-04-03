@@ -159,6 +159,7 @@ namespace DIBRIS.Dessert.Examples
             // A - Awake at 9, real 28/02/2016 08:12:46
             // A - Sleeping at 9, real 28/02/2016 08:12:46...
             RunExample("Dessert (RT) - Say hello in real time", SayHelloInRealTime.Run);
+            RunExample("Dessert (RT) - Custom options", CustomOptions.Run);
 
             // Expected output:
             // Interupted at: NOW

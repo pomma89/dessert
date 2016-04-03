@@ -124,13 +124,6 @@ namespace DIBRIS.Dessert
 
         private void DoSimulate()
         {
-            // Real-time management.
-            if (RealTime.Enabled)
-            {
-                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
-                RealTime.SetCurrentUnixTime();
-            }
-
             while (!Ended)
             {
                 var minP = _processes.Min;
@@ -222,6 +215,13 @@ namespace DIBRIS.Dessert
             Contract.Requires<InvalidOperationException>(!double.IsPositiveInfinity(Peek));
             Contract.Ensures(Ended);
 
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
+
             this.Timeout(double.MaxValue).Callbacks.Add(e => EndSimulation());
             DoSimulate();
         }
@@ -233,6 +233,13 @@ namespace DIBRIS.Dessert
             Contract.Requires<ArgumentOutOfRangeException>(IsValidDelay(until), ErrorMessages.InvalidDelay);
             Contract.Ensures(Ended);
 
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
+
             this.Timeout(until).Callbacks.Add(e => EndSimulation());
             DoSimulate();
         }
@@ -243,6 +250,13 @@ namespace DIBRIS.Dessert
             Contract.Requires<InvalidOperationException>(!double.IsPositiveInfinity(Peek));
             Contract.Requires<ArgumentOutOfRangeException>(IsValidDelay(until), ErrorMessages.InvalidDelay);
             Contract.Ensures(Ended);
+
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
 
             this.Timeout(until).Callbacks.Add(e => EndSimulation());
             DoSimulate();
@@ -256,6 +270,13 @@ namespace DIBRIS.Dessert
             Contract.Requires<ArgumentException>(ReferenceEquals(this, until.Env), ErrorMessages.DifferentEnvironment);
             Contract.Requires<ArgumentException>(!until.Failed);
             Contract.Ensures(Ended);
+
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
 
             // TODO Fix this, since when until is triggered UntilProcess is not immediately triggered.
             Process(UntilProcess(until));
@@ -312,7 +333,7 @@ namespace DIBRIS.Dessert
             if (RealTime.Enabled)
             {
                 double delay;
-                if (nextNow < double.MaxValue && (delay = (nextWallClock - RealTime.ScaledUnixTime)) > 0.0)
+                if (nextNow < double.MaxValue && (delay = (nextWallClock - RealTime.WallClock.UnixTime)) > 0.0)
                 {
                     // "delay" is measured in seconds, it must be converted into milliseconds.
 #if NET40
@@ -352,7 +373,7 @@ namespace DIBRIS.Dessert
         [Pure]
         public TRandom Random { get; }
 
-        #region Event Construction
+#region Event Construction
 
         /// <summary>
         ///   Returns a new generic event.
@@ -379,9 +400,9 @@ namespace DIBRIS.Dessert
             return new SimEvent<TVal>(this);
         }
 
-        #endregion Event Construction
+#endregion Event Construction
 
-        #region Exit Construction
+#region Exit Construction
 
         /// <summary>
         ///   Exits from current process or from current call. If called directly from a process
@@ -411,11 +432,11 @@ namespace DIBRIS.Dessert
             return EndEvent;
         }
 
-        #endregion Exit Construction
+#endregion Exit Construction
 
-        #endregion IEnvironment Members
+#endregion IEnvironment Members
 
-        #region Real-time
+#region Real-time
 
         /// <summary>
         ///   Options for the real-time mode.
@@ -512,12 +533,6 @@ namespace DIBRIS.Dessert
             }
 
             /// <summary>
-            ///   Returns the <see cref="WallClock"/> UNIX time scaled by the specified <see cref="ScalingFactor"/>.
-            /// </summary>
-            [Pure]
-            internal double ScaledUnixTime => WallClock.UnixTime * ScalingFactor;
-
-            /// <summary>
             ///   The current UNIX time, written by the most recent timeout event.
             /// </summary>
             internal double CurrentUnixTime { get; private set; }
@@ -530,10 +545,10 @@ namespace DIBRIS.Dessert
             /// <summary>
             ///   Sets the current UNIX time, written by the most recent timeout event.
             /// </summary>
-            internal void SetCurrentUnixTime() => CurrentUnixTime = ScaledUnixTime;
+            internal void SetCurrentUnixTime() => CurrentUnixTime = WallClock.UnixTime;
         }
 
-        #endregion Real-time
+#endregion Real-time
 
         private sealed class Dummy : SimEvent<Dummy, object>
         {
@@ -541,14 +556,14 @@ namespace DIBRIS.Dessert
             {
             }
 
-            #region SimEvent Members
+#region SimEvent Members
 
             public override object Value
             {
                 get { return null; /* IronPython requires this to be null. */ }
             }
 
-            #endregion SimEvent Members
+#endregion SimEvent Members
         }
     }
 

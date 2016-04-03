@@ -1,4 +1,4 @@
-﻿// File name: RealTime.cs
+﻿// File name: CustomOptions.cs
 //
 // Author(s): Alessio Parma <alessio.parma@gmail.com>
 //
@@ -19,14 +19,16 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Common.Logging.Simple;
+using Finsa.CodeServices.Clock;
 using System;
 using IEvents = System.Collections.Generic.IEnumerable<DIBRIS.Dessert.SimEvent>;
 
 namespace DIBRIS.Dessert.Examples.CSharp.RealTime
 {
-    public static class SayHelloInRealTime
+    public static class CustomOptions
     {
-        private static IEvents SayHello(SimEnvironment env, char id)
+        private static IEvents ShowOptions(SimEnvironment env, char id)
         {
             while (true)
             {
@@ -38,10 +40,13 @@ namespace DIBRIS.Dessert.Examples.CSharp.RealTime
 
         public static void Run()
         {
-            Console.WriteLine("Hello World real-time simulation :)");
-            var env = Sim.RealTimeEnvironment(21);
-            env.Process(SayHello(env, 'A'));
-            env.DelayedProcess(SayHello(env, 'B'), 1);
+            Console.WriteLine("Custom real-time options");
+            var env = Sim.RealTimeEnvironment(21, new SimEnvironment.RealTimeOptions
+            {
+                ScalingFactor = 3.0, // Each time unit lasts 3 seconds.
+            });
+            env.Process(ShowOptions(env, 'A'));
+            env.DelayedProcess(ShowOptions(env, 'B'), 1);
             env.Run(9.5);
         }
     }
