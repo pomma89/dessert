@@ -211,5 +211,23 @@ namespace DIBRIS.Dessert.Tests.Core
             opts.WallClock = new MockClock();
             // Exception...
         }
+
+        [Test]
+        public void RealTimeEnvironment_ShouldBeCreatedWithDefaultOptions()
+        {
+            var env = Sim.RealTimeEnvironment();
+            Assert.That(env.RealTime.Enabled, Is.True);
+            Assert.That(env.RealTime.ScalingFactor, Is.EqualTo(SimEnvironment.RealTimeOptions.DefaultScalingFactor));
+            Assert.That(env.RealTime.WallClock, Is.SameAs(SimEnvironment.RealTimeOptions.DefaultWallClock));
+        }
+
+        [Test]
+        public void RealTimeEnvironment_ShouldBeCreatedWithDefaultOptions_WithSeed()
+        {
+            var env = Sim.RealTimeEnvironment(21);
+            Assert.That(env.RealTime.Enabled, Is.True);
+            Assert.That(env.RealTime.ScalingFactor, Is.EqualTo(SimEnvironment.RealTimeOptions.DefaultScalingFactor));
+            Assert.That(env.RealTime.WallClock, Is.SameAs(SimEnvironment.RealTimeOptions.DefaultWallClock));
+        }
     }
 }
