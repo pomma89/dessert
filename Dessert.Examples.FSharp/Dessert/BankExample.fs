@@ -63,6 +63,9 @@ let run() =
     let env = Sim.Environment(seed = 21)
     let queues = [for x in 1 .. queueCount do yield Sim.Resource(env, 1)]
     let bank = Sim.Container(env, bankCap, bankLvl)
+    waitTally.Reset()
+    servTally.Reset()
+    totClients <- 0
 
     // Avvio della simulazione
     env.Process(spawner(env, queues, bank)) |> ignore

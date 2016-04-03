@@ -1,5 +1,5 @@
 ﻿// 
-// Launcher.cs
+// File name: Launcher.cs
 //  
 // Author(s):
 //       Alessio Parma <alessio.parma@gmail.com>
@@ -41,6 +41,7 @@ namespace DIBRIS.Dessert.Examples
     using BankRenege = CSharp.SimPy3.BankRenege;
     using HelloWorld = CSharp.HelloWorld;
     using Message = CSharp.SimPy2.Message;
+    using CSharp.RealTime;
 
     static class Launcher
     {
@@ -157,7 +158,8 @@ namespace DIBRIS.Dessert.Examples
             // B - Sleeping at 7, real 28/02/2016 08:12:44...
             // A - Awake at 9, real 28/02/2016 08:12:46
             // A - Sleeping at 9, real 28/02/2016 08:12:46...
-            RunExample("Dessert - Real-time", RealTime.Run);
+            RunExample("Dessert (RT) - Say hello in real time", SayHelloInRealTime.Run);
+            RunExample("Dessert (RT) - Custom options", CustomOptions.Run);
 
             // Expected output:
             // Interupted at: NOW

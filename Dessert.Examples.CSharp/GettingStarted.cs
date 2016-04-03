@@ -1,5 +1,5 @@
 ﻿//
-// GettingStarted.cs
+// File name: GettingStarted.cs
 //
 // Author(s):
 //       Alessio Parma <alessio.parma@gmail.com>
@@ -75,15 +75,14 @@ namespace DIBRIS.Dessert.Examples.CSharp
         const int SpawnFrequency = 2; // Given in minutes, average time at which people arrive.
 
         static readonly string[] Names = {"Pino", "Gino", "Nino", "Dino", "Bobb", "John"};
-        static readonly TRandom Random = new TRandom(RandomSeed);
 
         static SimEvents PersonSpawner(SimEnvironment env, Resource postOffice)
         {
             while (true) {
                 // We first start a new "Person" process...
-                env.Process(Person(env, postOffice, Random.Choice(Names)));
+                env.Process(Person(env, postOffice, env.Random.Choice(Names)));
                 // And then we sleep for nearly SpawnFrequency minutes.
-                var waitTime = Random.Exponential(1.0/SpawnFrequency);
+                var waitTime = env.Random.Exponential(1.0/SpawnFrequency);
                 yield return env.Timeout(waitTime);
             }
         }
@@ -92,17 +91,20 @@ namespace DIBRIS.Dessert.Examples.CSharp
         {
             var arrivedAt = env.Now;
             Console.WriteLine("Hi, I'm {0} and I entered the office at {1:0.00}", name, arrivedAt);
+            
             // The person adds herself to the queue at the office.
             using (var req = postOffice.Request()) {
                 yield return req;
                 Console.WriteLine("Finally it's {0}'s turn! I waited {1:0.00} minutes", name, env.Now - arrivedAt);
+                
                 // If we got here, then it's our turn.
                 // Therefore, we simulate the fulfillment
                 // of a service with a timeout.
-                var waitTime = Random.Exponential(1.0/NeededTime);
+                var waitTime = env.Random.Exponential(1.0/NeededTime);
                 Console.WriteLine("{0}'s job will take {1:0.00} minutes", name, waitTime);
                 yield return env.Timeout(waitTime);
             }
+
             Console.WriteLine("Ok, {0} leaves the office at {1:0.00}. Bye :)", name, env.Now);
         }
 
