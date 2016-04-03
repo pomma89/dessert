@@ -28,8 +28,6 @@ module DIBRIS.Dessert.Examples.FSharp.SimPy3.BankRenege
 
 open DIBRIS.Dessert
 open DIBRIS.Dessert.Resources
-open Troschuetz.Random
-open Troschuetz.Random.Generators
 
 let randomSeed = 42
 let newCustomers = 5          // Total number of customers
@@ -37,15 +35,13 @@ let intervalCustomers = 10.0  // Generate new customers roughly every x seconds
 let minPatience = 1.0         // Min. customer patience
 let maxPatience = 3.0         // Max. customer patience
 
-let random = TRandom(ALFGenerator(randomSeed))
-
 // Customer arrives, is served and leaves
 let customer (env: SimEnvironment) name (counter: Resource) timeInBank = seq<SimEvent> {
     let arrive = env.Now
     printfn "%07.4f %s: Here I am" arrive name
 
     use req = counter.Request()
-    let patience = random.NextDouble(minPatience, maxPatience)
+    let patience = env.Random.NextDouble(minPatience, maxPatience)
     // Wait for the counter or abort at the end of our tether
     yield upcast Sim.Or(req, env.Timeout(patience))
 
@@ -55,7 +51,7 @@ let customer (env: SimEnvironment) name (counter: Resource) timeInBank = seq<Sim
         // We got to the counter
         printfn "%07.4f %s: Waited %.3f" env.Now name wait
 
-        let tib = random.Exponential(1.0 / timeInBank)
+        let tib = env.Random.Exponential(1.0 / timeInBank)
         yield upcast env.Timeout(tib)
         printfn "%07.4f %s: Finished" env.Now name
     else
@@ -68,14 +64,14 @@ let source (env: SimEnvironment) number interval (counter: Resource) = seq<SimEv
     for i = 0 to number-1 do
         let c = customer env (sprintf "Customer%02d" i) counter 12.0
         env.Process(c) |> ignore
-        let t = random.Exponential(1.0 / interval)
+        let t = env.Random.Exponential(1.0 / interval)
         yield upcast env.Timeout(t)
 }
 
 let run() =
     // Setup and start the simulation
     printfn "Bank renege"
-    let env = Sim.Environment()
+    let env = Sim.Environment(seed = randomSeed)
 
     // Start processes and simulate
     let counter = Sim.Resource(env, capacity = 1)

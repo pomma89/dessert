@@ -63,13 +63,18 @@ let getServed (env: SimEnvironment) name priority (myServer: Resource) = seq<Sim
 // Service order: ['c1', 'c2', 'c6', 'c5', 'c4', 'c3']
 let run() =
     let env = Sim.Environment()
-    let server = Sim.Resource(env, 2, WaitPolicy.Priority)  
+    let server = Sim.Resource(env, 2, WaitPolicy.Priority) 
+    inClients.Clear()
+    outClients.Clear()
+     
     // Six client processes are created and started.
     for i = 1 to 6 do
         let id = i.ToString()
         let priority = float(6-i)
         let name = "c" + id
         env.Process((getServed env name priority server)) |> ignore
+
     env.Run (until = 500.0)
+
     printfn "Request order: %s" (listToString inClients)
     printfn "Service order: %s" (listToString outClients)
