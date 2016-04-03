@@ -130,6 +130,7 @@ namespace DIBRIS.Dessert
         public static SimEnvironment Environment(int seed)
         {
             var env = new SimEnvironment(seed);
+            env.RealTime.Locked = true;
             Debug.Assert(env.Now.Equals(0));
             Debug.Assert(env.Random.Seed == seed);
             lock (SuspendInfo)
@@ -182,8 +183,10 @@ namespace DIBRIS.Dessert
 
             var env = Environment(System.Environment.TickCount);
             env.RealTime.Enabled = true;
+            env.RealTime.Locked = false;
             env.RealTime.WallClock = realTimeOptions.WallClock;
             env.RealTime.ScalingFactor = realTimeOptions.ScalingFactor;
+            env.RealTime.Locked = true;
             return env;
         }
 
@@ -208,8 +211,10 @@ namespace DIBRIS.Dessert
 
             var env = Environment(seed);
             env.RealTime.Enabled = true;
+            env.RealTime.Locked = false;
             env.RealTime.WallClock = realTimeOptions.WallClock;
             env.RealTime.ScalingFactor = realTimeOptions.ScalingFactor;
+            env.RealTime.Locked = true;
             return env;
         }
 

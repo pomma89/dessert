@@ -154,6 +154,42 @@ namespace DIBRIS.Dessert.Tests.Core
             Env.Run(1);
         }
 
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.ScalingFactorNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void Environment_ShouldNotChangeDefaultRealTimeOptionsAfterCreation_ScalingFactor()
+        {
+            var env = Sim.Environment();
+            Assert.That(env.RealTime.Enabled, Is.False);
+            Assert.That(env.RealTime.Locked, Is.True);
+            env.RealTime.ScalingFactor = 3.0;
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.WallClockNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void Environment_ShouldNotChangeDefaultRealTimeOptionsAfterCreation_WallClock()
+        {
+            var env = Sim.Environment();
+            Assert.That(env.RealTime.Enabled, Is.False);
+            Assert.That(env.RealTime.Locked, Is.True);
+            env.RealTime.WallClock = new MockClock();
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.ScalingFactorNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void Environment_ShouldNotChangeDefaultRealTimeOptionsAfterCreation_WithSeed_ScalingFactor()
+        {
+            var env = Sim.Environment(21);
+            Assert.That(env.RealTime.Enabled, Is.False);
+            Assert.That(env.RealTime.Locked, Is.True);
+            env.RealTime.ScalingFactor = 3.0;
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.WallClockNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void Environment_ShouldNotChangeDefaultRealTimeOptionsAfterCreation_WithSeed_WallClock()
+        {
+            var env = Sim.Environment(21);
+            Assert.That(env.RealTime.Enabled, Is.False);
+            Assert.That(env.RealTime.Locked, Is.True);
+            env.RealTime.WallClock = new MockClock();
+        }
+
         [Test]
         public void RealTimeOptions_ShouldOverwriteDefaultScalingFactor()
         {
@@ -164,8 +200,8 @@ namespace DIBRIS.Dessert.Tests.Core
             Assert.That(opts.ScalingFactor, Is.EqualTo(Math.PI));
         }
 
-        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.ScalingFactorNotUpdatable, MatchType = MessageMatch.Contains)]
-        public void RealTimeOptions_ShouldNotOverwriteDefaultScalingFactorTwice()
+        [Test]
+        public void RealTimeOptions_ShouldOverwriteDefaultScalingFactorTwice()
         {
             var opts = new SimEnvironment.RealTimeOptions();
             Assert.That(opts.ScalingFactor, Is.EqualTo(SimEnvironment.RealTimeOptions.DefaultScalingFactor));
@@ -174,7 +210,7 @@ namespace DIBRIS.Dessert.Tests.Core
             Assert.That(opts.ScalingFactor, Is.EqualTo(Math.PI));
 
             opts.ScalingFactor = Math.E;
-            // Exception...
+            Assert.That(opts.ScalingFactor, Is.EqualTo(Math.E));
         }
 
         [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -198,18 +234,19 @@ namespace DIBRIS.Dessert.Tests.Core
             Assert.That(opts.WallClock, Is.SameAs(newWallClock));
         }
 
-        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.WallClockNotUpdatable, MatchType = MessageMatch.Contains)]
-        public void RealTimeOptions_ShouldNotOverwriteDefaultWallClockTwice()
+        [Test]
+        public void RealTimeOptions_ShouldOverwriteDefaultWallClockTwice()
         {
             var opts = new SimEnvironment.RealTimeOptions();
             Assert.That(opts.WallClock, Is.SameAs(SimEnvironment.RealTimeOptions.DefaultWallClock));
 
-            var newWallClock = new NtpClock(new NoOpLogger());
+            IClock newWallClock = new NtpClock(new NoOpLogger());
             opts.WallClock = newWallClock;
             Assert.That(opts.WallClock, Is.SameAs(newWallClock));
 
-            opts.WallClock = new MockClock();
-            // Exception...
+            newWallClock = new MockClock();
+            opts.WallClock = newWallClock;
+            Assert.That(opts.WallClock, Is.SameAs(newWallClock));
         }
 
         [Test]
@@ -228,6 +265,118 @@ namespace DIBRIS.Dessert.Tests.Core
             Assert.That(env.RealTime.Enabled, Is.True);
             Assert.That(env.RealTime.ScalingFactor, Is.EqualTo(SimEnvironment.RealTimeOptions.DefaultScalingFactor));
             Assert.That(env.RealTime.WallClock, Is.SameAs(SimEnvironment.RealTimeOptions.DefaultWallClock));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.ScalingFactorNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void RealTimeEnvironment_ShouldNotChangeDefaultOptionsAfterCreation_ScalingFactor()
+        {
+            var env = Sim.RealTimeEnvironment();
+            env.RealTime.ScalingFactor = 3.0;
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.WallClockNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void RealTimeEnvironment_ShouldNotChangeDefaultOptionsAfterCreation_WallClock()
+        {
+            var env = Sim.RealTimeEnvironment();
+            env.RealTime.WallClock = new MockClock();
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.ScalingFactorNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void RealTimeEnvironment_ShouldNotChangeDefaultOptionsAfterCreation_WithSeed_ScalingFactor()
+        {
+            var env = Sim.RealTimeEnvironment(21);
+            env.RealTime.ScalingFactor = 3.0;
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.WallClockNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void RealTimeEnvironment_ShouldNotChangeDefaultOptionsAfterCreation_WithSeed_WallClock()
+        {
+            var env = Sim.RealTimeEnvironment(21);
+            env.RealTime.WallClock = new MockClock();
+        }
+
+        [Test]
+        public void RealTimeEnvironment_ShouldBeCreatedWithCustomOptions()
+        {
+            const double newScalingFactor = 3.0;
+            var newWallClock = new NtpClock(new NoOpLogger());
+            var env = Sim.RealTimeEnvironment(new SimEnvironment.RealTimeOptions
+            {
+                ScalingFactor = newScalingFactor,
+                WallClock = newWallClock
+            });
+            Assert.That(env.RealTime.Enabled, Is.True);
+            Assert.That(env.RealTime.Locked, Is.True);
+            Assert.That(env.RealTime.ScalingFactor, Is.EqualTo(newScalingFactor));
+            Assert.That(env.RealTime.WallClock, Is.SameAs(newWallClock));
+        }
+
+        [Test]
+        public void RealTimeEnvironment_ShouldBeCreatedWithCustomOptions_WithSeed()
+        {
+            const double newScalingFactor = 3.0;
+            var newWallClock = new NtpClock(new NoOpLogger());
+            var env = Sim.RealTimeEnvironment(21, new SimEnvironment.RealTimeOptions
+            {
+                ScalingFactor = newScalingFactor,
+                WallClock = newWallClock
+            });
+            Assert.That(env.RealTime.Enabled, Is.True);
+            Assert.That(env.RealTime.Locked, Is.True);
+            Assert.That(env.RealTime.ScalingFactor, Is.EqualTo(newScalingFactor));
+            Assert.That(env.RealTime.WallClock, Is.SameAs(newWallClock));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.ScalingFactorNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void RealTimeEnvironment_ShouldNotChangeCustomOptionsAfterCreation_ScalingFactor()
+        {
+            const double newScalingFactor = 3.0;
+            var newWallClock = new NtpClock(new NoOpLogger());
+            var env = Sim.RealTimeEnvironment(new SimEnvironment.RealTimeOptions
+            {
+                ScalingFactor = newScalingFactor,
+                WallClock = newWallClock
+            });
+            env.RealTime.ScalingFactor = 3.0;
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.WallClockNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void RealTimeEnvironment_ShouldNotChangeCustomOptionsAfterCreation_WallClock()
+        {
+            const double newScalingFactor = 3.0;
+            var newWallClock = new NtpClock(new NoOpLogger());
+            var env = Sim.RealTimeEnvironment(new SimEnvironment.RealTimeOptions
+            {
+                ScalingFactor = newScalingFactor,
+                WallClock = newWallClock
+            });
+            env.RealTime.WallClock = new MockClock();
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.ScalingFactorNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void RealTimeEnvironment_ShouldNotChangeCustomOptionsAfterCreation_WithSeed_ScalingFactor()
+        {
+            const double newScalingFactor = 3.0;
+            var newWallClock = new NtpClock(new NoOpLogger());
+            var env = Sim.RealTimeEnvironment(21, new SimEnvironment.RealTimeOptions
+            {
+                ScalingFactor = newScalingFactor,
+                WallClock = newWallClock
+            });
+            env.RealTime.ScalingFactor = 3.0;
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException), ExpectedMessage = ErrorMessages.WallClockNotUpdatable, MatchType = MessageMatch.Contains)]
+        public void RealTimeEnvironment_ShouldNotChangeCustomOptionsAfterCreation_WithSeed_WallClock()
+        {
+            const double newScalingFactor = 3.0;
+            var newWallClock = new NtpClock(new NoOpLogger());
+            var env = Sim.RealTimeEnvironment(21, new SimEnvironment.RealTimeOptions
+            {
+                ScalingFactor = newScalingFactor,
+                WallClock = newWallClock
+            });
+            env.RealTime.WallClock = new MockClock();
         }
     }
 }

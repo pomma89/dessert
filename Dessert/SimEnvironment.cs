@@ -47,8 +47,6 @@ namespace DIBRIS.Dessert
         /// </summary>
         private readonly OptimizedSkewHeap _processes;
 
-        private readonly TRandom _random;
-
         private ulong _highPriority;
         private ulong _lowPriority = 1000000UL;
 
@@ -74,7 +72,7 @@ namespace DIBRIS.Dessert
 
             _processes = new OptimizedSkewHeap(dummyP);
             _events = new OptimizedSkewHeap(dummyEv);
-            _random = TRandom.New(new MT19937Generator(seed));
+            Random = TRandom.New(new MT19937Generator(seed));
             EndEvent = new Dummy(this);
         }
 
@@ -352,7 +350,7 @@ namespace DIBRIS.Dessert
         ///   A random numbers generator which can be used inside simulations.
         /// </summary>
         [Pure]
-        public TRandom Random => _random;
+        public TRandom Random { get; }
 
         #region Event Construction
 
@@ -430,9 +428,7 @@ namespace DIBRIS.Dessert
         public sealed class RealTimeOptions
         {
             private double _scalingFactor = DefaultScalingFactor;
-            private bool _scalingFactorSet;
             private IClock _wallClock = DefaultWallClock;
-            private bool _wallClockSet;
 
             /// <summary>
             ///   The minimum value which can be assigned to the scaling factor.
@@ -457,7 +453,6 @@ namespace DIBRIS.Dessert
             ///   cref="Sim.RealTimeEnvironment(RealTimeOptions)"/> and <see
             ///   cref="Sim.RealTimeEnvironment(int, RealTimeOptions)"/>.
             /// </summary>
-            [Pure]
             public bool Enabled { get; internal set; } = false;
 
             /// <summary>
@@ -469,7 +464,6 @@ namespace DIBRIS.Dessert
             /// <exception cref="InvalidOperationException">
             ///   Scaling factor has already been set, it cannot be overwritten.
             /// </exception>
-            [Pure]
             public double ScalingFactor
             {
                 get
@@ -484,10 +478,9 @@ namespace DIBRIS.Dessert
                 {
                     // Preconditions
                     RaiseArgumentOutOfRangeException.IfIsLessOrEqual(value, MinScalingFactor, nameof(value));
-                    RaiseInvalidOperationException.If(_scalingFactorSet, ErrorMessages.ScalingFactorNotUpdatable);
+                    RaiseInvalidOperationException.If(Locked, ErrorMessages.ScalingFactorNotUpdatable);
 
                     _scalingFactor = value;
-                    _scalingFactorSet = true;
                 }
             }
 
@@ -498,7 +491,6 @@ namespace DIBRIS.Dessert
             /// <exception cref="InvalidOperationException">
             ///   "Wall clock" has already been set, it cannot be overwritten.
             /// </exception>
-            [Pure]
             public IClock WallClock
             {
                 get
@@ -513,10 +505,9 @@ namespace DIBRIS.Dessert
                 {
                     // Preconditions
                     RaiseArgumentNullException.IfIsNull(value, nameof(value));
-                    RaiseInvalidOperationException.If(_wallClockSet, ErrorMessages.WallClockNotUpdatable);
+                    RaiseInvalidOperationException.If(Locked, ErrorMessages.WallClockNotUpdatable);
 
                     _wallClock = value;
-                    _wallClockSet = true;
                 }
             }
 
@@ -530,6 +521,11 @@ namespace DIBRIS.Dessert
             ///   The current UNIX time, written by the most recent timeout event.
             /// </summary>
             internal double CurrentUnixTime { get; private set; }
+
+            /// <summary>
+            ///   Locks the options, so that they cannot be changed anymore.
+            /// </summary>
+            internal bool Locked { get; set; } = false;
 
             /// <summary>
             ///   Sets the current UNIX time, written by the most recent timeout event.

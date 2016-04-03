@@ -45,8 +45,8 @@ namespace DIBRIS.Dessert.Core
         public const string NullEvent = "Yielded events, or condition events, cannot be null.";
         public const string NullGenerator = "Generator used by process or call event cannot be null.";
         public const string NullRequest = "A null request cannot be released.";
-        public const string ScalingFactorNotUpdatable = "Scaling factor can be set only once and it cannot be overwritten.";
-        public const string WallClockNotUpdatable = "Wall clock can be set only once and it cannot be overwritten.";
+        public const string ScalingFactorNotUpdatable = "Scaling factor can be set only before environment creation and it cannot be overwritten.";
+        public const string WallClockNotUpdatable = "Wall clock can be set only before environment creation and it cannot be overwritten.";
 
         public static string InvalidEnum<TEnum>() where TEnum : struct
         {
