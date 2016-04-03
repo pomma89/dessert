@@ -373,7 +373,7 @@ namespace DIBRIS.Dessert
         [Pure]
         public TRandom Random { get; }
 
-#region Event Construction
+        #region Event Construction
 
         /// <summary>
         ///   Returns a new generic event.
@@ -400,9 +400,9 @@ namespace DIBRIS.Dessert
             return new SimEvent<TVal>(this);
         }
 
-#endregion Event Construction
+        #endregion Event Construction
 
-#region Exit Construction
+        #region Exit Construction
 
         /// <summary>
         ///   Exits from current process or from current call. If called directly from a process
@@ -432,11 +432,11 @@ namespace DIBRIS.Dessert
             return EndEvent;
         }
 
-#endregion Exit Construction
+        #endregion Exit Construction
 
-#endregion IEnvironment Members
+        #endregion IEnvironment Members
 
-#region Real-time
+        #region Real-time
 
         /// <summary>
         ///   Options for the real-time mode.
@@ -548,7 +548,7 @@ namespace DIBRIS.Dessert
             internal void SetCurrentUnixTime() => CurrentUnixTime = WallClock.UnixTime;
         }
 
-#endregion Real-time
+        #endregion Real-time
 
         private sealed class Dummy : SimEvent<Dummy, object>
         {
@@ -556,14 +556,14 @@ namespace DIBRIS.Dessert
             {
             }
 
-#region SimEvent Members
+            #region SimEvent Members
 
             public override object Value
             {
                 get { return null; /* IronPython requires this to be null. */ }
             }
 
-#endregion SimEvent Members
+            #endregion SimEvent Members
         }
     }
 

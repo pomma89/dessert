@@ -3,16 +3,19 @@
 <package>
     <metadata>
         <id>Dessert</id>
-        <version>3.0.11</version>
+        <version>3.0.12</version>
         <title>Dessert - Discrete event simulation engine</title>
         <authors>Alessio Parma &lt;alessio.parma@gmail.com&gt;</authors>
         <owners>Alessio Parma &lt;alessio.parma@gmail.com&gt;</owners>
         <description>
 A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
-NOTICE: If you need more performance, please have a look at the Dessert.Unchecked package. It is a release where all integrity checks have been stripped away.
         </description>
         <releaseNotes>
-* Still work in progress, but many pieces are already working well.
+* Fixed a few unit tests which were failing under the official NUnit test runner.
+* Real-time options could not be changed, since modifiers were internal.
+* Added an example, see "RealTime/CustomOptions", in which it is shown how to change the scaling factor.
+* Fixed a wrong management of the scaling factor at runtime.
+* Updated some dependencies.
         </releaseNotes>
         <summary>
 A discrete event simulation (DES) engine heavily based on the paradigm introduced by Simula and SimPy.
@@ -31,7 +34,7 @@ A discrete event simulation (DES) engine heavily based on the paradigm introduce
             <dependency id="Troschuetz.Random" version="4.0.4" />
         </dependencies>
         <references></references>
-        <tags>des discrete event simulation engine simpy simula</tags>
+        <tags>des discrete event simulation engine simpy simula realtime</tags>
     </metadata>
     <files>
         <file src="lib\" target="lib" />
