@@ -6,6 +6,7 @@
 ## Summary ##
 
 * Latest release version: `v3.0.12`
+* [Paper (English)](http://www.disi.unige.it/person/LagorioG/papers/CT2014_LagorioParma.pdf)
 * [Thesis (Italian)](https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/mthesis-essay.pdf) and [Slides (Italian)](https://googledrive.com/host/0B8v0ikF4z2BiR29YQmxfSlE1Sms/Progetti/Dessert/mthesis-slides.pdf)
 * Build status on [AppVeyor](https://ci.appveyor.com): [![Build status](https://ci.appveyor.com/api/projects/status/w1wmaefjipfv8cfu?svg=true)](https://ci.appveyor.com/project/pomma89/dessert)
 * [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html) documentation: https://goo.gl/f3MgrO
