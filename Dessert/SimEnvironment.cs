@@ -1,29 +1,30 @@
 // File name: SimEnvironment.cs
-// 
+//
 // Author(s): Alessio Parma <alessio.parma@gmail.com>
-// 
+//
 // Copyright (c) 2012-2016 Alessio Parma <alessio.parma@gmail.com>
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 // associated documentation files (the "Software"), to deal in the Software without restriction,
 // including without limitation the rights to use, copy, modify, merge, publish, distribute,
 // sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 // NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace DIBRIS.Dessert
 {
     using Core;
     using Events;
     using Finsa.CodeServices.Clock;
+    using PommaLabs.Thrower;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -36,31 +37,29 @@ namespace DIBRIS.Dessert
         internal readonly SimEvent EndEvent;
 
         /// <summary>
-        ///   </summary>
-        readonly OptimizedSkewHeap _events;
+        /// </summary>
+        private readonly OptimizedSkewHeap _events;
 
         /// <summary>
         ///   Stores an instance of the <see cref="_processes"/> class, which wraps an heap and
         ///   offers methods more specialized for the simulation task. As one can easily expect, the
         ///   agenda is used to schedule processes and events.
         /// </summary>
-        readonly OptimizedSkewHeap _processes;
+        private readonly OptimizedSkewHeap _processes;
 
-        readonly TRandom _random;
-
-        ulong _highPriority;
-        ulong _lowPriority = 1000000UL;
+        private ulong _highPriority;
+        private ulong _lowPriority = 1000000UL;
 
         /// <summary>
-        ///   </summary>
-        double _now;
+        /// </summary>
+        private double _now;
 
         /// <summary>
-        ///   </summary>
-        double _prevNow;
+        /// </summary>
+        private double _prevNow;
 
         /// <summary>
-        ///   </summary>
+        /// </summary>
         /// <param name="seed"></param>
         internal SimEnvironment(int seed)
         {
@@ -73,7 +72,7 @@ namespace DIBRIS.Dessert
 
             _processes = new OptimizedSkewHeap(dummyP);
             _events = new OptimizedSkewHeap(dummyEv);
-            _random = TRandom.New(new MT19937Generator(seed));
+            Random = TRandom.New(new MT19937Generator(seed));
             EndEvent = new Dummy(this);
         }
 
@@ -123,15 +122,8 @@ namespace DIBRIS.Dessert
             _processes.RemoveMin();
         }
 
-        void DoSimulate()
+        private void DoSimulate()
         {
-            // Real-time management.
-            if (RealTime.Enabled)
-            {
-                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
-                RealTime.SetCurrentUnixTime();
-            }
-
             while (!Ended)
             {
                 var minP = _processes.Min;
@@ -149,10 +141,10 @@ namespace DIBRIS.Dessert
             }
         }
 
-        void EndSimulation()
+        private void EndSimulation()
         {
-            // If there are other events, time has to be adjusted so that final time will be equal
-            // to until event time. However, that is true only if following events are scheduled.
+            // If there are other events, time has to be adjusted so that final time will be equal to
+            // until event time. However, that is true only if following events are scheduled.
             if (_processes.Count == 1 && _events.Count == 2)
             {
                 _now = _prevNow;
@@ -161,14 +153,14 @@ namespace DIBRIS.Dessert
             Sim.RemoveFromSuspendInfo(this);
         }
 
-        IEnumerator<SimEvent> DummyProcess()
+        private IEnumerator<SimEvent> DummyProcess()
         {
             Ended = true;
             Sim.RemoveFromSuspendInfo(this);
             yield return Exit(null);
         }
 
-        IEnumerable<SimEvent> UntilProcess(SimEvent ev)
+        private IEnumerable<SimEvent> UntilProcess(SimEvent ev)
         {
             yield return ev;
             EndSimulation();
@@ -207,7 +199,7 @@ namespace DIBRIS.Dessert
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        IEnumerator<SimEvent> DelayedProcessWrapper(IEnumerator<SimEvent> realGenerator, double delay)
+        private IEnumerator<SimEvent> DelayedProcessWrapper(IEnumerator<SimEvent> realGenerator, double delay)
         {
             yield return new Timeout<double>(this, delay, delay);
             yield return new Call<object>(this, realGenerator);
@@ -223,6 +215,13 @@ namespace DIBRIS.Dessert
             Contract.Requires<InvalidOperationException>(!double.IsPositiveInfinity(Peek));
             Contract.Ensures(Ended);
 
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
+
             this.Timeout(double.MaxValue).Callbacks.Add(e => EndSimulation());
             DoSimulate();
         }
@@ -234,6 +233,13 @@ namespace DIBRIS.Dessert
             Contract.Requires<ArgumentOutOfRangeException>(IsValidDelay(until), ErrorMessages.InvalidDelay);
             Contract.Ensures(Ended);
 
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
+
             this.Timeout(until).Callbacks.Add(e => EndSimulation());
             DoSimulate();
         }
@@ -244,6 +250,13 @@ namespace DIBRIS.Dessert
             Contract.Requires<InvalidOperationException>(!double.IsPositiveInfinity(Peek));
             Contract.Requires<ArgumentOutOfRangeException>(IsValidDelay(until), ErrorMessages.InvalidDelay);
             Contract.Ensures(Ended);
+
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
 
             this.Timeout(until).Callbacks.Add(e => EndSimulation());
             DoSimulate();
@@ -257,6 +270,13 @@ namespace DIBRIS.Dessert
             Contract.Requires<ArgumentException>(ReferenceEquals(this, until.Env), ErrorMessages.DifferentEnvironment);
             Contract.Requires<ArgumentException>(!until.Failed);
             Contract.Ensures(Ended);
+
+            // Real-time management.
+            if (RealTime.Enabled)
+            {
+                // Set the base UNIX time, used to computed the "wall clock" time of timeout events.
+                RealTime.SetCurrentUnixTime();
+            }
 
             // TODO Fix this, since when until is triggered UntilProcess is not immediately triggered.
             Process(UntilProcess(until));
@@ -313,7 +333,7 @@ namespace DIBRIS.Dessert
             if (RealTime.Enabled)
             {
                 double delay;
-                if (nextNow < double.MaxValue && (delay = (nextWallClock - RealTime.ScaledUnixTime)) > 0.0)
+                if (nextNow < double.MaxValue && (delay = (nextWallClock - RealTime.WallClock.UnixTime)) > 0.0)
                 {
                     // "delay" is measured in seconds, it must be converted into milliseconds.
 #if NET40
@@ -333,8 +353,8 @@ namespace DIBRIS.Dessert
         ///   if there is no further event.
         /// </summary>
         /// <returns>
-        ///   The time of the next scheduled event, or <see cref="double.PositiveInfinity"/> if
-        ///   there is no further event.
+        ///   The time of the next scheduled event, or <see cref="double.PositiveInfinity"/> if there
+        ///   is no further event.
         /// </returns>
         [Pure]
         public double Peek
@@ -351,7 +371,7 @@ namespace DIBRIS.Dessert
         ///   A random numbers generator which can be used inside simulations.
         /// </summary>
         [Pure]
-        public TRandom Random => _random;
+        public TRandom Random { get; }
 
         #region Event Construction
 
@@ -386,9 +406,9 @@ namespace DIBRIS.Dessert
 
         /// <summary>
         ///   Exits from current process or from current call. If called directly from a process
-        ///   body, then the process is stopped and the optional exit value can be found on
-        ///   <see cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure
-        ///   body, then the procedure is stopped.
+        ///   body, then the process is stopped and the optional exit value can be found on <see
+        ///   cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure body,
+        ///   then the procedure is stopped.
         /// </summary>
         /// <returns>The exit event that can be yielded to stop a process or a call.</returns>
         public SimEvent Exit()
@@ -399,10 +419,10 @@ namespace DIBRIS.Dessert
 
         /// <summary>
         ///   Exits from current process or from current call. If called directly from a process
-        ///   body, then the process is stopped and the optional exit value can be found on
-        ///   <see cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure
-        ///   body, then the procedure is stopped and the optional exit value can be found on the
-        ///   event returned by <see cref="Call"/>.
+        ///   body, then the process is stopped and the optional exit value can be found on <see
+        ///   cref="SimProcess.Value"/>. Otherwise, if this method is called from a procedure body,
+        ///   then the procedure is stopped and the optional exit value can be found on the event
+        ///   returned by <see cref="Call"/>.
         /// </summary>
         /// <param name="value">The optional exit value.</param>
         /// <returns>The exit event that can be yielded to stop a process or a call.</returns>
@@ -428,28 +448,89 @@ namespace DIBRIS.Dessert
         /// </summary>
         public sealed class RealTimeOptions
         {
+            private double _scalingFactor = DefaultScalingFactor;
+            private IClock _wallClock = DefaultWallClock;
+
             /// <summary>
-            ///   Whether the simulation must be run according to "wall clock" time.
+            ///   The minimum value which can be assigned to the scaling factor.
             /// </summary>
-            [Pure]
+            public static double MinScalingFactor { get; } = 0.01;
+
+            /// <summary>
+            ///   The default scaling factor.
+            /// </summary>
+            public static double DefaultScalingFactor { get; } = 1.0;
+
+            /// <summary>
+            ///   The default "wall clock" instance.
+            /// </summary>
+            public static IClock DefaultWallClock { get; } = new SystemClock();
+
+            /// <summary>
+            ///   Whether the simulation must be run according to "wall clock" time. Default value is <c>false</c>.
+            ///
+            ///   This flag is automatically set to <c>true</c> when a real-time environment is
+            ///   created through <see cref="Sim"/> static factories, such as <see
+            ///   cref="Sim.RealTimeEnvironment(RealTimeOptions)"/> and <see
+            ///   cref="Sim.RealTimeEnvironment(int, RealTimeOptions)"/>.
+            /// </summary>
             public bool Enabled { get; internal set; } = false;
 
             /// <summary>
-            ///   The real-time scaling factor.
+            ///   The real-time scaling factor. Default value is <c>1.0</c>.
             /// </summary>
-            public double ScalingFactor { get; internal set; } = 1.0;
+            /// <exception cref="ArgumentOutOfRangeException">
+            ///   The specified scaling factor is too small (less than <see cref="MinScalingFactor"/>).
+            /// </exception>
+            /// <exception cref="InvalidOperationException">
+            ///   Scaling factor has already been set, it cannot be overwritten.
+            /// </exception>
+            public double ScalingFactor
+            {
+                get
+                {
+                    var result = _scalingFactor;
+
+                    // Postconditions
+                    Debug.Assert(result >= MinScalingFactor);
+                    return result;
+                }
+                set
+                {
+                    // Preconditions
+                    RaiseArgumentOutOfRangeException.IfIsLessOrEqual(value, MinScalingFactor, nameof(value));
+                    RaiseInvalidOperationException.If(Locked, ErrorMessages.ScalingFactorNotUpdatable);
+
+                    _scalingFactor = value;
+                }
+            }
 
             /// <summary>
-            ///   The "wall clock" used for the real-time simulation.
+            ///   The "wall clock" used for the real-time simulation. Default instance is <see cref="SystemClock"/>.
             /// </summary>
-            [Pure]
-            public IClock WallClock { get; internal set; } = new SystemClock();
+            /// <exception cref="ArgumentNullException">The specified "wall clock" is null.</exception>
+            /// <exception cref="InvalidOperationException">
+            ///   "Wall clock" has already been set, it cannot be overwritten.
+            /// </exception>
+            public IClock WallClock
+            {
+                get
+                {
+                    var result = _wallClock;
 
-            /// <summary>
-            ///   Returns the <see cref="WallClock"/> UNIX time scaled by the specified <see cref="ScalingFactor"/>.
-            /// </summary>
-            [Pure]
-            internal double ScaledUnixTime => WallClock.UnixTime * ScalingFactor;
+                    // Postconditions
+                    Debug.Assert(!ReferenceEquals(result, null));
+                    return result;
+                }
+                set
+                {
+                    // Preconditions
+                    RaiseArgumentNullException.IfIsNull(value, nameof(value));
+                    RaiseInvalidOperationException.If(Locked, ErrorMessages.WallClockNotUpdatable);
+
+                    _wallClock = value;
+                }
+            }
 
             /// <summary>
             ///   The current UNIX time, written by the most recent timeout event.
@@ -457,14 +538,19 @@ namespace DIBRIS.Dessert
             internal double CurrentUnixTime { get; private set; }
 
             /// <summary>
+            ///   Locks the options, so that they cannot be changed anymore.
+            /// </summary>
+            internal bool Locked { get; set; } = false;
+
+            /// <summary>
             ///   Sets the current UNIX time, written by the most recent timeout event.
             /// </summary>
-            internal void SetCurrentUnixTime() => CurrentUnixTime = ScaledUnixTime;
+            internal void SetCurrentUnixTime() => CurrentUnixTime = WallClock.UnixTime;
         }
 
         #endregion Real-time
 
-        sealed class Dummy : SimEvent<Dummy, object>
+        private sealed class Dummy : SimEvent<Dummy, object>
         {
             internal Dummy(SimEnvironment env) : base(env)
             {
