@@ -27,8 +27,8 @@ A discrete event simulation (DES) engine heavily based on the paradigm introduce
         <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
         <copyright>Copyright (c) 2012-2016 Alessio Parma &lt;alessio.parma@gmail.com&gt;</copyright>
         <dependencies>
-            <dependency id="Finsa.CodeServices.Clock" version="4.1.3" />
-            <dependency id="Finsa.CodeServices.Common" version="4.1.3" />
+            <dependency id="Finsa.CodeServices.Clock" version="4.1.4" />
+            <dependency id="Finsa.CodeServices.Common" version="4.1.4" />
             <dependency id="Hippie" version="2.10.1" />
             <dependency id="Thrower" version="2.2.3" />
             <dependency id="Troschuetz.Random" version="4.0.4" />

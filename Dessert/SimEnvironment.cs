@@ -336,11 +336,7 @@ namespace DIBRIS.Dessert
                 if (nextNow < double.MaxValue && (delay = (nextWallClock - RealTime.WallClock.UnixTime)) > 0.0)
                 {
                     // "delay" is measured in seconds, it must be converted into milliseconds.
-#if NET40
-                    System.Threading.Thread.Sleep((int) (delay * 1000.0));
-#else
-                    System.Threading.Tasks.Task.Delay((int) (delay * 1000.0)).Wait();
-#endif
+                    RealTime.WallClock.Sleep((int) (delay * 1000.0));
                 }
 
                 // Update the base UNIX time after having waited.
