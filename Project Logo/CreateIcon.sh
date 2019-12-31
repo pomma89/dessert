@@ -1,1 +1,0 @@
-convert logo-*.png Dessert.ico
